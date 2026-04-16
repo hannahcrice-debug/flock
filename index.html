@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Flock">
+<meta name="theme-color" content="#faf8f4">
+<title>Flock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #faf8f4;
+  --bg2:     #f2ede4;
+  --card:    #ffffff;
+  --card2:   #f5f1ea;
+  --border:  #e2d9cc;
+  --border2: #cfc4b2;
+  --ink:     #1a1714;
+  --text2:   #7a6f62;
+  --radius:  12px;
+  --serif:   'Playfair Display', Georgia, serif;
+  --sans:    'DM Sans', system-ui, sans-serif;
+  --tab-h:   56px;
+  --safe-b:  env(safe-area-inset-bottom, 0px);
+  --safe-t:  env(safe-area-inset-top, 0px);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; background: var(--bg); overflow: hidden; }
+body { font-family: var(--sans); color: var(--ink); display: flex; flex-direction: column; }
+
+::-webkit-scrollbar { width: 0; height: 0; }
+
+/* ── APP SHELL ── */
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+  background: var(--bg);
+  position: relative;
+}
+
+/* ── HEADER ── */
+#app-header {
+  background: var(--bg);
+  padding: calc(var(--safe-t) + 14px) 20px 12px;
+  border-bottom: 1.5px solid var(--border);
+  flex-shrink: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+#app-header h1 {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 900;
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1;
+}
+#app-header .header-date {
+  font-size: 11px;
+  color: var(--text2);
+  letter-spacing: 0.4px;
+}
+
+/* ── SCROLL AREA ── */
+#app-scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* ── PAGES ── */
+.page { display: none; padding: 16px 16px calc(var(--tab-h) + var(--safe-b) + 16px); }
+.page.active { display: block; }
+
+/* ── PAGE TITLES ── */
+.page-title {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 900;
+  font-style: italic;
+  color: var(--ink);
+  margin-bottom: 4px;
+}
+.page-sub {
+  font-size: 13px;
+  color: var(--text2);
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* ── BOTTOM TAB BAR ── */
+#tab-bar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 430px;
+  background: rgba(250,248,244,0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  padding-bottom: var(--safe-b);
+  height: calc(var(--tab-h) + var(--safe-b));
+  z-index: 200;
+}
+.tab-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 2px 2px;
+  color: var(--text2);
+  transition: color 0.15s;
+}
+.tab-btn svg { width: 22px; height: 22px; }
+.tab-btn span { font-size: 10px; font-family: var(--sans); letter-spacing: 0.2px; }
+.tab-btn.active { color: var(--ink); }
+.tab-btn.active svg { stroke-width: 2.5; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--card);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.card-pad { padding: 16px; }
+
+/* ── BIRD CARDS ── */
+.bird-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); margin-bottom: 14px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.bird-portrait-wrap { background: var(--bg2); aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; cursor: pointer; }
+.bird-portrait-wrap svg { width: 45%; height: 45%; }
+.bird-portrait-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.upload-hint { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(26,23,20,0.6); font-size: 10px; color: #fff; text-align: center; padding: 5px; font-family: var(--sans); }
+.bird-body { padding: 14px 16px 16px; }
+.bird-name { font-family: var(--serif); font-size: 20px; font-style: italic; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.bird-variety { font-size: 12px; color: var(--text2); margin-bottom: 12px; }
+.bird-stats { display: flex; gap: 8px; flex-wrap: wrap; }
+.bird-stat { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; flex: 1; min-width: 80px; }
+.bird-stat-label { font-size: 9px; color: var(--text2); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 4px; }
+.bird-stat-input { background: none; border: none; border-bottom: 1px dashed var(--border2); color: var(--ink); font-size: 13px; font-style: italic; font-family: var(--serif); width: 100%; outline: none; padding: 1px 0; }
+.bird-stat-input::placeholder { color: var(--border2); font-size: 12px; }
+
+/* ── SECTION LABEL ── */
+.sec-lbl { font-size: 11px; color: var(--text2); letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 10px; margin-top: 4px; }
+
+/* ── WEIGHT ── */
+.weight-section { margin-bottom: 24px; }
+.weight-bird-tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+.wbird-tab { padding: 6px 16px; border-radius: 30px; font-size: 12px; font-weight: 500; background: var(--card2); border: 1.5px solid var(--border); color: var(--text2); cursor: pointer; }
+.wbird-tab.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+.weight-form { display: flex; gap: 8px; margin-bottom: 12px; }
+.weight-inp { flex: 1; background: var(--card); border: 1.5px solid var(--border); color: var(--ink); font-size: 14px; padding: 10px 12px; border-radius: 10px; font-family: var(--sans); outline: none; }
+.weight-date { background: var(--card); border: 1.5px solid var(--border); color: var(--ink); font-size: 12px; padding: 10px 8px; border-radius: 10px; font-family: var(--sans); outline: none; }
+.weight-add { background: var(--ink); border: none; color: #fff; font-size: 13px; font-weight: 500; padding: 10px 16px; border-radius: 10px; cursor: pointer; white-space: nowrap; }
+.weight-canvas { width: 100%; height: 120px; display: block; border-radius: 8px; margin-bottom: 10px; }
+.weight-list {}
+.weight-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+.weight-row:last-child { border-bottom: none; }
+.weight-val { font-family: var(--serif); font-style: italic; font-weight: 700; font-size: 18px; color: var(--ink); }
+.weight-rowdate { font-size: 12px; color: var(--text2); }
+.weight-del { background: none; border: none; color: var(--border2); font-size: 18px; cursor: pointer; padding: 0 4px; }
+.weight-empty { text-align: center; padding: 24px 0; font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--text2); }
+
+/* ── MOLT ── */
+.molt-bird-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.mbird-tab { padding: 6px 16px; border-radius: 30px; font-size: 12px; font-weight: 500; background: var(--card2); border: 1.5px solid var(--border); color: var(--text2); cursor: pointer; }
+.mbird-tab.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+.molt-cal-wrap { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 16px; }
+.molt-month-lbl { font-family: var(--serif); font-style: italic; font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 14px; }
+.molt-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 5px; }
+.molt-day-lbl { text-align: center; font-size: 10px; color: var(--text2); padding: 4px 0; letter-spacing: 0.3px; }
+.molt-day { aspect-ratio: 1; border-radius: 8px; background: var(--bg2); border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--text2); cursor: pointer; font-family: var(--sans); transition: all 0.1s; }
+.molt-day.empty { background: none; border-color: transparent; cursor: default; }
+.molt-day.marked { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+/* ── TRAINING ── */
+.week-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.week-btn { background: var(--card); border: 1.5px solid var(--border); color: var(--ink); width: 40px; height: 40px; border-radius: 10px; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.week-btn:disabled { opacity: 0.25; }
+.week-lbl { font-family: var(--serif); font-size: 20px; font-style: italic; font-weight: 700; color: var(--ink); }
+.session-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px; }
+.session-type { font-size: 10px; color: var(--text2); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 5px; }
+.session-name { font-family: var(--serif); font-size: 16px; font-style: italic; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+.session-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
+.trio-card { background: var(--bg2); border: 1.5px solid var(--border2); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 20px; }
+.trio-lbl { font-size: 10px; color: var(--text2); letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 6px; }
+.trio-txt { font-size: 13px; color: var(--text2); line-height: 1.6; }
+.trick-bird-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+.tbird-tab { padding: 6px 16px; border-radius: 30px; font-size: 12px; font-weight: 500; background: var(--card2); border: 1.5px solid var(--border); color: var(--text2); cursor: pointer; }
+.tbird-tab.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+.trick-list { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 4px 16px; }
+.trick-row { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--border); }
+.trick-row:last-child { border-bottom: none; }
+.trick-dot { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--border2); display: flex; align-items: center; justify-content: center; font-size: 13px; color: #fff; cursor: pointer; flex-shrink: 0; transition: all 0.15s; }
+.trick-dot.done { background: var(--ink); border-color: var(--ink); }
+.trick-lbl { font-size: 14px; color: var(--ink); line-height: 1.3; }
+.trick-lbl.done { text-decoration: line-through; color: var(--text2); }
+
+/* ── WIKI ── */
+.daily-banner { background: var(--ink); border-radius: var(--radius); padding: 18px 18px; margin-bottom: 16px; }
+.daily-lbl { font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 7px; }
+.daily-txt { font-family: var(--serif); font-size: 14px; font-style: italic; color: #fff; line-height: 1.5; }
+.wiki-search { width: 100%; background: var(--card); border: 1.5px solid var(--border); color: var(--ink); font-size: 14px; padding: 11px 14px; border-radius: 10px; font-family: var(--sans); outline: none; margin-bottom: 12px; }
+.wiki-search::placeholder { color: var(--text2); }
+.wiki-filters { display: flex; gap: 7px; overflow-x: auto; padding-bottom: 2px; margin-bottom: 14px; }
+.wiki-filters::-webkit-scrollbar { display: none; }
+.wiki-filter { white-space: nowrap; padding: 6px 14px; border-radius: 30px; font-size: 12px; background: var(--card2); border: 1.5px solid var(--border); color: var(--text2); cursor: pointer; font-weight: 500; flex-shrink: 0; }
+.wiki-filter.active { background: var(--ink); color: #fff; border-color: var(--ink); }
+.wiki-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; cursor: pointer; }
+.wiki-hdr { display: flex; align-items: flex-start; gap: 10px; padding: 13px 14px; }
+.wiki-cat { font-size: 10px; padding: 3px 9px; border-radius: 20px; border: 1px solid; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
+.wcat-practical { background: #eefaf3; color: #2a7a50; border-color: #b8ddc8; }
+.wcat-bizarre   { background: #f3eeff; color: #6040b0; border-color: #ccc0e8; }
+.wcat-health    { background: #fdf0f0; color: #903030; border-color: #e0b0b0; }
+.wcat-behavior  { background: #fdf8ee; color: #8a6010; border-color: #e0cc90; }
+.wcat-anatomy   { background: #eef6fc; color: #2a6a90; border-color: #b0d4e8; }
+.wcat-nutrition { background: #f8fae8; color: #607030; border-color: #ccd890; }
+.wiki-title { font-size: 13px; color: var(--ink); flex: 1; line-height: 1.4; font-family: var(--serif); font-style: italic; }
+.wiki-arrow { font-size: 11px; color: var(--text2); transition: transform 0.2s; flex-shrink: 0; margin-top: 2px; }
+.wiki-card.open .wiki-arrow { transform: rotate(180deg); }
+.wiki-body { padding: 0 14px 14px; font-size: 13px; color: var(--text2); line-height: 1.7; display: none; }
+.wiki-card.open .wiki-body { display: block; }
+
+/* ── EMERGENCY ── */
+.emerg-card { border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; cursor: pointer; border: 1.5px solid; }
+.sev-high   { border-color: #e0b0b0; background: #fdf6f6; }
+.sev-medium { border-color: #e0cc90; background: #fefcf0; }
+.sev-low    { border-color: #b8ddc8; background: #f4faf7; }
+.emerg-hdr { display: flex; align-items: center; gap: 12px; padding: 13px 14px; }
+.sev-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.sev-high .sev-dot   { background: #c03030; }
+.sev-medium .sev-dot { background: #a07820; }
+.sev-low .sev-dot    { background: #3a8a58; }
+.emerg-title { font-size: 14px; font-family: var(--serif); font-style: italic; flex: 1; }
+.sev-high .emerg-title   { color: #903030; }
+.sev-medium .emerg-title { color: #8a6010; }
+.sev-low .emerg-title    { color: #2a6a40; }
+.emerg-body { padding: 0 14px 13px; font-size: 13px; color: var(--text2); line-height: 1.7; display: none; }
+.emerg-card.open .emerg-body { display: block; }
+.vet-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; }
+.vet-name { font-family: var(--serif); font-size: 17px; font-style: italic; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
+.vet-addr { font-size: 12px; color: var(--text2); margin-bottom: 3px; }
+.vet-spec { font-size: 11px; color: var(--text2); margin-bottom: 12px; }
+.vet-btns { display: flex; gap: 8px; }
+.vet-btn { flex: 1; padding: 10px; border-radius: 30px; font-size: 13px; text-align: center; font-family: var(--sans); font-weight: 500; border: 1.5px solid var(--border); color: var(--text2); background: var(--card2); cursor: pointer; }
+.vet-btn.call { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+/* ── MISC ── */
+.empty-state { text-align: center; padding: 40px 20px; font-family: var(--serif); font-style: italic; color: var(--text2); font-size: 15px; }
+.divider { height: 1.5px; background: var(--border); margin: 20px 0; }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div id="app-header">
+    <h1>Flock</h1>
+    <span class="header-date" id="header-date"></span>
+  </div>
+
+  <div id="app-scroll">
+
+    <!-- FLOCK PAGE -->
+    <div class="page active" id="page-flock">
+      <div class="page-title">Billy, Morgan &amp; Doc</div>
+      <div class="page-sub">Elk Grove, California &mdash; tap any portrait to upload a photo</div>
+      <div id="bird-cards"></div>
+    </div>
+
+    <!-- WEIGHT PAGE -->
+    <div class="page" id="page-weight">
+      <div class="page-title">Weight</div>
+      <div class="page-sub">Log readings and track trends. A 10% drop is an early warning sign.</div>
+      <div id="weight-content"></div>
+    </div>
+
+    <!-- MOLT PAGE -->
+    <div class="page" id="page-molt">
+      <div class="page-title">Molt</div>
+      <div class="page-sub">Tap days to mark molt activity. Normal molt lasts 2&ndash;4 weeks.</div>
+      <div id="molt-content"></div>
+    </div>
+
+    <!-- TRAINING PAGE -->
+    <div class="page" id="page-training">
+      <div class="page-title">Training</div>
+      <div class="page-sub">12-week curriculum for all three birds</div>
+      <div class="week-nav">
+        <button class="week-btn" id="week-prev">&#8249;</button>
+        <span class="week-lbl" id="week-lbl">Week 1</span>
+        <button class="week-btn" id="week-next">&#8250;</button>
+      </div>
+      <div id="training-cards"></div>
+      <div class="trio-card" id="trio-card"></div>
+      <span class="sec-lbl">Trick Progress</span>
+      <div class="trick-bird-tabs" id="trick-tabs"></div>
+      <div class="trick-list" id="trick-list"></div>
+    </div>
+
+    <!-- WIKI PAGE -->
+    <div class="page" id="page-wiki">
+      <div class="page-title">Wiki</div>
+      <div class="page-sub">24 facts about budgerigars</div>
+      <div class="daily-banner">
+        <div class="daily-lbl">Daily Fact</div>
+        <div class="daily-txt" id="daily-txt"></div>
+      </div>
+      <input class="wiki-search" id="wiki-search" placeholder="Search facts...">
+      <div class="wiki-filters" id="wiki-filters"></div>
+      <div id="wiki-list"></div>
+    </div>
+
+    <!-- MORE PAGE -->
+    <div class="page" id="page-more">
+      <div class="page-title">Emergency</div>
+      <div class="page-sub">Tap any symptom for the full response guide</div>
+      <div id="emerg-list"></div>
+      <div class="divider"></div>
+      <span class="sec-lbl">Avian Vets Near Elk Grove</span>
+      <div id="vet-list"></div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM TAB BAR -->
+  <div id="tab-bar"></div>
+</div>
+
+<input type="file" accept="image/*" id="photo-input" style="display:none;">
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────
+
+var BIRDS = [
+  { id:'billy', name:'Billy', variety:'Greywind / Dilute Blue' },
+  { id:'morgan',name:'Morgan',variety:'Normal Green' },
+  { id:'doc',   name:'Doc',   variety:'Sky Blue Opaline' }
+];
+
+var WEEKS = [
+  { warmup:{name:'Presence Training',desc:'Sit 3 feet from the cage for 15 minutes daily. Read aloud in a calm voice. No sudden movements. Goal: birds stay on perches and do not flee.'}, core:{name:'Name Recognition',desc:'Say each bird\'s name softly when they look at you. Reward attention with a millet sprig through the bars. No hand contact yet.'}, party:{name:'Sound Association',desc:'Whistle a 3-note phrase every time you approach the cage. This becomes your "I come in peace" signal for life.'}, trio:'Place 3 separate perch stations at least 12 inches apart. Each bird gets their own millet sprig at their station. Begin training only after all 3 are settled.' },
+  { warmup:{name:'Hand Desensitization',desc:'Rest your open hand flat on the outside of cage bars for 5 minutes. Do not move. Let birds investigate. Millet in palm.'}, core:{name:'Millet Targeting Through Bars',desc:'Hold millet just inside a bar opening. Wait for the bravest bird to approach. When beak touches millet say "good." Repeat 10 times.'}, party:{name:'Bell Introduction',desc:'Hang a small bell inside cage. Tap it gently. Every time a bird touches it say "ring ring" and reward immediately.'}, trio:'Train only one bird per session this week. Rotate: Billy Monday, Morgan Tuesday, Doc Wednesday, then repeat.' },
+  { warmup:{name:'Open Door Acclimation',desc:'Open cage door for 5 minutes without reaching in. Sit nearby. Let birds choose whether to approach. Zero pressure.'}, core:{name:'Step-Up Foundation',desc:'Present one finger 1 inch below breast of calmest bird. Say "step up." If they step on, jackpot 3 millet pieces. If not, retry in 60 seconds.'}, party:{name:'Target Stick Introduction',desc:'Touch tip of a chopstick to millet. Hold toward the bird. When beak follows the stick, target training has begun.'}, trio:'Station stay rule: only one bird out for training at a time. If a waiting bird interrupts, return them calmly and wait 2 minutes.' },
+  { warmup:{name:'Shoulder Confidence',desc:'For birds comfortable on your hand, allow them to walk up to your shoulder. Sit still. Let them explore. Do not grab.'}, core:{name:'Step-Up First Reliable Reps',desc:'Aim for 5 clean step-ups per bird per session. Only count confident ones with no hesitation. Below 5 means slow down.'}, party:{name:'Spin Initial Luring',desc:'Use target stick to lure bird in a small arc. Say "spin." This week just 90 degrees. Build the full 360 over 2-3 weeks.'}, trio:'Introduce stationing mats - small cork coasters at each perch station. Birds learn: mat equals waiting zone equals treats incoming.' },
+  { warmup:{name:'Recall Warm-Up',desc:'Practice step-up from one hand to another before any trick work. Keeps birds mentally warm and physically engaged.'}, core:{name:'Target Training Distance Building',desc:'Hold target stick 3 inches away. Let bird walk to touch it. Reward. Extend to 6 inches. Building recall through object targeting.'}, party:{name:'Wave Foundation',desc:'Present finger for step-up but withdraw slowly as bird lifts foot. The moment one foot raises, say "wave" and reward immediately.'}, trio:'Run relay drills. Bird A steps up, moves to station 2. Bird B steps up from station 1. Each bird gets 3 reps then rotates.' },
+  { warmup:{name:'Free Flight Warm-Up',desc:'Supervised free-flight in designated room. Dog secured. Fans off. Let birds explore for 10 minutes before directed training.'}, core:{name:'Recall to Hand First Attempts',desc:'Hold millet in palm at arm length. Say bird name plus "come." Celebrate every approach, even partial ones. Never force.'}, party:{name:'Basketball Object Introduction',desc:'Place tiny basketball on flat surface inside cage. Wait for bird to investigate. When beak touches ball, say "basket" and reward.'}, trio:'Audience system: one bird trains while the other two watch from stations. Teach the most confident bird first.' },
+  { warmup:{name:'Perch to Perch Confidence',desc:'Set up two perch stations 2 feet apart in the free-roam room. Encourage birds to fly between them voluntarily before training.'}, core:{name:'Recall Building Distance',desc:'Call name plus "come" from 3 feet with millet visible. When reliable at 3 feet, extend to 6. Precision before distance.'}, party:{name:'Spin Completing the 360',desc:'Continue luring with target stick to complete the full circle. Say "spin" clearly at start of each attempt. Jackpot on a clean 360.'}, trio:'Begin group step-up drills. Step up Bird A to station 2. Step up Bird B to station 3. Step up Bird C. Work the sequence.' },
+  { warmup:{name:'Shoulder Taxi Warm-Up',desc:'Carry each bird on your shoulder to a different room and back before training. Builds confidence with movement.'}, core:{name:'Wave Reliable on Cue',desc:'Bird should wave on verbal cue alone without the finger lure. If still needing the finger, slow down and reward smaller approximations.'}, party:{name:'Basketball The Shot',desc:'Position hoop below where bird is sitting. When they touch ball and it drops near hoop, jackpot. Shape toward intentional drop.'}, trio:'Name-recall game: call one bird name specifically while the other two wait. Only the named bird gets rewarded for flying to you.' },
+  { warmup:{name:'Environmental Confidence',desc:'Introduce one new object per session near the cage. Let birds observe and decide to investigate on their own terms.'}, core:{name:'Play Dead Bang Game',desc:'Point finger like a gun and say "bang." Use target stick to slowly guide bird to lean back. Reward any backward lean this week.'}, party:{name:'Ring Toss Introduction',desc:'Place small plastic rings near a dowel on flat surface. Wait for a bird to pick up a ring naturally. When they do, say "ring" and reward.'}, trio:'Trio recall: call all three to return to cage using "home time" paired with millet placed inside.' },
+  { warmup:{name:'Novel Person Introduction',desc:'Have a family member sit near the cage without interaction for 10 minutes. Builds flock tolerance of new humans.'}, core:{name:'Shoulder Taxi Named Person',desc:'Say a person name and gesture toward them. Encourage bird to fly from your shoulder to theirs. The shoulder taxi trick.'}, party:{name:'Pull the Wagon',desc:'Tie short string to a tiny container. When bird pecks the string, say "pull" and reward. Shape toward intentional tugging.'}, trio:'Synchronized bow: all three birds learn to bow on cue. Teach individually this week. Triggered by lowering your finger.' },
+  { warmup:{name:'Full Free-Flight Session',desc:'45-minute free-roam with minimal directed activity. Observe natural flock dynamics: who leads, who follows, who explores first.'}, core:{name:'Play Dead Completing the Roll',desc:'Work toward full relaxed-on-back position in your palm. Many birds reach this. Some never fully relax. Celebrate what you get.'}, party:{name:'Shell Game Introduction',desc:'Three cups upside down. Treat under one. Shuffle slowly. Reward touching the correct cup. Testing working memory.'}, trio:'Synchronized bow full trio: all three bow on a single hand signal. Have all three on stations. Reward any bird that bows.' },
+  { warmup:{name:'Free-Form Exploration',desc:'Full free-roam with all trained props available. Observe which each bird gravitates toward independently. Self-directed play is the goal.'}, core:{name:'Full Repertoire Run-Through',desc:'Work through every learned behavior in one session per bird. Note what is solid and what needs maintenance. Your year-two baseline.'}, party:{name:'Follow the Leader Trio Finale',desc:'Step up Bird A and walk slowly. Bird B follows to station 2. Bird C follows Bird B. You have built a coordinated flock.'}, trio:'Graduation: Can you call each bird by name and have only that bird fly to you? Do they return to cage on one phrase? These birds are royalty.' }
+];
+
+var TRICKS = ['Step up on cue','Target stick nose touch','Name recognition','Return to cage on cue','Wave','Spin 360','Bell ring','Play dead / bang','Recall to hand','Shoulder taxi','Slam dunk basketball','Shell game','Synchronized bow (trio)'];
+
+var FACTS = [
+  {cat:'practical',title:'Why budgies are the canary in your coal mine',body:'Their respiratory system has no diaphragm and uses a series of air sacs that flow air in one direction through the lungs. This makes oxygen exchange extremely efficient and means toxins like Teflon fumes, candles, and aerosols reach lethal concentrations in seconds. They will die before you smell anything wrong. The silent killer sweep is non-negotiable every single day.'},
+  {cat:'bizarre',title:'They talk in their sleep - it is called subsong',body:'Budgies enter a state called subsong during light sleep, a quiet rambling murmur of half-formed words and sounds. Scientists believe this is how they practice and consolidate new vocalizations, similar to how humans replay memories during REM sleep. If your birds learned a new sound today, listen carefully tonight.'},
+  {cat:'practical',title:'They see four colors, you only see three',body:'Humans are trichromats with red, green, and blue cones. Budgies are tetrachromats, they have a fourth cone sensitive to ultraviolet light. Under UV their feathers display patterns completely invisible to you. The blue bird you see is displaying an entirely different, more complex pattern to every other budgie in the room.'},
+  {cat:'bizarre',title:'Their top beak moves independently',body:'Budgies have cranial kinesis, a joint between the upper beak and skull that allows the upper mandible to move independently of the lower. When a budgie opens its beak both halves move. This is why they can hull a millet seed in under a second.'},
+  {cat:'health',title:'Beak grinding means they are happy, not hungry',body:'That rhythmic grinding sound at bedtime indicates the bird is relaxed enough to let its guard down. It also hones the beak edges slightly. If you hear all three birds grinding in the evening, that is your performance review as a bird parent. You passed.'},
+  {cat:'behavior',title:'The head bob dance is hardwired, not learned',body:'When a budgie hears a beat it likes, the rhythmic head bobbing is a genuine motor response linked to their vocal learning circuitry. Budgies and humans are among the very few animals with this trait.'},
+  {cat:'nutrition',title:'Seed-only diets are a slow emergency',body:'Budgies fed exclusively on seed will develop fatty liver disease, vitamin A deficiency, and calcium depletion often silently over years. Seeds are high fat and nutritionally incomplete. Persistence over 4-6 weeks with millet rewards is standard protocol for converting to pellets.'},
+  {cat:'bizarre',title:'They have regional accents and learn yours',body:'Wild budgie flocks in different parts of Australia have measurably distinct contact calls. Your flock will develop a unique Elk Grove dialect. No other flock on the planet will sound exactly like yours.'},
+  {cat:'health',title:'They hide illness until it is critical',body:'In the wild, a visibly sick bird is a dead bird. Budgies have evolved to suppress all outward signs of illness until they can no longer compensate. By the time a budgie looks sick, it has often been sick for days. A 10 percent drop in body weight can be your only early warning.'},
+  {cat:'anatomy',title:'They have a third eyelid',body:'Budgies have a nictitating membrane, a translucent third eyelid that sweeps horizontally across the eye in milliseconds. It cleans the surface, distributes moisture, and protects the eye during flight. You will occasionally see it flash when a bird blinks.'},
+  {cat:'bizarre',title:'They sleep with half their brain awake',body:'Budgies can engage in unihemispheric slow-wave sleep: one hemisphere enters sleep while the other remains alert for predators. The eye connected to the awake hemisphere stays open. Your flock sleeping with both eyes closed is the highest compliment they can pay you.'},
+  {cat:'bizarre',title:'They navigate using the Earth\'s magnetic field',body:'Budgies possess cryptochrome proteins in their eyes sensitive to the Earth\'s magnetic field. Current evidence suggests they may literally visualize magnetic field lines as an overlay on their normal vision, a built-in compass that is always on.'},
+  {cat:'anatomy',title:'Their heart beats up to 600 times per minute in flight',body:'A budgie resting heart rate is approximately 300 beats per minute, already five times a human. During active flight or acute stress this can reach 600 bpm. This is why small stressors register as genuine physical emergencies.'},
+  {cat:'behavior',title:'They recognize themselves in mirrors with experience',body:'Modified protocols show budgies can distinguish their own reflection from other birds after extended exposure. They are one of very few non-primate animals with this capacity.'},
+  {cat:'bizarre',title:'Wild budgies form flocks of up to 30,000 birds',body:'In inland Australia following rainfall events, budgies congregate in enormous nomadic flocks. They move with rain fronts tracking grass seed availability across thousands of miles. The chirping, the need for flock contact calls, the distress when separated - all of it makes sense when you picture 30,000 of them moving together.'},
+  {cat:'anatomy',title:'They can produce over 100 distinct vocalizations',body:'The budgie vocal repertoire includes contact calls, alarm calls, flock rally calls, begging calls, threat calls, and an open-ended learned category that includes human speech and environmental sounds. The world record was 1,728 words by a budgie named Puck.'},
+  {cat:'health',title:'Going light is a 24-hour emergency',body:'"Going light" means a budgie has lost significant body weight, often with a visibly prominent keel bone. A budgie that feels light in the hand with a sharp keel bone needs an avian vet the same day - not the next week.'},
+  {cat:'health',title:'What a healthy dropping looks like',body:'A healthy budgie dropping has three components: dark green or black feces, white or cream urates, and a small amount of clear liquid urine. Watch for all-liquid droppings, bright yellow urates indicating liver stress, or red tarry droppings. The cage liner is your daily diagnostic panel.'},
+  {cat:'behavior',title:'Night frights: what they are and how to prevent them',body:'Night frights are episodes where a sleeping budgie is startled and thrashes violently in the dark cage, often injuring themselves. Prevention is a small nightlight near the cage. The bird wakes, sees their surroundings, and settles.'},
+  {cat:'anatomy',title:'How their kidneys differ from mammals',body:'Budgies excrete nitrogen waste as uric acid rather than urea. Their kidneys are very sensitive to dehydration. A budgie without water for 24 hours can suffer kidney damage.'},
+  {cat:'behavior',title:'Regurgitation is a love language',body:'Regurgitation in budgies is not illness - it is affection. When a budgie bobs its head rhythmically and then regurgitates onto your finger, it is expressing the highest form of attachment in its emotional vocabulary. Try not to be too grossed out.'},
+  {cat:'nutrition',title:'Calcium metabolism and why egg-binding kills females',body:'Egg-binding is fatal without emergency intervention. Laying an egg shell requires large amounts of calcium. If the diet is calcium-poor the body pulls calcium from bones, impairing the muscle contractions needed to move the egg. Cuttlebone and mineral blocks are your prevention protocol.'},
+  {cat:'bizarre',title:'They went to space',body:'The Soviet space program used budgies in early life support experiments testing the effects of zero gravity and altered atmospheres. Their sensitivity to air quality made them useful atmospheric safety test subjects.'},
+  {cat:'behavior',title:'Flock contact calls and why you should answer',body:'In a wild flock, budgies maintain near-constant acoustic contact through specific contact calls. When you leave the room your birds will call for you. When you respond, even with a whistle, you are participating in their contact call system and reducing their stress. You are the fourth flock member. Talk back.'}
+];
+
+var EMERGENCIES = [
+  {sev:'high',  title:'Teflon or fume exposure',          body:'Remove bird from area immediately. Fresh air at once. Call avian vet now, do not wait for symptoms. Teflon fumes cause rapid death. Keep bird warm at 85 degrees while calling.'},
+  {sev:'high',  title:'Fluffed feathers and lethargy',    body:'Always a sign of illness in a budgie. Keep warm at 85 degrees. Minimize handling. Call avian vet same day. Do not wait to see if it improves.'},
+  {sev:'high',  title:'Going light - feels too light',     body:'Visible keel bone and low weight is a serious illness sign. Same-day avian vet visit required. Offer warm water and millet while calling.'},
+  {sev:'high',  title:'Active bleeding',                   body:'Apply gentle pressure with clean cloth. If a blood feather is broken it may need vet removal - do not pull it yourself. Call vet immediately. Plain cornstarch on external wounds only. Never styptic powder on birds.'},
+  {sev:'high',  title:'Not eating or drinking 24+ hours', body:'A budgie not eating for 24 hours is an emergency. Call avian vet. Offer warm water and millet. Keep warm. Do not wait another day.'},
+  {sev:'high',  title:'Labored breathing or tail bobbing', body:'Tail bobbing with each breath is respiratory distress. Emergency vet visit. Keep bird calm and warm. Minimize handling.'},
+  {sev:'medium',title:'Night fright episode',              body:'Add a small nightlight near cage to prevent recurrence. Check bird for injuries: damaged feathers, broken blood feathers, eye injury. If uninjured and alert, monitor closely.'},
+  {sev:'medium',title:'Vomiting vs regurgitation',         body:'Regurgitation with head bobbing is normal bonding behavior. True vomiting - uncontrolled with wet feathers around beak - is illness. Wet sticky head feathers are a red flag.'},
+  {sev:'low',   title:'Sneezing',                          body:'Occasional sneezing is normal. Concerning if frequent, discharge present, one nostril larger than the other, or accompanied by other symptoms.'},
+  {sev:'low',   title:'Molting behavior concern',          body:'Feathers on the floor and pin feathers on the head is normal molt. Bald patches with no new feathers is abnormal. Feather-destructive behavior requires vet consult.'}
+];
+
+var VETS = [
+  {name:'Bradshaw Animal Hospital',           addr:'9670 Elk Grove-Florin Rd, Elk Grove', phone:'19167141622', specialty:'Avian services available',        maps:'Bradshaw+Animal+Hospital+Elk+Grove+CA'},
+  {name:'VCA Sacramento Animal Medical Group',addr:'4990 Mack Rd, Sacramento',            phone:'19163834011', specialty:'Full avian care - exotic specialist', maps:'VCA+Sacramento+Animal+Medical+Group+Sacramento+CA'},
+  {name:'ASPCA Poison Control',               addr:'Available 24/7 - Nationwide',         phone:'18884264435', specialty:'24/7 emergency poison hotline',     maps:null}
+];
+
+var DAILY_FACTS = [
+  'Billy, Morgan, and Doc can see ultraviolet light. They live in a more colorful world than any of us will ever know.',
+  'Beak grinding at bedtime means the day went well. Three birds grinding is the highest possible review.',
+  'A budgie heart beats 300 times per minute at rest - five times faster than a human.',
+  'They talk in their sleep. It is called subsong and it is how they rehearse new sounds.',
+  'Your flock will develop a unique Elk Grove dialect. No other three birds sound exactly like them.',
+  'Wild budgies form flocks of 30,000. Billy, Morgan, and Doc are a very intimate version of that.',
+  'When a budgie regurgitates on you, that is the highest form of love they know.',
+  'They have a third eyelid that sweeps clean in milliseconds.',
+  'Budgies and humans are among the only animals on Earth that move rhythmically to music.',
+  'When you call back to them from another room, you are participating in their flock contact call system.'
+];
+
+// ── STATE ─────────────────────────────────────────────────────
+var activePage   = 'flock';
+var currentWeek  = 0;
+var trickBird    = 'billy';
+var weightBird   = 'billy';
+var moltBird     = 'billy';
+var wikiFilter   = 'all';
+var wikiSearch   = '';
+var photoTarget  = null;
+
+// ── STORAGE ───────────────────────────────────────────────────
+function ls(k, d) {
+  try { var v = localStorage.getItem('flockapp_' + k); return v !== null ? JSON.parse(v) : d; } catch(e) { return d; }
+}
+function lsSet(k, v) { try { localStorage.setItem('flockapp_' + k, JSON.stringify(v)); } catch(e) {} }
+
+// ── UTILS ─────────────────────────────────────────────────────
+function el(tag, cls, txt) {
+  var e = document.createElement(tag);
+  if (cls) e.className = cls;
+  if (txt !== undefined) e.textContent = txt;
+  return e;
+}
+function todayVal() {
+  var d = new Date(), m = d.getMonth()+1, dy = d.getDate();
+  return d.getFullYear() + '-' + (m<10?'0':'') + m + '-' + (dy<10?'0':'') + dy;
+}
+function fmtDate(s) {
+  if (!s) return '';
+  var p = s.split('-');
+  return p.length === 3 ? p[1] + '/' + p[2] + '/' + p[0] : s;
+}
+function openTel(p) { var a = document.createElement('a'); a.href='tel:+'+p; document.body.appendChild(a); a.click(); document.body.removeChild(a); }
+function openMaps(q) { var a = document.createElement('a'); a.href='https://maps.apple.com/?q='+encodeURIComponent(q); a.target='_blank'; document.body.appendChild(a); a.click(); document.body.removeChild(a); }
+
+// ── HEADER DATE ───────────────────────────────────────────────
+(function() {
+  var days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var d = new Date();
+  var el2 = document.getElementById('header-date');
+  if (el2) el2.textContent = days[d.getDay()] + ' ' + months[d.getMonth()] + ' ' + d.getDate();
+})();
+
+// ── TAB BAR ───────────────────────────────────────────────────
+var TABS = [
+  { id:'flock',    label:'Flock',    icon:'M12 2C9.24 2 7 4.24 7 7c0 2.85 2.03 5.21 4.74 5.87L12 20l.26-7.13C14.97 12.21 17 9.85 17 7c0-2.76-2.24-5-5-5zm0 7c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z' },
+  { id:'weight',   label:'Weight',   icon:'M3 3h18v2H3zm0 4h18v2H3zm0 4h11v2H3zm0 4h11v2H3zm13-2l4 4-4 4v-3h-3v-2h3z' },
+  { id:'molt',     label:'Molt',     icon:'M19 4H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zm-7-9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z' },
+  { id:'training', label:'Train',    icon:'M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z' },
+  { id:'wiki',     label:'Wiki',     icon:'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z' },
+  { id:'more',     label:'SOS',      icon:'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z' }
+];
+
+function buildTabBar() {
+  var bar = document.getElementById('tab-bar');
+  if (!bar) return;
+  bar.innerHTML = '';
+  TABS.forEach(function(t) {
+    var btn = el('button', 'tab-btn' + (t.id === activePage ? ' active' : ''));
+    btn.setAttribute('data-page', t.id);
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('fill', 'currentColor');
+    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', t.icon);
+    svg.appendChild(path);
+    btn.appendChild(svg);
+    btn.appendChild(el('span', null, t.label));
+    btn.addEventListener('click', function() { switchPage(t.id); });
+    bar.appendChild(btn);
+  });
+}
+
+function switchPage(id) {
+  activePage = id;
+  document.querySelectorAll('.page').forEach(function(p) { p.className = 'page'; });
+  var target = document.getElementById('page-' + id);
+  if (target) target.className = 'page active';
+  document.querySelectorAll('.tab-btn').forEach(function(b) {
+    b.className = 'tab-btn' + (b.getAttribute('data-page') === id ? ' active' : '');
+  });
+  var scroll = document.getElementById('app-scroll');
+  if (scroll) scroll.scrollTop = 0;
+  if (id === 'weight')   buildWeightPage();
+  if (id === 'molt')     buildMoltPage();
+  if (id === 'training') { buildTrainingCards(); buildTrickList(); }
+  if (id === 'wiki')     buildWikiPage();
+  if (id === 'more')     buildMorePage();
+}
+
+// ── BIRD SVG ──────────────────────────────────────────────────
+function buildBirdSvg(id) {
+  var colors = {billy:'#b8c8d8', morgan:'#6ab04c', doc:'#e8f4f8'};
+  var bodies  = {billy:'#8898a8', morgan:'#4e8a38', doc:'#7ec8d0'};
+  var cheeks  = {billy:'#d8e4ee', morgan:'#a8d060', doc:'#f0fafe'};
+  var c = colors[id]||'#aaa', b = bodies[id]||'#888', ch = cheeks[id]||'#eee';
+  var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('viewBox', '0 0 80 80');
+  [['ellipse',{cx:'40',cy:'52',rx:'18',ry:'22',fill:b}],
+   ['ellipse',{cx:'40',cy:'30',rx:'14',ry:'14',fill:c}],
+   ['ellipse',{cx:'34',cy:'28',rx:'4', ry:'5', fill:ch}],
+   ['ellipse',{cx:'46',cy:'28',rx:'4', ry:'5', fill:ch}],
+   ['circle', {cx:'36',cy:'27',r:'3',  fill:'#222'}],
+   ['circle', {cx:'48',cy:'27',r:'3',  fill:'#222'}],
+   ['circle', {cx:'37',cy:'26',r:'1',  fill:'#fff'}],
+   ['circle', {cx:'49',cy:'26',r:'1',  fill:'#fff'}],
+   ['ellipse',{cx:'40',cy:'35',rx:'3', ry:'2', fill:'#c8aa50'}],
+   ['ellipse',{cx:'26',cy:'45',rx:'6', ry:'14',fill:b,transform:'rotate(-15 26 45)'}],
+   ['ellipse',{cx:'54',cy:'45',rx:'6', ry:'14',fill:b,transform:'rotate(15 54 45)'}],
+   ['ellipse',{cx:'35',cy:'70',rx:'4', ry:'8', fill:'#c8aa50'}],
+   ['ellipse',{cx:'45',cy:'70',rx:'4', ry:'8', fill:'#c8aa50'}]
+  ].forEach(function(s) {
+    var e = document.createElementNS('http://www.w3.org/2000/svg', s[0]);
+    Object.keys(s[1]).forEach(function(k) { e.setAttribute(k, s[1][k]); });
+    svg.appendChild(e);
+  });
+  return svg;
+}
+
+// ── FLOCK PAGE ────────────────────────────────────────────────
+function buildFlockPage() {
+  var cont = document.getElementById('bird-cards');
+  if (!cont) return;
+  cont.innerHTML = '';
+  BIRDS.forEach(function(bird) {
+    var card = el('div', 'bird-card');
+
+    var wrap = el('div', 'bird-portrait-wrap');
+    wrap.id = 'portrait-' + bird.id;
+    var photo = ls('photo_' + bird.id, null);
+    if (photo) { var img = document.createElement('img'); img.src = photo; wrap.appendChild(img); }
+    else { wrap.appendChild(buildBirdSvg(bird.id)); }
+    wrap.appendChild(el('div', 'upload-hint', 'tap to upload photo'));
+    wrap.addEventListener('click', function() {
+      photoTarget = bird.id;
+      var inp = document.getElementById('photo-input');
+      if (inp) inp.click();
+    });
+    card.appendChild(wrap);
+
+    var body = el('div', 'bird-body');
+    body.appendChild(el('div', 'bird-name', bird.name));
+    body.appendChild(el('div', 'bird-variety', bird.variety));
+
+    var stats = el('div', 'bird-stats');
+    [['Weight','w_'+bird.id,'e.g. 32g'],['Molt','m_'+bird.id,'light/heavy'],['Last Vet','v_'+bird.id,'date']].forEach(function(s) {
+      var box = el('div', 'bird-stat');
+      box.appendChild(el('div', 'bird-stat-label', s[0]));
+      var inp = el('input', 'bird-stat-input');
+      inp.value = ls(s[1], '');
+      inp.placeholder = s[2];
+      inp.addEventListener('change', function() { lsSet(s[1], inp.value); });
+      inp.addEventListener('click', function(e) { e.stopPropagation(); });
+      box.appendChild(inp);
+      stats.appendChild(box);
+    });
+    body.appendChild(stats);
+    card.appendChild(body);
+    cont.appendChild(card);
+  });
+}
+
+// Photo upload
+function setupPhotoUpload() {
+  var inp = document.getElementById('photo-input');
+  if (!inp) return;
+  inp.addEventListener('change', function(e) {
+    var file = e.target.files[0]; if (!file || !photoTarget) return;
+    var reader = new FileReader();
+    reader.onload = function(ev) {
+      try { lsSet('photo_' + photoTarget, ev.target.result); } catch(er) {}
+      var wrap = document.getElementById('portrait-' + photoTarget);
+      if (wrap) {
+        wrap.innerHTML = '';
+        var img = document.createElement('img'); img.src = ev.target.result; wrap.appendChild(img);
+        wrap.appendChild(el('div', 'upload-hint', 'tap to change'));
+      }
+    };
+    reader.readAsDataURL(file); e.target.value = '';
+  });
+}
+
+// ── WEIGHT PAGE ───────────────────────────────────────────────
+function buildWeightPage() {
+  var cont = document.getElementById('weight-content');
+  if (!cont) return;
+  cont.innerHTML = '';
+
+  var tabs = el('div', 'weight-bird-tabs');
+  BIRDS.forEach(function(bird) {
+    var btn = el('button', 'wbird-tab' + (bird.id === weightBird ? ' active' : ''), bird.name);
+    btn.addEventListener('click', function() { weightBird = bird.id; buildWeightPage(); });
+    tabs.appendChild(btn);
+  });
+  cont.appendChild(tabs);
+
+  var entries = ls('we_' + weightBird, []);
+
+  var form = el('div', 'weight-form');
+  var inp = el('input', 'weight-inp'); inp.placeholder = 'e.g. 32.5g';
+  var dateInp = el('input', 'weight-date'); dateInp.type = 'date'; dateInp.value = todayVal();
+  var addBtn = el('button', 'weight-add', 'Add');
+  addBtn.addEventListener('click', function() {
+    var val = inp.value.trim(); if (!val) return;
+    var es = ls('we_' + weightBird, []);
+    es.unshift({ val: val, date: dateInp.value });
+    lsSet('we_' + weightBird, es);
+    inp.value = '';
+    buildWeightPage();
+  });
+  form.appendChild(inp); form.appendChild(dateInp); form.appendChild(addBtn);
+  cont.appendChild(form);
+
+  var canvas = document.createElement('canvas');
+  canvas.className = 'weight-canvas';
+  canvas.id = 'wcanvas';
+  canvas.height = 120;
+  cont.appendChild(canvas);
+
+  var listWrap = el('div', 'card card-pad');
+  if (!entries.length) {
+    listWrap.appendChild(el('div', 'weight-empty', 'No entries yet for ' + (weightBird.charAt(0).toUpperCase() + weightBird.slice(1)) + '. Add the first reading above.'));
+  } else {
+    var list = el('div', 'weight-list');
+    entries.slice(0, 10).forEach(function(entry, idx) {
+      var row = el('div', 'weight-row');
+      row.appendChild(el('div', 'weight-val', entry.val));
+      row.appendChild(el('div', 'weight-rowdate', fmtDate(entry.date)));
+      var del = el('button', 'weight-del', 'x');
+      (function(i) {
+        del.addEventListener('click', function() {
+          var es = ls('we_' + weightBird, []); es.splice(i, 1);
+          lsSet('we_' + weightBird, es); buildWeightPage();
+        });
+      })(idx);
+      row.appendChild(del);
+      list.appendChild(row);
+    });
+    listWrap.appendChild(list);
+  }
+  cont.appendChild(listWrap);
+
+  // Draw chart
+  setTimeout(function() {
+    var c = document.getElementById('wcanvas'); if (!c) return;
+    var pts = [];
+    entries.slice(0, 12).reverse().forEach(function(e) { var n = parseFloat(e.val); if (!isNaN(n)) pts.push(n); });
+    c.width = c.offsetWidth || 320;
+    var ctx = c.getContext('2d'), w = c.width, h = 110, pad = 18;
+    ctx.clearRect(0, 0, w, h);
+    if (pts.length < 2) {
+      ctx.fillStyle = '#cfc4b2'; ctx.font = 'italic 12px Georgia,serif';
+      ctx.textAlign = 'center'; ctx.fillText('Add 2+ entries to see chart', w/2, h/2); return;
+    }
+    var minV = Math.min.apply(null, pts), maxV = Math.max.apply(null, pts), range = maxV - minV || 5;
+    ctx.strokeStyle = '#e2d9cc'; ctx.lineWidth = 1;
+    for (var i = 0; i <= 3; i++) { var y2 = pad + (h-2*pad)*i/3; ctx.beginPath(); ctx.moveTo(pad, y2); ctx.lineTo(w-pad, y2); ctx.stroke(); }
+    ctx.strokeStyle = '#1a1714'; ctx.lineWidth = 2.5; ctx.beginPath();
+    pts.forEach(function(p, idx) { var x = pad+(w-2*pad)*idx/(pts.length-1), y2 = pad+(h-2*pad)*(1-(p-minV)/range); idx===0?ctx.moveTo(x,y2):ctx.lineTo(x,y2); });
+    ctx.stroke();
+    pts.forEach(function(p, idx) { var x = pad+(w-2*pad)*idx/(pts.length-1), y2 = pad+(h-2*pad)*(1-(p-minV)/range); ctx.beginPath(); ctx.arc(x,y2,4,0,2*Math.PI); ctx.fillStyle='#1a1714'; ctx.fill(); });
+  }, 50);
+}
+
+// ── MOLT PAGE ─────────────────────────────────────────────────
+function buildMoltPage() {
+  var cont = document.getElementById('molt-content');
+  if (!cont) return;
+  cont.innerHTML = '';
+
+  var tabs = el('div', 'molt-bird-tabs');
+  BIRDS.forEach(function(bird) {
+    var btn = el('button', 'mbird-tab' + (bird.id === moltBird ? ' active' : ''), bird.name);
+    btn.addEventListener('click', function() { moltBird = bird.id; buildMoltPage(); });
+    tabs.appendChild(btn);
+  });
+  cont.appendChild(tabs);
+
+  var d = new Date(), cm = d.getMonth(), cy = d.getFullYear();
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+  var calWrap = el('div', 'molt-cal-wrap');
+  calWrap.appendChild(el('div', 'molt-month-lbl', months[cm] + ' ' + cy));
+  var cal = el('div', 'molt-grid');
+  ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(function(dl) { cal.appendChild(el('div', 'molt-day-lbl', dl)); });
+  var fd = new Date(cy, cm, 1).getDay();
+  for (var i = 0; i < fd; i++) cal.appendChild(el('div', 'molt-day empty'));
+  var dim = new Date(cy, cm+1, 0).getDate();
+  for (var day = 1; day <= dim; day++) {
+    var key = 'molt_' + moltBird + '_' + cy + '_' + cm + '_' + day;
+    var marked = ls(key, false);
+    var de = el('div', 'molt-day' + (marked ? ' marked' : ''), String(day));
+    (function(k, de2) {
+      de2.addEventListener('click', function() {
+        var nm = !ls(k, false); lsSet(k, nm);
+        de2.className = 'molt-day' + (nm ? ' marked' : '');
+      });
+    })(key, de);
+    cal.appendChild(de);
+  }
+  calWrap.appendChild(cal);
+  cont.appendChild(calWrap);
+}
+
+// ── TRAINING PAGE ─────────────────────────────────────────────
+function setupWeekNav() {
+  var prev = document.getElementById('week-prev');
+  var next = document.getElementById('week-next');
+  if (prev) prev.addEventListener('click', function() { if (currentWeek > 0)  { currentWeek--; buildTrainingCards(); } });
+  if (next) next.addEventListener('click', function() { if (currentWeek < 11) { currentWeek++; buildTrainingCards(); } });
+}
+
+function buildTrainingCards() {
+  var lbl  = document.getElementById('week-lbl');
+  var prev = document.getElementById('week-prev');
+  var next = document.getElementById('week-next');
+  if (lbl)  lbl.textContent = 'Week ' + (currentWeek + 1);
+  if (prev) prev.disabled = (currentWeek === 0);
+  if (next) next.disabled = (currentWeek === 11);
+
+  var cont = document.getElementById('training-cards');
+  var trio = document.getElementById('trio-card');
+  if (!cont || !trio) return;
+  cont.innerHTML = ''; trio.innerHTML = '';
+
+  var w = WEEKS[currentWeek];
+  [['WARM-UP', w.warmup], ['CORE SKILL', w.core], ['PARTY TRICK', w.party]].forEach(function(s) {
+    var card = el('div', 'session-card');
+    card.appendChild(el('div', 'session-type', s[0]));
+    card.appendChild(el('div', 'session-name', s[1].name));
+    card.appendChild(el('div', 'session-desc', s[1].desc));
+    cont.appendChild(card);
+  });
+  trio.appendChild(el('div', 'trio-lbl', 'TRIO LOGIC'));
+  trio.appendChild(el('div', 'trio-txt', w.trio));
+}
+
+function buildTrickTabs() {
+  var tabs = document.getElementById('trick-tabs');
+  if (!tabs) return;
+  tabs.innerHTML = '';
+  BIRDS.forEach(function(bird) {
+    var btn = el('button', 'tbird-tab' + (bird.id === trickBird ? ' active' : ''), bird.name);
+    btn.addEventListener('click', function() { trickBird = bird.id; buildTrickTabs(); buildTrickList(); });
+    tabs.appendChild(btn);
+  });
+}
+
+function buildTrickList() {
+  buildTrickTabs();
+  var list = document.getElementById('trick-list');
+  if (!list) return;
+  list.innerHTML = '';
+  TRICKS.forEach(function(trick, ti) {
+    var key = 'trick_' + trickBird + '_' + ti;
+    var done = ls(key, false);
+    var row = el('div', 'trick-row');
+    var dot = el('div', 'trick-dot' + (done ? ' done' : ''));
+    if (done) dot.appendChild(document.createTextNode('\u2713'));
+    var lbl = el('div', 'trick-lbl' + (done ? ' done' : ''), trick);
+    dot.addEventListener('click', function() {
+      var nd = !ls(key, false); lsSet(key, nd);
+      dot.className = 'trick-dot' + (nd ? ' done' : '');
+      dot.innerHTML = nd ? '\u2713' : '';
+      lbl.className = 'trick-lbl' + (nd ? ' done' : '');
+    });
+    row.appendChild(dot); row.appendChild(lbl);
+    list.appendChild(row);
+  });
+}
+
+// ── WIKI PAGE ─────────────────────────────────────────────────
+function buildWikiPage() {
+  var dailyEl = document.getElementById('daily-txt');
+  if (dailyEl) dailyEl.textContent = DAILY_FACTS[new Date().getDate() % DAILY_FACTS.length];
+
+  var search = document.getElementById('wiki-search');
+  if (search) { search.value = wikiSearch; search.oninput = function() { wikiSearch = search.value; buildWikiList(); }; }
+
+  var filters = document.getElementById('wiki-filters');
+  if (filters) {
+    filters.innerHTML = '';
+    ['all','practical','bizarre','health','behavior','anatomy','nutrition'].forEach(function(c) {
+      var btn = el('button', 'wiki-filter' + (c === wikiFilter ? ' active' : ''), c.charAt(0).toUpperCase() + c.slice(1));
+      btn.addEventListener('click', function() {
+        wikiFilter = c;
+        filters.querySelectorAll('.wiki-filter').forEach(function(b) { b.className = 'wiki-filter'; });
+        btn.className = 'wiki-filter active';
+        buildWikiList();
+      });
+      filters.appendChild(btn);
+    });
+  }
+  buildWikiList();
+}
+
+function buildWikiList() {
+  var cont = document.getElementById('wiki-list');
+  if (!cont) return;
+  cont.innerHTML = '';
+  var q = wikiSearch.toLowerCase();
+  FACTS.forEach(function(fact) {
+    if (wikiFilter !== 'all' && fact.cat !== wikiFilter) return;
+    if (q && fact.title.toLowerCase().indexOf(q) === -1 && fact.body.toLowerCase().indexOf(q) === -1) return;
+    var card = el('div', 'wiki-card');
+    var hdr = el('div', 'wiki-hdr');
+    hdr.appendChild(el('div', 'wiki-cat wcat-' + fact.cat, fact.cat.charAt(0).toUpperCase() + fact.cat.slice(1)));
+    hdr.appendChild(el('div', 'wiki-title', fact.title));
+    var arrow = el('div', 'wiki-arrow', '\u25bc');
+    hdr.appendChild(arrow); card.appendChild(hdr);
+    card.appendChild(el('div', 'wiki-body', fact.body));
+    card.addEventListener('click', function() {
+      var open = card.className.indexOf('open') !== -1;
+      card.className = 'wiki-card' + (open ? '' : ' open');
+      arrow.style.transform = open ? '' : 'rotate(180deg)';
+    });
+    cont.appendChild(card);
+  });
+}
+
+// ── MORE / EMERGENCY PAGE ─────────────────────────────────────
+function buildMorePage() {
+  var elist = document.getElementById('emerg-list');
+  if (elist) {
+    elist.innerHTML = '';
+    EMERGENCIES.forEach(function(em) {
+      var card = el('div', 'emerg-card sev-' + em.sev);
+      var hdr = el('div', 'emerg-hdr');
+      hdr.appendChild(el('div', 'sev-dot'));
+      hdr.appendChild(el('div', 'emerg-title', em.title));
+      var arrow = el('div', 'wiki-arrow', '\u25bc');
+      hdr.appendChild(arrow); card.appendChild(hdr);
+      card.appendChild(el('div', 'emerg-body', em.body));
+      card.addEventListener('click', function() {
+        var open = card.className.indexOf('open') !== -1;
+        card.className = 'emerg-card sev-' + em.sev + (open ? '' : ' open');
+        arrow.style.transform = open ? '' : 'rotate(180deg)';
+      });
+      elist.appendChild(card);
+    });
+  }
+
+  var vlist = document.getElementById('vet-list');
+  if (vlist) {
+    vlist.innerHTML = '';
+    VETS.forEach(function(vet) {
+      var card = el('div', 'vet-card');
+      card.appendChild(el('div', 'vet-name', vet.name));
+      card.appendChild(el('div', 'vet-addr', vet.addr));
+      card.appendChild(el('div', 'vet-spec', vet.specialty));
+      var btns = el('div', 'vet-btns');
+      var cb = el('div', 'vet-btn call', 'Call');
+      cb.addEventListener('click', function() { openTel(vet.phone); });
+      btns.appendChild(cb);
+      if (vet.maps) {
+        var mb = el('div', 'vet-btn', 'Apple Maps');
+        mb.addEventListener('click', function() { openMaps(vet.maps); });
+        btns.appendChild(mb);
+      }
+      card.appendChild(btns); vlist.appendChild(card);
+    });
+  }
+}
+
+// ── INIT ──────────────────────────────────────────────────────
+function init() {
+  buildTabBar();
+  buildFlockPage();
+  buildWikiPage();
+  buildMorePage();
+  buildTrainingCards();
+  buildTrickList();
+  setupWeekNav();
+  setupPhotoUpload();
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+</script>
+</body>
+</html>
