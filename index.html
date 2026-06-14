@@ -2,917 +2,1026 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Flock">
-<meta name="theme-color" content="#faf8f4">
-<title>Flock</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bird Feeding Guide v2</title>
 <style>
-:root {
-  --bg:      #faf8f4;
-  --bg2:     #f2ede4;
-  --card:    #ffffff;
-  --card2:   #f5f1ea;
-  --border:  #e2d9cc;
-  --border2: #cfc4b2;
-  --ink:     #1a1714;
-  --text2:   #7a6f62;
-  --radius:  12px;
-  --serif:   'Playfair Display', Georgia, serif;
-  --sans:    'DM Sans', system-ui, sans-serif;
-  --tab-h:   56px;
-  --safe-b:  env(safe-area-inset-bottom, 0px);
-  --safe-t:  env(safe-area-inset-top, 0px);
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f9f8f5; color: #1a1a18; padding: 16px; font-size: 15px; line-height: 1.5; }
+  h1 { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #888780; margin-bottom: 16px; }
+  .tab-row { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tab { padding: 6px 14px; font-size: 13px; border: 0.5px solid #b4b2a9; border-radius: 8px; background: transparent; color: #888780; cursor: pointer; }
+  .tab:hover { background: #f1efe8; color: #2c2c2a; }
+  .tab.active { background: #f1efe8; color: #1a1a18; font-weight: 500; border-color: #888780; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+  .card { background: #fff; border: 0.5px solid #d3d1c7; border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
+  .card-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #b4b2a9; margin-bottom: 10px; }
+  .section-title { font-size: 15px; font-weight: 500; color: #1a1a18; margin: 4px 0 10px; }
+  .ingr-block { padding: 9px 0; border-bottom: 0.5px solid #f1efe8; }
+  .ingr-block:last-child { border-bottom: none; }
+  .ingr-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+  .ingr-name { font-size: 13px; color: #1a1a18; flex: 1; }
+  .ingr-pct { font-size: 12px; color: #888780; white-space: nowrap; }
+  .ingr-measure { font-size: 14px; font-weight: 600; color: #1a1a18; white-space: nowrap; }
+  .bar-wrap { height: 4px; background: #f1efe8; border-radius: 2px; margin: 5px 0 3px; }
+  .bar { height: 4px; border-radius: 2px; }
+  .bar-teal { background: #1D9E75; }
+  .bar-amber { background: #BA7517; }
+  .bar-purple { background: #534AB7; }
+  .bar-blue { background: #378ADD; }
+  .bar-coral { background: #D85A30; }
+  .ingr-role { font-size: 11px; color: #888780; }
+  .total-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0 2px; font-size: 13px; font-weight: 500; color: #1a1a18; border-top: 1px solid #d3d1c7; margin-top: 4px; }
+  .container-note { font-size: 11px; color: #888780; font-weight: 400; }
+  .pill { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 6px; margin: 2px 2px 2px 0; }
+  .pill-teal { background: #E1F5EE; color: #0F6E56; }
+  .pill-amber { background: #FAEEDA; color: #854F0B; }
+  .pill-blue { background: #E6F1FB; color: #185FA5; }
+  .pill-coral { background: #FAECE7; color: #993C1D; }
+  .pill-green { background: #E1F5EE; color: #0F6E56; }
+  .portion-row { display: flex; justify-content: space-between; align-items: baseline; padding: 7px 0; border-bottom: 0.5px solid #f1efe8; font-size: 13px; }
+  .portion-row:last-child { border-bottom: none; }
+  .portion-label { color: #5f5e5a; flex: 1; padding-right: 8px; }
+  .portion-value { font-weight: 500; color: #1a1a18; white-space: nowrap; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 520px) { .two-col { grid-template-columns: 1fr; } }
+  .day-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin: 8px 0 10px; }
+  .day-cell { border: 0.5px solid #d3d1c7; border-radius: 8px; padding: 6px 4px; text-align: center; background: #fff; }
+  .day-name { font-size: 10px; font-weight: 600; color: #888780; margin-bottom: 4px; }
+  .day-dot { width: 8px; height: 8px; border-radius: 50%; margin: 2px auto; }
+  .dot-teal { background: #1D9E75; }
+  .dot-amber { background: #BA7517; }
+  .dot-purple { background: #534AB7; }
+  .dot-gray { background: #888780; }
+  .dot-blue { background: #378ADD; }
+  .dot-coral { background: #D85A30; }
+  .legend-wrap { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+  .legend-row { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #5f5e5a; }
+  .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .note { font-size: 12px; color: #888780; line-height: 1.6; margin-top: 8px; }
+  .warn { font-size: 12px; color: #854F0B; background: #FAEEDA; border-radius: 8px; padding: 8px 12px; margin-top: 8px; line-height: 1.6; }
+  .info-box { font-size: 12px; color: #185FA5; background: #E6F1FB; border-radius: 8px; padding: 8px 12px; margin-top: 8px; line-height: 1.6; }
+  .step { display: flex; gap: 10px; padding: 5px 0; font-size: 13px; color: #5f5e5a; line-height: 1.6; }
+  .step-num { font-weight: 600; color: #1a1a18; min-width: 16px; }
+  .rule-row { padding: 6px 0; border-bottom: 0.5px solid #f1efe8; font-size: 13px; color: #5f5e5a; line-height: 1.6; }
+  .rule-row:last-child { border-bottom: none; }
+  .ok { color: #0F6E56; font-weight: 600; margin-right: 4px; }
+  .no { color: #993C1D; font-weight: 600; margin-right: 4px; }
+  .badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em; margin-left: 6px; vertical-align: middle; }
+  .badge-updated { background: #E1F5EE; color: #0F6E56; }
+  .badge-unchanged { background: #F1EFE8; color: #5F5E5A; }
 
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-html, body { height: 100%; background: var(--bg); overflow: hidden; }
-body { font-family: var(--sans); color: var(--ink); display: flex; flex-direction: column; }
-
-::-webkit-scrollbar { width: 0; height: 0; }
-
-/* ── APP SHELL ── */
-#app {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  max-width: 430px;
-  margin: 0 auto;
-  background: var(--bg);
-  position: relative;
-}
-
-/* ── HEADER ── */
-#app-header {
-  background: var(--bg);
-  padding: calc(var(--safe-t) + 14px) 20px 12px;
-  border-bottom: 1.5px solid var(--border);
-  flex-shrink: 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-}
-#app-header h1 {
-  font-family: var(--serif);
-  font-size: 22px;
-  font-weight: 900;
-  font-style: italic;
-  color: var(--ink);
-  line-height: 1;
-}
-#app-header .header-date {
-  font-size: 11px;
-  color: var(--text2);
-  letter-spacing: 0.4px;
-}
-
-/* ── SCROLL AREA ── */
-#app-scroll {
-  flex: 1;
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
-}
-
-/* ── PAGES ── */
-.page { display: none; padding: 16px 16px calc(var(--tab-h) + var(--safe-b) + 16px); }
-.page.active { display: block; }
-
-/* ── PAGE TITLES ── */
-.page-title {
-  font-family: var(--serif);
-  font-size: 26px;
-  font-weight: 900;
-  font-style: italic;
-  color: var(--ink);
-  margin-bottom: 4px;
-}
-.page-sub {
-  font-size: 13px;
-  color: var(--text2);
-  margin-bottom: 20px;
-  line-height: 1.5;
-}
-
-/* ── BOTTOM TAB BAR ── */
-#tab-bar {
-  position: fixed;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 430px;
-  background: rgba(250,248,244,0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-top: 1px solid var(--border);
-  display: flex;
-  padding-bottom: var(--safe-b);
-  height: calc(var(--tab-h) + var(--safe-b));
-  z-index: 200;
-}
-.tab-btn {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 3px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 6px 2px 2px;
-  color: var(--text2);
-  transition: color 0.15s;
-}
-.tab-btn svg { width: 22px; height: 22px; }
-.tab-btn span { font-size: 10px; font-family: var(--sans); letter-spacing: 0.2px; }
-.tab-btn.active { color: var(--ink); }
-.tab-btn.active svg { stroke-width: 2.5; }
-
-/* ── CARDS ── */
-.card {
-  background: var(--card);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius);
-  margin-bottom: 12px;
-  overflow: hidden;
-}
-.card-pad { padding: 16px; }
-
-/* ── BIRD CARDS ── */
-.bird-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); margin-bottom: 14px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-.bird-portrait-wrap { background: var(--bg2); aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; cursor: pointer; }
-.bird-portrait-wrap svg { width: 45%; height: 45%; }
-.bird-portrait-wrap img { width: 100%; height: 100%; object-fit: cover; }
-.upload-hint { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(26,23,20,0.6); font-size: 10px; color: #fff; text-align: center; padding: 5px; font-family: var(--sans); }
-.bird-body { padding: 14px 16px 16px; }
-.bird-name { font-family: var(--serif); font-size: 20px; font-style: italic; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
-.bird-variety { font-size: 12px; color: var(--text2); margin-bottom: 12px; }
-.bird-stats { display: flex; gap: 8px; flex-wrap: wrap; }
-.bird-stat { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 8px 10px; flex: 1; min-width: 80px; }
-.bird-stat-label { font-size: 9px; color: var(--text2); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 4px; }
-.bird-stat-input { background: none; border: none; border-bottom: 1px dashed var(--border2); color: var(--ink); font-size: 13px; font-style: italic; font-family: var(--serif); width: 100%; outline: none; padding: 1px 0; }
-.bird-stat-input::placeholder { color: var(--border2); font-size: 12px; }
-
-/* ── SECTION LABEL ── */
-.sec-lbl { font-size: 11px; color: var(--text2); letter-spacing: 1px; text-transform: uppercase; display: block; margin-bottom: 10px; margin-top: 4px; }
-
-/* ── WEIGHT ── */
-.weight-section { margin-bottom: 24px; }
-.weight-bird-tabs { display: flex; gap: 8px; margin-bottom: 14px; }
-.wbird-tab { padding: 6px 16px; border-radius: 30px; font-size: 12px; font-weight: 500; background: var(--card2); border: 1.5px solid var(--border); color: var(--text2); cursor: pointer; }
-.wbird-tab.active { background: var(--ink); color: #fff; border-color: var(--ink); }
-.weight-form { display: flex; gap: 8px; margin-bottom: 12px; }
-.weight-inp { flex: 1; background: var(--card); border: 1.5px solid var(--border); color: var(--ink); font-size: 14px; padding: 10px 12px; border-radius: 10px; font-family: var(--sans); outline: none; }
-.weight-date { background: var(--card); border: 1.5px solid var(--border); color: var(--ink); font-size: 12px; padding: 10px 8px; border-radius: 10px; font-family: var(--sans); outline: none; }
-.weight-add { background: var(--ink); border: none; color: #fff; font-size: 13px; font-weight: 500; padding: 10px 16px; border-radius: 10px; cursor: pointer; white-space: nowrap; }
-.weight-canvas { width: 100%; height: 120px; display: block; border-radius: 8px; margin-bottom: 10px; }
-.weight-list {}
-.weight-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
-.weight-row:last-child { border-bottom: none; }
-.weight-val { font-family: var(--serif); font-style: italic; font-weight: 700; font-size: 18px; color: var(--ink); }
-.weight-rowdate { font-size: 12px; color: var(--text2); }
-.weight-del { background: none; border: none; color: var(--border2); font-size: 18px; cursor: pointer; padding: 0 4px; }
-.weight-empty { text-align: center; padding: 24px 0; font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--text2); }
-
-/* ── MOLT ── */
-.molt-bird-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
-.mbird-tab { padding: 6px 16px; border-radius: 30px; font-size: 12px; font-weight: 500; background: var(--card2); border: 1.5px solid var(--border); color: var(--text2); cursor: pointer; }
-.mbird-tab.active { background: var(--ink); color: #fff; border-color: var(--ink); }
-.molt-cal-wrap { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 16px; }
-.molt-month-lbl { font-family: var(--serif); font-style: italic; font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 14px; }
-.molt-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 5px; }
-.molt-day-lbl { text-align: center; font-size: 10px; color: var(--text2); padding: 4px 0; letter-spacing: 0.3px; }
-.molt-day { aspect-ratio: 1; border-radius: 8px; background: var(--bg2); border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--text2); cursor: pointer; font-family: var(--sans); transition: all 0.1s; }
-.molt-day.empty { background: none; border-color: transparent; cursor: default; }
-.molt-day.marked { background: var(--ink); border-color: var(--ink); color: #fff; }
-
-/* ── TRAINING ── */
-.week-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
-.week-btn { background: var(--card); border: 1.5px solid var(--border); color: var(--ink); width: 40px; height: 40px; border-radius: 10px; font-size: 22px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.week-btn:disabled { opacity: 0.25; }
-.week-lbl { font-family: var(--serif); font-size: 20px; font-style: italic; font-weight: 700; color: var(--ink); }
-.session-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 10px; }
-.session-type { font-size: 10px; color: var(--text2); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 5px; }
-.session-name { font-family: var(--serif); font-size: 16px; font-style: italic; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
-.session-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
-.trio-card { background: var(--bg2); border: 1.5px solid var(--border2); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 20px; }
-.trio-lbl { font-size: 10px; color: var(--text2); letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 6px; }
-.trio-txt { font-size: 13px; color: var(--text2); line-height: 1.6; }
-.trick-bird-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
-.tbird-tab { padding: 6px 16px; border-radius: 30px; font-size: 12px; font-weight: 500; background: var(--card2); border: 1.5px solid var(--border); color: var(--text2); cursor: pointer; }
-.tbird-tab.active { background: var(--ink); color: #fff; border-color: var(--ink); }
-.trick-list { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 4px 16px; }
-.trick-row { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--border); }
-.trick-row:last-child { border-bottom: none; }
-.trick-dot { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--border2); display: flex; align-items: center; justify-content: center; font-size: 13px; color: #fff; cursor: pointer; flex-shrink: 0; transition: all 0.15s; }
-.trick-dot.done { background: var(--ink); border-color: var(--ink); }
-.trick-lbl { font-size: 14px; color: var(--ink); line-height: 1.3; }
-.trick-lbl.done { text-decoration: line-through; color: var(--text2); }
-
-/* ── WIKI ── */
-.daily-banner { background: var(--ink); border-radius: var(--radius); padding: 18px 18px; margin-bottom: 16px; }
-.daily-lbl { font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 7px; }
-.daily-txt { font-family: var(--serif); font-size: 14px; font-style: italic; color: #fff; line-height: 1.5; }
-.wiki-search { width: 100%; background: var(--card); border: 1.5px solid var(--border); color: var(--ink); font-size: 14px; padding: 11px 14px; border-radius: 10px; font-family: var(--sans); outline: none; margin-bottom: 12px; }
-.wiki-search::placeholder { color: var(--text2); }
-.wiki-filters { display: flex; gap: 7px; overflow-x: auto; padding-bottom: 2px; margin-bottom: 14px; }
-.wiki-filters::-webkit-scrollbar { display: none; }
-.wiki-filter { white-space: nowrap; padding: 6px 14px; border-radius: 30px; font-size: 12px; background: var(--card2); border: 1.5px solid var(--border); color: var(--text2); cursor: pointer; font-weight: 500; flex-shrink: 0; }
-.wiki-filter.active { background: var(--ink); color: #fff; border-color: var(--ink); }
-.wiki-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; cursor: pointer; }
-.wiki-hdr { display: flex; align-items: flex-start; gap: 10px; padding: 13px 14px; }
-.wiki-cat { font-size: 10px; padding: 3px 9px; border-radius: 20px; border: 1px solid; white-space: nowrap; flex-shrink: 0; margin-top: 2px; }
-.wcat-practical { background: #eefaf3; color: #2a7a50; border-color: #b8ddc8; }
-.wcat-bizarre   { background: #f3eeff; color: #6040b0; border-color: #ccc0e8; }
-.wcat-health    { background: #fdf0f0; color: #903030; border-color: #e0b0b0; }
-.wcat-behavior  { background: #fdf8ee; color: #8a6010; border-color: #e0cc90; }
-.wcat-anatomy   { background: #eef6fc; color: #2a6a90; border-color: #b0d4e8; }
-.wcat-nutrition { background: #f8fae8; color: #607030; border-color: #ccd890; }
-.wiki-title { font-size: 13px; color: var(--ink); flex: 1; line-height: 1.4; font-family: var(--serif); font-style: italic; }
-.wiki-arrow { font-size: 11px; color: var(--text2); transition: transform 0.2s; flex-shrink: 0; margin-top: 2px; }
-.wiki-card.open .wiki-arrow { transform: rotate(180deg); }
-.wiki-body { padding: 0 14px 14px; font-size: 13px; color: var(--text2); line-height: 1.7; display: none; }
-.wiki-card.open .wiki-body { display: block; }
-
-/* ── EMERGENCY ── */
-.emerg-card { border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; cursor: pointer; border: 1.5px solid; }
-.sev-high   { border-color: #e0b0b0; background: #fdf6f6; }
-.sev-medium { border-color: #e0cc90; background: #fefcf0; }
-.sev-low    { border-color: #b8ddc8; background: #f4faf7; }
-.emerg-hdr { display: flex; align-items: center; gap: 12px; padding: 13px 14px; }
-.sev-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.sev-high .sev-dot   { background: #c03030; }
-.sev-medium .sev-dot { background: #a07820; }
-.sev-low .sev-dot    { background: #3a8a58; }
-.emerg-title { font-size: 14px; font-family: var(--serif); font-style: italic; flex: 1; }
-.sev-high .emerg-title   { color: #903030; }
-.sev-medium .emerg-title { color: #8a6010; }
-.sev-low .emerg-title    { color: #2a6a40; }
-.emerg-body { padding: 0 14px 13px; font-size: 13px; color: var(--text2); line-height: 1.7; display: none; }
-.emerg-card.open .emerg-body { display: block; }
-.vet-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 12px; }
-.vet-name { font-family: var(--serif); font-size: 17px; font-style: italic; font-weight: 700; color: var(--ink); margin-bottom: 3px; }
-.vet-addr { font-size: 12px; color: var(--text2); margin-bottom: 3px; }
-.vet-spec { font-size: 11px; color: var(--text2); margin-bottom: 12px; }
-.vet-btns { display: flex; gap: 8px; }
-.vet-btn { flex: 1; padding: 10px; border-radius: 30px; font-size: 13px; text-align: center; font-family: var(--sans); font-weight: 500; border: 1.5px solid var(--border); color: var(--text2); background: var(--card2); cursor: pointer; }
-.vet-btn.call { background: var(--ink); border-color: var(--ink); color: #fff; }
-
-/* ── MISC ── */
-.empty-state { text-align: center; padding: 40px 20px; font-family: var(--serif); font-style: italic; color: var(--text2); font-size: 15px; }
-.divider { height: 1.5px; background: var(--border); margin: 20px 0; }
+  /* Dish setup styles */
+  .cage-block { margin-bottom: 14px; }
+  .cage-heading { font-size: 13px; font-weight: 600; color: #1a1a18; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 0.5px solid #f1efe8; }
+  .dish-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 6px; }
+  .dish-card { background: #f9f8f5; border: 0.5px solid #d3d1c7; border-radius: 8px; padding: 10px 12px; }
+  .dish-icon { font-size: 18px; margin-bottom: 4px; }
+  .dish-count { font-size: 20px; font-weight: 600; color: #1a1a18; line-height: 1; }
+  .dish-label { font-size: 11px; color: #888780; margin-top: 2px; }
+  .dish-detail { font-size: 11px; color: #5f5e5a; margin-top: 4px; line-height: 1.4; }
+  .cage-note { font-size: 11px; color: #888780; line-height: 1.5; margin-top: 4px; }
+  .divider { border: none; border-top: 0.5px solid #f1efe8; margin: 14px 0; }
 </style>
 </head>
 <body>
 
-<div id="app">
-  <div id="app-header">
-    <h1>Flock</h1>
-    <span class="header-date" id="header-date"></span>
-  </div>
+<h1>Bird Feeding Guide <span class="badge badge-updated">v2</span></h1>
+<p class="subtitle">Billy, Morgan, Doc &amp; Wyatt · Bonnie &amp; Clyde flock · Lou Dog (GCC) · Maria (cockatiel) · Clarence · 32 oz deli containers</p>
 
-  <div id="app-scroll">
-
-    <!-- FLOCK PAGE -->
-    <div class="page active" id="page-flock">
-      <div class="page-title">Billy, Morgan &amp; Doc</div>
-      <div class="page-sub">Elk Grove, California &mdash; tap any portrait to upload a photo</div>
-      <div id="bird-cards"></div>
-    </div>
-
-    <!-- WEIGHT PAGE -->
-    <div class="page" id="page-weight">
-      <div class="page-title">Weight</div>
-      <div class="page-sub">Log readings and track trends. A 10% drop is an early warning sign.</div>
-      <div id="weight-content"></div>
-    </div>
-
-    <!-- MOLT PAGE -->
-    <div class="page" id="page-molt">
-      <div class="page-title">Molt</div>
-      <div class="page-sub">Tap days to mark molt activity. Normal molt lasts 2&ndash;4 weeks.</div>
-      <div id="molt-content"></div>
-    </div>
-
-    <!-- TRAINING PAGE -->
-    <div class="page" id="page-training">
-      <div class="page-title">Training</div>
-      <div class="page-sub">12-week curriculum for all three birds</div>
-      <div class="week-nav">
-        <button class="week-btn" id="week-prev">&#8249;</button>
-        <span class="week-lbl" id="week-lbl">Week 1</span>
-        <button class="week-btn" id="week-next">&#8250;</button>
-      </div>
-      <div id="training-cards"></div>
-      <div class="trio-card" id="trio-card"></div>
-      <span class="sec-lbl">Trick Progress</span>
-      <div class="trick-bird-tabs" id="trick-tabs"></div>
-      <div class="trick-list" id="trick-list"></div>
-    </div>
-
-    <!-- WIKI PAGE -->
-    <div class="page" id="page-wiki">
-      <div class="page-title">Wiki</div>
-      <div class="page-sub">24 facts about budgerigars</div>
-      <div class="daily-banner">
-        <div class="daily-lbl">Daily Fact</div>
-        <div class="daily-txt" id="daily-txt"></div>
-      </div>
-      <input class="wiki-search" id="wiki-search" placeholder="Search facts...">
-      <div class="wiki-filters" id="wiki-filters"></div>
-      <div id="wiki-list"></div>
-    </div>
-
-    <!-- MORE PAGE -->
-    <div class="page" id="page-more">
-      <div class="page-title">Emergency</div>
-      <div class="page-sub">Tap any symptom for the full response guide</div>
-      <div id="emerg-list"></div>
-      <div class="divider"></div>
-      <span class="sec-lbl">Avian Vets Near Elk Grove</span>
-      <div id="vet-list"></div>
-    </div>
-
-  </div>
-
-  <!-- BOTTOM TAB BAR -->
-  <div id="tab-bar"></div>
+<div class="tab-row">
+  <button class="tab active" onclick="show('budgie-mix', this)">Budgie mix</button>
+  <button class="tab" onclick="show('finch-mix', this)">Finch mix</button>
+  <button class="tab" onclick="show('conure', this)">🦜 Lou Dog</button>
+  <button class="tab" onclick="show('cockatiel', this)">🐤 Maria</button>
+  <button class="tab" onclick="show('pellets', this)">Pellet plan</button>
+  <button class="tab" onclick="show('portions', this)">Portions</button>
+  <button class="tab" onclick="show('dishes', this)">Dishes</button>
+  <button class="tab" onclick="show('toys', this)">🪀 Toys</button>
+  <button class="tab" onclick="show('schedule', this)">Schedule</button>
+  <button class="tab" onclick="show('rules', this)">Rules</button>
 </div>
 
-<input type="file" accept="image/*" id="photo-input" style="display:none;">
+<!-- BUDGIE MIX -->
+<div id="budgie-mix" class="panel active">
+  <p class="section-title">Budgie master dry mix <span class="badge badge-updated">updated</span></p>
+  <div class="card">
+    <div class="card-label">Exact measurements — one 32 oz deli container (fills to ~27 oz, leaving headspace for shaking)</div>
+    <div class="ingr-block">
+      <div class="ingr-top">
+        <span class="ingr-name">Kaylor Rainforest Exotics parakeet</span>
+        <span class="ingr-pct">45%</span>
+        <span class="ingr-measure">1½ cups</span>
+      </div>
+      <div class="bar-wrap"><div class="bar bar-teal" style="width:45%"></div></div>
+      <span class="ingr-role">Enriched seed base — the anchor of the mix. Add this first.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top">
+        <span class="ingr-name">Freeze-dried fruit/veg chop</span>
+        <span class="ingr-pct">17%</span>
+        <span class="ingr-measure">10 tbsp</span>
+      </div>
+      <div class="bar-wrap"><div class="bar bar-blue" style="width:17%"></div></div>
+      <span class="ingr-role">Bumped up to offset reduced pellet coverage</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top">
+        <span class="ingr-name">China Prairie Prairie Blossom</span>
+        <span class="ingr-pct">15%</span>
+        <span class="ingr-measure">8 tbsp</span>
+      </div>
+      <div class="bar-wrap"><div class="bar bar-purple" style="width:15%"></div></div>
+      <span class="ingr-role">Herbs, flowers, foraging enrichment</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top">
+        <span class="ingr-name">ZuPreem FruitBlend — crushed to dust</span>
+        <span class="ingr-pct">15%</span>
+        <span class="ingr-measure">8 tbsp</span>
+      </div>
+      <div class="bar-wrap"><div class="bar bar-amber" style="width:15%"></div></div>
+      <span class="ingr-role">Grind fine before measuring — stealth nutrition, coats the seed</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top">
+        <span class="ingr-name">Freeze-dried sprouted seed mix</span>
+        <span class="ingr-pct">8%</span>
+        <span class="ingr-measure">4 tbsp</span>
+      </div>
+      <div class="bar-wrap"><div class="bar bar-coral" style="width:8%"></div></div>
+      <span class="ingr-role">Enzymes &amp; protein — bumped up to compensate for lighter pellet load</span>
+    </div>
+    <div class="total-row">
+      <span>Total fill</span>
+      <span>27 oz &nbsp;<span class="container-note">(32 oz container, ~5 oz headspace for shaking)</span></span>
+    </div>
+    <p class="note">Shake or stir well before every scoop — Prairie Blossom floats. Egg food, crunch sticks, and millet are treats; never add to the batch jar.</p>
+  </div>
+  <div class="card">
+    <div class="card-label">How to build the jar — order matters</div>
+    <div class="step"><span class="step-num">1.</span><span>Kaylor (1½ cups) first — heaviest, goes on the bottom.</span></div>
+    <div class="step"><span class="step-num">2.</span><span>Freeze-dried chop (10 tbsp) and sprouted seed (4 tbsp).</span></div>
+    <div class="step"><span class="step-num">3.</span><span>ZuPreem dust (8 tbsp) — pour over the seed so it settles down through.</span></div>
+    <div class="step"><span class="step-num">4.</span><span>Prairie Blossom (8 tbsp) last — lightest, goes on top.</span></div>
+    <div class="step"><span class="step-num">5.</span><span>Seal and shake vigorously 20–30 seconds.</span></div>
+  </div>
+  <div class="card">
+    <div class="card-label">How to crush the ZuPreem</div>
+    <div style="font-size:13px; color:#5f5e5a; line-height:1.8;">Mortar and pestle, zip-lock bag with a rolling pin, or a small spice grinder. Target: fine powder — not visible as a distinct piece. The dust coats the seed so they ingest it without realizing. Crush your full 8 tbsp before mixing into the jar each Sunday.</div>
+  </div>
+  <div class="info-box">When Harrison's High Potency Super Fine arrives: swap it in whole (don't crush) at 8 tbsp in place of ZuPreem dust. Leave it as-is — some birds pick it up thinking it's a seed and start eating it over time.</div>
+</div>
+
+<!-- FINCH MIX -->
+<div id="finch-mix" class="panel">
+  <p class="section-title">Finch master dry mix <span class="badge badge-unchanged">unchanged</span></p>
+  <div class="card">
+    <div class="card-label">Exact measurements — one 32 oz deli container (fills to exactly 28 oz)</div>
+    <div class="ingr-block">
+      <div class="ingr-top">
+        <span class="ingr-name">Volkman Avian Science Super Finch</span>
+        <span class="ingr-pct">50%</span>
+        <span class="ingr-measure">1¾ cups</span>
+      </div>
+      <div class="bar-wrap"><div class="bar bar-teal" style="width:50%"></div></div>
+      <span class="ingr-role">Base + built-in egg, oyster shell, carrot, spinach — the workhorse. Add first.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top">
+        <span class="ingr-name">Higgins Sunburst Gourmet (canary/finch)</span>
+        <span class="ingr-pct">25%</span>
+        <span class="ingr-measure">14 tbsp</span>
+      </div>
+      <div class="bar-wrap"><div class="bar bar-amber" style="width:25%"></div></div>
+      <span class="ingr-role">Variety, gourmet texture — or measure as ¾ cup + 2 tbsp</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top">
+        <span class="ingr-name">China Prairie Prairie Blossom</span>
+        <span class="ingr-pct">15%</span>
+        <span class="ingr-measure">8 tbsp</span>
+      </div>
+      <div class="bar-wrap"><div class="bar bar-purple" style="width:15%"></div></div>
+      <span class="ingr-role">Herbs, flowers, foraging enrichment</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top">
+        <span class="ingr-name">Freeze-dried fruit/veg chop</span>
+        <span class="ingr-pct">7%</span>
+        <span class="ingr-measure">4 tbsp</span>
+      </div>
+      <div class="bar-wrap"><div class="bar bar-blue" style="width:7%"></div></div>
+      <span class="ingr-role">Crush pieces small before adding — tiny finch beaks</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top">
+        <span class="ingr-name">Freeze-dried sprouted seed mix</span>
+        <span class="ingr-pct">3%</span>
+        <span class="ingr-measure">2 tbsp</span>
+      </div>
+      <div class="bar-wrap"><div class="bar bar-coral" style="width:3%"></div></div>
+      <span class="ingr-role">Enzymes &amp; protein boost</span>
+    </div>
+    <div class="total-row">
+      <span>Total fill</span>
+      <span>28 oz &nbsp;<span class="container-note">(32 oz container, ~4 oz headspace for shaking)</span></span>
+    </div>
+    <p class="note">Volkman already contains egg — supplemental egg food is 3x/week max, not daily. No grit ever. Cuttlebone handles calcium.</p>
+  </div>
+  <div class="card">
+    <div class="card-label">How to build the jar — order matters</div>
+    <div class="step"><span class="step-num">1.</span><span>Volkman (1¾ cups) first — heaviest, goes on the bottom.</span></div>
+    <div class="step"><span class="step-num">2.</span><span>Higgins Sunburst (14 tbsp).</span></div>
+    <div class="step"><span class="step-num">3.</span><span>Freeze-dried chop (4 tbsp, pre-crushed) and sprouted seed (2 tbsp).</span></div>
+    <div class="step"><span class="step-num">4.</span><span>Prairie Blossom (8 tbsp) last — lightest, goes on top.</span></div>
+    <div class="step"><span class="step-num">5.</span><span>Seal and shake vigorously 20–30 seconds.</span></div>
+  </div>
+  <div class="warn">⚠ Finch dishes must NEVER fully empty. Check morning and evening. A finch without food for even a few hours risks digestive shutdown — the only birds in your flock where an empty dish is a medical emergency.</div>
+</div>
+
+<!-- CONURE -->
+<div id="conure" class="panel">
+  <p class="section-title">Lou Dog — Green-Cheeked Conure <span class="badge badge-updated">new</span></p>
+
+  <div class="card">
+    <div class="card-label">Diet overview — how a GCC is different from your other birds</div>
+    <div style="font-size:13px; color:#5f5e5a; line-height:1.9;">
+      <div style="margin-bottom:6px"><span class="pill pill-teal">Pellets first</span> A GCC diet is built the opposite way from budgies. Pellets should make up 60–70% of daily intake — not a supplement, the main event. Lou Dog needs to actually eat pellets, not just have them in a mix.</div>
+      <div style="margin-bottom:6px"><span class="pill pill-blue">Fresh food daily</span> Vegetables 20–30% of diet. Fruits 10% max — high sugar. This means actual fresh or freeze-dried veg every single day, not optional.</div>
+      <div style="margin-bottom:6px"><span class="pill pill-amber">Seed = treat only</span> Seeds are 10% max, offered as treats or in foraging toys. Not a base food. A seed-heavy diet leads directly to malnutrition and a shortened life in conures.</div>
+      <div><span class="pill pill-coral">Lifespan commitment</span> A healthy GCC with good diet and care lives 20–30 years. Diet is the single biggest factor in hitting that number.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">What to buy — pellets (the most important purchase)</div>
+    <div class="ingr-block">
+      <div class="ingr-top">
+        <span class="ingr-name">Harrison's High Potency Fine</span>
+        <span class="ingr-pct">top pick</span>
+      </div>
+      <div class="bar-wrap"><div class="bar bar-teal" style="width:90%"></div></div>
+      <span class="ingr-role">USDA organic, vet-recommended, sized correctly for a GCC beak. Note: Fine (not Super Fine — that's for budgies). Foil-packaged, 45 days once opened. Buy the 1 lb bag.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top">
+        <span class="ingr-name">Roudybush Daily Maintenance (small)</span>
+        <span class="ingr-pct">excellent alt</span>
+      </div>
+      <div class="bar-wrap"><div class="bar bar-blue" style="width:75%"></div></div>
+      <span class="ingr-role">No dyes, no artificial anything, consistent formula. Many GCCs accept it well. Good backup if Lou Dog resists Harrison's.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top">
+        <span class="ingr-name">ZuPreem Natural (medium)</span>
+        <span class="ingr-pct">acceptable</span>
+      </div>
+      <div class="bar-wrap"><div class="bar bar-amber" style="width:55%"></div></div>
+      <span class="ingr-role">Not the ZuPreem FruitBlend (dyes, sugar) — the Natural version only. Decent nutrition, some GCCs accept it easily. Use as a transition food if needed.</span>
+    </div>
+    <p class="note">Whatever pellet Lou Dog comes home eating — keep feeding that first, then transition gradually. A bird that won't eat pellets at all needs the same slow conversion approach as the budgies, but it's more critical here since pellets are the primary food source.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">What to buy — supplemental foods</div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">Higgins Sunburst Gourmet (conure/small parrot size)</span></div>
+      <span class="ingr-role">Occasional foraging mix — fruit, seed, grain pieces. You already have the canary/finch version; get the conure-appropriate size. Used as a treat/foraging food, not a staple.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">Lafeber Nutriberries (conure size)</span></div>
+      <span class="ingr-role">Widely loved by GCCs. Pellet-enriched berry shapes — nutritionally balanced unlike pure seed treats. Great for foraging toys and training rewards. Limit to a few per day.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">Freeze-dried fruit/veg chop (same as budgie jar)</span></div>
+      <span class="ingr-role">Same product you're using for the budgies. Offer daily in a separate fresh food dish alongside pellets.</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Daily diet — Lou Dog's dish setup each morning</div>
+    <div class="portion-row"><span class="portion-label">Pellet dish (available all day)</span><span class="portion-value">1–2 tbsp Harrison's Fine</span></div>
+    <div class="portion-row"><span class="portion-label">Fresh/freeze-dried veg dish (morning, remove after 2–3 hrs)</span><span class="portion-value">1–2 tbsp</span></div>
+    <div class="portion-row"><span class="portion-label">Fresh/freeze-dried fruit (small, separate or combined with veg)</span><span class="portion-value">1 tsp max</span></div>
+    <div class="portion-row"><span class="portion-label">Water dish</span><span class="portion-value">fresh daily, 2 dishes</span></div>
+    <div class="portion-row"><span class="portion-label">Training treat (Nutriberry, small nut, millet sprig)</span><span class="portion-value">during out-of-cage time only</span></div>
+    <p class="note">Seed mix or Sunburst offered in a foraging toy 2–3x/week as enrichment — not in the main food dish. Egg food: same 3x/week pinch as the other birds, in a side dish.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Safe foods ✓</div>
+    <div class="rule-row"><span class="ok">✓</span>Vegetables: bell pepper, broccoli, carrot, sweet potato, kale, spinach, collard greens, peas, corn, zucchini, cucumber, green beans.</div>
+    <div class="rule-row"><span class="ok">✓</span>Fruits: apple (no seeds), banana, mango, papaya, blueberry, strawberry, melon, pear, peach (no pit), grapes (in moderation — high sugar).</div>
+    <div class="rule-row"><span class="ok">✓</span>Cooked grains: brown rice, quinoa, oats — plain, no seasoning.</div>
+    <div class="rule-row"><span class="ok">✓</span>Cooked legumes: lentils, chickpeas, black beans — cooked only, never raw.</div>
+    <div class="rule-row"><span class="ok">✓</span>Cooked egg: scrambled or hard boiled, plain — occasional protein treat.</div>
+    <div class="rule-row"><span class="ok">✓</span>Nuts: walnut, almond, pecan — unsalted, unroasted, tiny piece, rare treat only.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Never feed ✗</div>
+    <div class="rule-row"><span class="no">✗</span>Avocado — can kill within hours. Absolute hard line.</div>
+    <div class="rule-row"><span class="no">✗</span>Onion and garlic — toxic, breaks down red blood cells.</div>
+    <div class="rule-row"><span class="no">✗</span>Chocolate and caffeine.</div>
+    <div class="rule-row"><span class="no">✗</span>Fruit seeds and pits — apple seeds, cherry/peach/plum pits contain cyanide.</div>
+    <div class="rule-row"><span class="no">✗</span>Rhubarb — oxalic acid, kidney damage.</div>
+    <div class="rule-row"><span class="no">✗</span>Raw beans — phytohemagglutinin, fatal. Always cook thoroughly.</div>
+    <div class="rule-row"><span class="no">✗</span>Xylitol (sugar-free products) — toxic.</div>
+    <div class="rule-row"><span class="no">✗</span>Mushrooms — liver/digestive toxicity risk.</div>
+    <div class="rule-row"><span class="no">✗</span>Anything salted, heavily seasoned, or fried.</div>
+    <div class="rule-row"><span class="no">✗</span>Raisins — same rule as budgies and finches.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Out-of-cage time — non-negotiable for a GCC</div>
+    <div style="font-size:13px; color:#5f5e5a; line-height:1.9;">
+      <div style="margin-bottom:6px">GCCs require a minimum of <strong>2–4 hours of supervised out-of-cage time daily.</strong> This isn't enrichment — it's a baseline welfare requirement. A conure kept mostly caged will develop behavioral problems: screaming, feather plucking, biting, and depression. Plan your day around this before Lou Dog comes home.</div>
+      <div style="margin-bottom:6px"><strong>Bird-safe the room first:</strong> no open windows or doors, ceiling fans off, no nonstick cookware in use (Teflon fumes are instantly fatal to birds), no candles or air fresheners, no other pets unsupervised in the room.</div>
+      <div>Out-of-cage time is also your primary training and bonding window. GCCs are intelligent and love trick training — use Nutriberry pieces or a small nut as rewards. Even 10 minutes of focused training per session makes a big difference.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Dish setup — Lou Dog's cage</div>
+    <div class="portion-row"><span class="portion-label">Pellet dish (clip-on, mid-height)</span><span class="portion-value">1 dish, available all day</span></div>
+    <div class="portion-row"><span class="portion-label">Fresh food dish (clip-on or freestanding)</span><span class="portion-value">1 dish, remove after 2–3 hrs</span></div>
+    <div class="portion-row"><span class="portion-label">Treat/egg food dish</span><span class="portion-value">1 small dish, 3x/week</span></div>
+    <div class="portion-row"><span class="portion-label">Water dishes</span><span class="portion-value">2 dishes — GCCs dunk food in water constantly, second dish stays cleaner</span></div>
+    <p class="note">Total: 5 dishes. GCCs are notorious water-dunkers — they will drop food into every water dish. Two water stations means at least one stays reasonably clean. Change water more frequently than the other birds — at least twice daily.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Coming home — first two weeks</div>
+    <div class="step"><span class="step-num">1.</span><span>Avian vet visit within the first week — same rule as Wyatt. New bird, full health screen before any interaction with other birds.</span></div>
+    <div class="step"><span class="step-num">2.</span><span>Find out what Lou Dog is currently eating and keep feeding that for the first 1–2 weeks. Moving homes is already stressful — don't change the diet simultaneously.</span></div>
+    <div class="step"><span class="step-num">3.</span><span>Introduce new foods one at a time after the bird is settled. Offer new items first thing in the morning when hunger is highest.</span></div>
+    <div class="step"><span class="step-num">4.</span><span>If not already on pellets, begin the same gradual conversion approach as the budgies — new pellets alongside familiar food, increase ratio slowly over weeks.</span></div>
+    <div class="step"><span class="step-num">5.</span><span>Keep cage separate from budgie cages until cleared by vet and fully settled in — minimum 30 days quarantine from other birds.</span></div>
+  </div>
+
+  <div class="warn">⚠ Do NOT use nonstick cookware (Teflon/PTFE) anywhere in the home while Lou Dog is free-roaming. The fumes are colorless, odorless, and kill birds within minutes. This is the #1 accidental cause of parrot death in homes. Switch to stainless, cast iron, or ceramic.</div>
+  <div class="info-box">No sleeping huts or fabric tents for Lou Dog. Soft-sided huts cause hormonal behavior and birds can ingest the fibers, causing fatal crop impaction. A rope perch or a designated sleeping spot on a regular perch is the safe alternative.</div>
+</div>
+
+<!-- COCKATIEL -->
+<div id="cockatiel" class="panel">
+  <p class="section-title">Maria — Female Cockatiel <span class="badge badge-updated">new</span></p>
+
+  <div class="card">
+    <div class="card-label">Important: female cockatiel = special health considerations</div>
+    <div style="font-size:13px; color:#5f5e5a; line-height:1.9;">
+      <div style="margin-bottom:6px"><span class="pill pill-coral">Chronic egg laying risk</span> Female cockatiels are one of the most prolific chronic egg-layers of any pet bird. Maria can lay infertile eggs solo — no male needed. Each egg drains significant calcium and protein from her body. Without a good diet, this leads to egg binding, brittle bones, seizures, and can be fatal.</div>
+      <div style="margin-bottom:6px"><span class="pill pill-teal">Pellets are non-negotiable for her</span> A seed-only diet has no calcium, almost no vitamin A or D3, and no protein adequate for egg production. A female cockatiel on seeds is at serious risk. Pellets are the most important thing you can buy for Maria.</div>
+      <div><span class="pill pill-amber">Powder down alert</span> Unlike your other birds, cockatiels are powder-down birds. They produce a fine white dust constantly from specialized feathers. This is normal — but it means more frequent cage cleaning, and anyone with bird allergies will notice it more. A HEPA air purifier near Maria's cage is worth considering.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">What to buy — pellets</div>
+    <div class="ingr-block">
+      <div class="ingr-top">
+        <span class="ingr-name">Harrison's High Potency Fine</span>
+        <span class="ingr-pct">top pick</span>
+      </div>
+      <div class="bar-wrap"><div class="bar bar-teal" style="width:90%"></div></div>
+      <span class="ingr-role">Same as Lou Dog — Fine size is right for a cockatiel beak too. USDA organic, vet-recommended. One bag serves both birds.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top">
+        <span class="ingr-name">Roudybush Daily Maintenance (small)</span>
+        <span class="ingr-pct">excellent alt</span>
+      </div>
+      <div class="bar-wrap"><div class="bar bar-blue" style="width:75%"></div></div>
+      <span class="ingr-role">Clean formula, no dyes. Good option if Maria resists Harrison's.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top">
+        <span class="ingr-name">Lafeber Nutriberries (cockatiel size)</span>
+        <span class="ingr-pct">treat + supplement</span>
+      </div>
+      <div class="bar-wrap"><div class="bar bar-amber" style="width:55%"></div></div>
+      <span class="ingr-role">Pellet-enriched, nutritionally balanced. Great for converting seed-addicted birds — they think it's a treat. Limit 1–2 per day.</span>
+    </div>
+    <p class="note">Pellets should make up 60–75% of Maria's daily diet. This is higher priority for her than for the budgies because of egg-laying calcium demands.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Daily diet — Maria's dish setup each morning</div>
+    <div class="portion-row"><span class="portion-label">Pellet dish (available all day)</span><span class="portion-value">1–2 tbsp Harrison's Fine</span></div>
+    <div class="portion-row"><span class="portion-label">Seed mix (treat, not staple)</span><span class="portion-value">1–2 tsp Kaylor or similar, 2–3x/week max</span></div>
+    <div class="portion-row"><span class="portion-label">Fresh/freeze-dried veg (remove after 2–3 hrs)</span><span class="portion-value">1–2 tbsp</span></div>
+    <div class="portion-row"><span class="portion-label">Fruit (small, occasional)</span><span class="portion-value">1 tsp max, 2–3x/week</span></div>
+    <div class="portion-row"><span class="portion-label">Egg food (3x/week, separate dish)</span><span class="portion-value">pinch, remove after 2–3 hrs</span></div>
+    <div class="portion-row"><span class="portion-label">Water</span><span class="portion-value">2 dishes, refreshed daily</span></div>
+    <p class="note">Cuttlebone must always be available — non-negotiable for a female cockatiel. She will self-regulate calcium intake, especially if she begins laying. Check and replace weekly rather than monthly.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Safe foods ✓</div>
+    <div class="rule-row"><span class="ok">✓</span>Vegetables: bell pepper (high vitamin A — excellent for cockatiels), broccoli, carrot, kale, collard greens, zucchini, peas, corn, sweet potato, bok choy, dandelion greens.</div>
+    <div class="rule-row"><span class="ok">✓</span>Fruits: apple (no seeds), banana, mango, papaya, blueberry, melon — offered 2–3x/week, small amounts only.</div>
+    <div class="rule-row"><span class="ok">✓</span>Cooked grains: brown rice, quinoa, oats — plain, no seasoning. Good calcium-depleted supplement after egg laying.</div>
+    <div class="rule-row"><span class="ok">✓</span>Cooked egg: scrambled or hard-boiled, plain — especially good after she lays eggs to replenish protein.</div>
+    <div class="rule-row"><span class="ok">✓</span>Calcium sources: cuttlebone (always in cage), dark leafy greens, broccoli. Avoid spinach and Swiss chard — they block calcium absorption.</div>
+    <div class="rule-row"><span class="ok">✓</span>Sprouted seed: same sprouted mix you use for budgies, offered fresh 3–4x/week.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Never feed ✗</div>
+    <div class="rule-row"><span class="no">✗</span>Avocado — toxic, can kill within hours.</div>
+    <div class="rule-row"><span class="no">✗</span>Onion and garlic.</div>
+    <div class="rule-row"><span class="no">✗</span>Chocolate, caffeine.</div>
+    <div class="rule-row"><span class="no">✗</span>Fruit seeds and pits.</div>
+    <div class="rule-row"><span class="no">✗</span>Spinach and Swiss chard in large amounts — oxalates block calcium absorption, especially dangerous for an egg-laying female.</div>
+    <div class="rule-row"><span class="no">✗</span>Rhubarb, raw beans, xylitol, mushrooms.</div>
+    <div class="rule-row"><span class="no">✗</span>Raisins.</div>
+    <div class="rule-row"><span class="no">✗</span>Soy and flax in large amounts — phytoestrogens can trigger egg-laying hormones.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Chronic egg laying — what to watch for and how to prevent it</div>
+    <div class="step"><span class="step-num">1.</span><span><strong>Diet is the #1 prevention.</strong> A pellet-fed cockatiel with proper calcium is far less at risk from egg laying complications than a seed-fed one. Get her on Harrison's Fine as the priority.</span></div>
+    <div class="step"><span class="step-num">2.</span><span><strong>Don't pet her back, wings, or vent area.</strong> This stimulates mating behavior and triggers hormonal egg laying. Head and neck only for Maria.</span></div>
+    <div class="step"><span class="step-num">3.</span><span><strong>Limit daylight to 10–12 hours.</strong> Long days trigger reproductive cycles. Cover her cage earlier in the evening than your other birds if needed.</span></div>
+    <div class="step"><span class="step-num">4.</span><span><strong>No nesting materials.</strong> Don't put anything soft, dark, or cave-like in her cage — she will treat it as a nesting spot and begin laying.</span></div>
+    <div class="step"><span class="step-num">5.</span><span><strong>If she lays an egg:</strong> don't remove it immediately. Let her sit on it for 2–3 weeks. Removing it early causes her to replace it with another. Swap the egg for a fake egg if available — she'll eventually abandon it.</span></div>
+    <div class="step"><span class="step-num">6.</span><span><strong>Egg binding emergency signs:</strong> straining, tail bobbing, sitting on the floor, visible distress. This is a same-day vet emergency. Don't wait.</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Powder down — what it means for your home</div>
+    <div style="font-size:13px; color:#5f5e5a; line-height:1.8;">Maria produces a fine white dust from specialized down feathers continuously — it's how cockatiels condition their feathers. It's completely normal and healthy for her. For you it means: cage area needs more frequent wiping down (every 2–3 days rather than weekly), nearby surfaces collect a fine white film, and anyone with respiratory sensitivities or bird allergies will notice it. A HEPA air purifier near her cage makes a significant difference. Never use aerosol sprays, scented candles, air fresheners, or plug-in diffusers near any of your birds — but especially near Maria. Her respiratory system is extremely sensitive.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Coming home — first two weeks</div>
+    <div class="step"><span class="step-num">1.</span><span>Avian vet visit within the first week. For a female cockatiel, the vet will also assess her reproductive health baseline.</span></div>
+    <div class="step"><span class="step-num">2.</span><span>Keep feeding whatever she came with for 1–2 weeks before introducing Harrison's Fine.</span></div>
+    <div class="step"><span class="step-num">3.</span><span>30-day quarantine from all other birds — separate cage, separate airspace if possible.</span></div>
+    <div class="step"><span class="step-num">4.</span><span>Introduce pellets gradually. If she's been on seed, start by crushing pellets into dust and mixing with seed, exactly like the budgie conversion approach.</span></div>
+    <div class="step"><span class="step-num">5.</span><span>Make sure cuttlebone is in her cage from day one.</span></div>
+  </div>
+
+  <div class="warn">⚠ Nonstick cookware fumes (Teflon/PTFE) kill cockatiels just as fast as they kill conures. Maria is equally sensitive. The no-nonstick rule applies to the whole home, not just during Lou Dog's out-of-cage time.</div>
+</div>
+
+<!-- TOYS -->
+<div id="toys" class="panel">
+  <p class="section-title">Toys &amp; enrichment by bird</p>
+
+  <div class="card">
+    <div class="card-label">Budgies — Billy, Morgan, Doc, Wyatt</div>
+    <div style="font-size:13px; color:#5f5e5a; line-height:1.9; margin-bottom:8px;">Budgies are curious, social, and love to investigate and chew. They're not as destructive as conures so toys last longer, but they need mental variety more than brute-force chewing. Rotate 2 toys out every Friday to keep things fresh.</div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">🪞 Mirrors</span></div>
+      <span class="ingr-role">Good for solo birds (Wyatt during integration). Remove once he joins the flock. Watch for obsessive regurgitation at mirror — sign of over-bonding.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">🔔 Bells</span></div>
+      <span class="ingr-role">Budgies love to ring bells. Small stainless steel bells only — no zinc or lead. Remove bell clappers (the small metal piece inside) as they can be chewed off and swallowed.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">🪢 Foraging wraps</span></div>
+      <span class="ingr-role">Paper or coffee filter with a pinch of seed/Prairie Blossom twisted inside. Hang with plain cotton string. Excellent mental enrichment, costs nothing.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">🧱 Balsa wood chews</span></div>
+      <span class="ingr-role">Soft enough for budgie beaks. Keeps beaks trimmed. Small blocks or hanging pieces. Natural, untreated only.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">📄 Paper shredders</span></div>
+      <span class="ingr-role">Toilet paper tube stuffed with paper strips and a little seed. Balsa blocks with paper woven through. Shredding is a natural budgie behavior.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">🪜 Swings and ladders</span></div>
+      <span class="ingr-role">Budgies love swings — they'll use them constantly. Wooden runged ladders give climbing enrichment. Avoid soft rope or fabric that frays into long strands.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">🌱 Foraging grass mats</span></div>
+      <span class="ingr-role">Seagrass woven mats they can climb and pick at. Hide small seeds or freeze-dried pieces in the weave. Great for all four budgies.</span>
+    </div>
+    <div class="ingr-block" style="border-bottom:none;">
+      <div class="ingr-top"><span class="ingr-name">🔵 Foot toys</span></div>
+      <span class="ingr-role">Small corks, wooden beads, plain bottle caps — things they can pick up and carry. Budgies don't hold toys in their feet like parrots do, but they'll push and investigate foot toys on a flat surface.</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Finches — Bonnie, Clyde, owl finches, society finches, zebra finches</div>
+    <div style="font-size:13px; color:#5f5e5a; line-height:1.9; margin-bottom:8px;">Finches are not interactive toy players like parrots or budgies. Their enrichment is environmental — variety of perches, things to investigate and land on, and nesting-type materials for the bonded pairs. Keep it simple.</div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">🌿 Natural perches at varied heights</span></div>
+      <span class="ingr-role">Safe wood branches (willow, apple, birch) at different diameters exercise feet and prevent arthritis. Far more valuable than any toy for finches.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">🪺 Nesting material (managed)</span></div>
+      <span class="ingr-role">Short paper strips (3–4 inches max), dried grass, or plain coconut fiber. Finches will weave and arrange these. Watch Bonnie and Clyde — if they start serious nesting, remove materials to prevent egg-laying cycles. Same for the society finches who are prolific nesters.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">🛁 Bath dish</span></div>
+      <span class="ingr-role">Already in the rotation. Finches treat bathing as a major event — it IS their enrichment. The shower bath on their bath day is the highlight of their week.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">🌾 Millet spray clipped to bars</span></div>
+      <span class="ingr-role">A whole spray millet clipped to the bars gives finches a foraging activity and landing spot in one. Use on treat days within the weekly millet allowance.</span>
+    </div>
+    <div class="ingr-block" style="border-bottom:none;">
+      <div class="ingr-top"><span class="ingr-name">❌ What NOT to give finches</span></div>
+      <span class="ingr-role">No mirrors (can cause aggression in male zebra finches). No jute or long rope strands. No small bells with removable clappers. No hanging toys that swing aggressively — finches startle easily and need stable landing zones.</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Lou Dog — Green-Cheeked Conure</div>
+    <div style="font-size:13px; color:#5f5e5a; line-height:1.9; margin-bottom:8px;">GCCs are the most toy-driven birds in your flock. They're intelligent, destructive, and need regular new stimulation. Lou Dog needs more toys than anyone else, rotated more frequently. Expect to replace destroyed toys regularly — that's success, not waste.</div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">🧩 Foraging puzzle toys</span></div>
+      <span class="ingr-role">Boxes with lids, cups with paper locks, pull-cord feeders. GCCs love problem-solving. Start easy (partially open) and increase difficulty as Lou Dog figures them out. Use Nutriberry pieces or small seeds as the reward inside.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">🌿 Seagrass and vine balls</span></div>
+      <span class="ingr-role">Perfect texture for conure beaks. They'll shred them completely. Sola balls, vine balls, corn husk pieces — natural, safe, destroyable. Stock up because they'll go fast.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">🪵 Soft to medium wood chews</span></div>
+      <span class="ingr-role">Balsa and pine are good starting points. Harder woods like manzanita last longer but are less satisfying to chew. Small scale — toys sized for budgies are too flimsy, toys for Amazons are too big. Conure/cockatiel scale is right.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">📄 Shreddable paper toys</span></div>
+      <span class="ingr-role">Paper rolls, cardboard strips layered on a skewer, newspaper-wrapped treasure bundles. GCCs shred with purpose — give them something to destroy every week.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">🔔 Foot toys</span></div>
+      <span class="ingr-role">Unlike budgies, GCCs actually hold toys in one foot and manipulate them. Small wooden blocks, cork pieces, small leather strips (vegetable-tanned only, no chrome-tanned). Out-of-cage foot toys keep Lou Dog busy during supervised time.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">🪢 Boings and rope perches</span></div>
+      <span class="ingr-role">A boing (coiled rope perch) hung in the middle of the cage is a GCC favorite — they bounce, swing, and sleep on them. Use cotton rope only, inspect regularly for fraying, replace when strands start to unravel.</span>
+    </div>
+    <div class="ingr-block" style="border-bottom:none;">
+      <div class="ingr-top"><span class="ingr-name">🎓 Training as enrichment</span></div>
+      <span class="ingr-role">GCCs are smart enough that 10–15 minutes of trick training per day counts as major enrichment. Step up, wave, spin, target training — use Nutriberry pieces as reward. This is the best enrichment you can give a conure and it builds your bond simultaneously.</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Maria — Cockatiel</div>
+    <div style="font-size:13px; color:#5f5e5a; line-height:1.9; margin-bottom:8px;">Cockatiels are somewhere between budgies and conures in play style. They love music, whistling, and social interaction more than destruction. Maria will enjoy toys she can explore and preen rather than demolish.</div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">🔔 Bells</span></div>
+      <span class="ingr-role">Cockatiels are bell obsessed — they'll ring them and sing at them. Same rule as budgies: stainless steel only, remove clappers.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">🪜 Swings</span></div>
+      <span class="ingr-role">Cockatiels love to swing and perch on moving objects. A swing in the upper area of the cage will get heavy use.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">🌾 Millet and foraging toys</span></div>
+      <span class="ingr-role">Millet spray clipped to bars, small foraging boxes, treat cups. Cockatiels aren't as driven to problem-solve as conures but enjoy simple foraging. Nutriberries work as training treats and enrichment both.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">🪵 Light wood chews</span></div>
+      <span class="ingr-role">Balsa or soft pine pieces. Cockatiels chew less aggressively than conures but enjoy having something to work on. Good for beak health.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">🪞 Mirrors — use carefully</span></div>
+      <span class="ingr-role">Female cockatiels can become bonded to mirrors and treat the reflection as a mate, triggering egg laying. This is bad for Maria specifically. Skip mirrors or use very sparingly and monitor her response closely.</span>
+    </div>
+    <div class="ingr-block" style="border-bottom:none;">
+      <div class="ingr-top"><span class="ingr-name">🎵 Music and whistling</span></div>
+      <span class="ingr-role">Not a toy but the best enrichment for a cockatiel. Maria will likely start to mimic songs, whistles, or household sounds. Play music during the day, whistle to her, and she'll engage enthusiastically. Female cockatiels vocalize less than males but still enjoy sound enrichment.</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Universal toy safety rules — all birds</div>
+    <div class="rule-row"><span class="no">✗</span>No zinc or lead anywhere — galvanized metal, cheap chain links, certain colored dyes. Zinc toxicity is a common and serious bird emergency.</div>
+    <div class="rule-row"><span class="no">✗</span>No jute rope — frays into long dangerous strands that wrap around toes and necks.</div>
+    <div class="rule-row"><span class="no">✗</span>No synthetic fibers — polyester, nylon, acrylic. Cotton only for any rope or fabric elements.</div>
+    <div class="rule-row"><span class="no">✗</span>No sharp edges or points on any plastic or metal pieces.</div>
+    <div class="rule-row"><span class="no">✗</span>No glue — some toy assemblies use adhesives that are toxic when chewed.</div>
+    <div class="rule-row"><span class="no">✗</span>No painted or varnished wood — natural and untreated only.</div>
+    <div class="rule-row"><span class="ok">✓</span>Inspect toys weekly — replace anything with fraying rope, broken parts, or sharp edges from chewing damage.</div>
+    <div class="rule-row"><span class="ok">✓</span>Rotate 2 toys per budgie cage every Friday. Lou Dog gets new toys most frequently — weekly or when destroyed.</div>
+    <div class="rule-row"><span class="ok">✓</span>Safe toy materials: untreated natural wood (balsa, pine, willow, birch, apple, manzanita), seagrass, vine, corn husk, palm, unbleached paper, stainless steel, cotton rope, vegetable-tanned leather.</div>
+  </div>
+</div>
+
+<!-- PELLET PLAN -->
+<div id="pellets" class="panel">
+  <p class="section-title">Pellet conversion plan</p>
+  <div class="card">
+    <div class="card-label">The recommendation: Harrison's High Potency Super Fine</div>
+    <div style="font-size:13px; color:#5f5e5a; line-height:1.8;">
+      <div style="margin-bottom:8px"><span class="pill pill-teal">Why Super Fine, not Fine</span> Fine is sized for cockatiels and small conures. Super Fine is closer to a millet seed — the right scale for a budgie beak. Less intimidating, more likely to be picked up out of curiosity.</div>
+      <div style="margin-bottom:8px"><span class="pill pill-blue">Why Harrison's over Roudybush</span> Harrison's Super Fine is already the right size straight from the bag. Roudybush crumbles still need crushing before budgies will accept them. Harrison's is USDA organic, foil-packaged for better freshness, and tends to have a higher acceptance rate with resistant birds.</div>
+      <div><span class="pill pill-amber">Shelf life</span> 45 days once opened. Buy the 1 lb bag. Don't bulk buy.</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-label">Phase 1 — now, with current ZuPreem</div>
+    <div class="step"><span class="step-num">1.</span><span>Crush ZuPreem to fine dust — measure 8 tbsp of crushed dust into the budgie batch jar.</span></div>
+    <div class="step"><span class="step-num">2.</span><span>It coats the seed so they ingest it passively with every beak-full.</span></div>
+    <div class="step"><span class="step-num">3.</span><span>Egg food 3x/week matters more now — it's carrying more nutritional weight without solid pellet coverage.</span></div>
+  </div>
+  <div class="card">
+    <div class="card-label">Phase 2 — when Harrison's Super Fine arrives</div>
+    <div class="step"><span class="step-num">1.</span><span>Measure 8 tbsp of Harrison's Super Fine whole (no crushing) into the batch jar in place of ZuPreem dust.</span></div>
+    <div class="step"><span class="step-num">2.</span><span>Leave it as-is. Some birds pick it up thinking it's a seed, crack it, and start eating. Don't rush this.</span></div>
+    <div class="step"><span class="step-num">3.</span><span>If no uptake after 2–3 weeks, offer a small dish of just Harrison's first thing in the morning when they're hungriest. Give the main mix 30 minutes later.</span></div>
+    <div class="step"><span class="step-num">4.</span><span>Acceptance timeline is weeks to months — completely normal. Keep offering consistently.</span></div>
+  </div>
+  <div class="info-box">No grit — ever. Budgies and finches both crack and hull seeds before swallowing, so grit serves no digestive purpose and can cause fatal crop impaction. Cuttlebone in every cage covers all calcium needs.</div>
+</div>
+
+<!-- PORTIONS -->
+<div id="portions" class="panel">
+  <p class="section-title">Daily portions — morning serving</p>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-label">Budgie cages</div>
+      <div class="portion-row"><span class="portion-label">Billy, Morgan, Doc (3 birds)</span><span class="portion-value">4–5 tsp</span></div>
+      <div class="portion-row"><span class="portion-label">Wyatt (solo)</span><span class="portion-value">1½–2 tsp</span></div>
+      <div class="portion-row"><span class="portion-label">Merged flock (4 birds)</span><span class="portion-value">5–6 tsp</span></div>
+      <p class="note">~1½ tsp per bird. Adjust up if empty before evening.</p>
+    </div>
+    <div class="card">
+      <div class="card-label">Finch cages</div>
+      <div class="portion-row"><span class="portion-label">Cage 1 — 4 finches</span><span class="portion-value">4–5 tsp</span></div>
+      <div class="portion-row"><span class="portion-label">Cage 2 — 4 finches</span><span class="portion-value">4–5 tsp</span></div>
+      <p class="note">~1 tsp per bird. Slightly overfill. Evening top-up check required.</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-label">Treats — separate dish, never in batch jar</div>
+    <div class="portion-row"><span class="portion-label">Vitakraft egg food — all cages</span><span class="portion-value">pinch, 3x/week, remove after 2–3 hrs</span></div>
+    <div class="portion-row"><span class="portion-label">Budgie crunch stick</span><span class="portion-value">1 stick/cage, 1x/week</span></div>
+    <div class="portion-row"><span class="portion-label">Finch crunch stick</span><span class="portion-value">1 stick/cage, 1x/week</span></div>
+    <div class="portion-row"><span class="portion-label">Millet spray — budgies only</span><span class="portion-value">small sprig/cage, 1x/week max</span></div>
+    <div class="portion-row"><span class="portion-label">Lou Dog — Nutriberry or small nut treat</span><span class="portion-value">during out-of-cage/training time only</span></div>
+    <div class="portion-row"><span class="portion-label">Maria — Nutriberry or millet sprig</span><span class="portion-value">1–2 Nutriberries/day or small millet sprig 2x/week</span></div>
+  </div>
+  <div class="warn">⚠ Prairie Blossom already contains spray millet. A separate millet spray on top means double millet that week. Skip the standalone spray any week the Prairie Blossom was heavy in the batch.</div>
+</div>
+
+<!-- DISHES -->
+<div id="dishes" class="panel">
+  <p class="section-title">Dish setup by cage</p>
+
+  <div class="card">
+    <div class="cage-block">
+      <div class="cage-heading">Budgie cage — Billy, Morgan &amp; Doc (3 birds)</div>
+      <div class="dish-grid">
+        <div class="dish-card">
+          <div class="dish-icon">🌾</div>
+          <div class="dish-count">2</div>
+          <div class="dish-label">Main food dishes</div>
+          <div class="dish-detail">One on each side of the cage — prevents one bird blocking access. Clip-on cups work well here.</div>
+        </div>
+        <div class="dish-card">
+          <div class="dish-icon">🥚</div>
+          <div class="dish-count">1</div>
+          <div class="dish-label">Treat/egg food dish</div>
+          <div class="dish-detail">Small side dish for egg food 3x/week, crunch stick clip on treat days. Remove when empty.</div>
+        </div>
+        <div class="dish-card">
+          <div class="dish-icon">💧</div>
+          <div class="dish-count">2</div>
+          <div class="dish-label">Water dishes</div>
+          <div class="dish-detail">One on each side. Enough volume for drinking and occasional bathing. Clip-on or freestanding both fine.</div>
+        </div>
+      </div>
+      <p class="cage-note">Total: 5 dishes. With 3 birds there's always a risk of one dominant bird blocking a station — two food and two water stations prevent any bird from going without.</p>
+    </div>
+
+    <hr class="divider">
+
+    <div class="cage-block">
+      <div class="cage-heading">Budgie cage — Wyatt (solo)</div>
+      <div class="dish-grid">
+        <div class="dish-card">
+          <div class="dish-icon">🌾</div>
+          <div class="dish-count">1</div>
+          <div class="dish-label">Main food dish</div>
+          <div class="dish-detail">One clip-on cup is fine for a solo bird. Position away from perches to avoid droppings.</div>
+        </div>
+        <div class="dish-card">
+          <div class="dish-icon">🥚</div>
+          <div class="dish-count">1</div>
+          <div class="dish-label">Treat/egg food dish</div>
+          <div class="dish-detail">Small secondary cup. Use on egg food days; also where you'll offer Harrison's during conversion.</div>
+        </div>
+        <div class="dish-card">
+          <div class="dish-icon">💧</div>
+          <div class="dish-count">1</div>
+          <div class="dish-label">Water dish</div>
+          <div class="dish-detail">One is enough for a solo bird. Large enough for bathing.</div>
+        </div>
+      </div>
+      <p class="cage-note">Total: 3 dishes. Bump to 5 (matching the 3-bird cage) once Wyatt joins the main flock.</p>
+    </div>
+
+    <hr class="divider">
+
+    <div class="cage-block">
+      <div class="cage-heading">Merged budgie cage — all 4 birds (future setup)</div>
+      <div class="dish-grid">
+        <div class="dish-card">
+          <div class="dish-icon">🌾</div>
+          <div class="dish-count">2</div>
+          <div class="dish-label">Main food dishes</div>
+          <div class="dish-detail">One on each side — opposite ends of the cage. Prevents squabbling during integration.</div>
+        </div>
+        <div class="dish-card">
+          <div class="dish-icon">🥚</div>
+          <div class="dish-count">1</div>
+          <div class="dish-label">Treat/egg food dish</div>
+          <div class="dish-detail">One is fine — treats are time-limited anyway. Remove after 2–3 hours.</div>
+        </div>
+        <div class="dish-card">
+          <div class="dish-icon">💧</div>
+          <div class="dish-count">2</div>
+          <div class="dish-label">Water dishes</div>
+          <div class="dish-detail">One on each side. Critical during the integration period — any bird can drink without confrontation.</div>
+        </div>
+      </div>
+      <p class="cage-note">Total: 5 dishes. During integration keep dishes at opposite ends to reduce territorial tension over resources.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="cage-block">
+      <div class="cage-heading">Finch cage 1 — 4 finches</div>
+      <div class="dish-grid">
+        <div class="dish-card">
+          <div class="dish-icon">🌾</div>
+          <div class="dish-count">2</div>
+          <div class="dish-label">Main food dishes</div>
+          <div class="dish-detail">At opposite ends — finches are fast movers and multiple stations reduce crowding at the food source.</div>
+        </div>
+        <div class="dish-card">
+          <div class="dish-icon">🥚</div>
+          <div class="dish-count">1</div>
+          <div class="dish-label">Treat/egg food dish</div>
+          <div class="dish-detail">Small clip-on cup for egg food 3x/week. Remove after 2–3 hours.</div>
+        </div>
+        <div class="dish-card">
+          <div class="dish-icon">💧</div>
+          <div class="dish-count">2</div>
+          <div class="dish-label">Water dishes</div>
+          <div class="dish-detail">Finches bathe constantly — two dishes means one is always clean while the other gets fouled. Large enough to bathe in.</div>
+        </div>
+        <div class="dish-card">
+          <div class="dish-icon">🛁</div>
+          <div class="dish-count">1</div>
+          <div class="dish-label">Dedicated bath dish</div>
+          <div class="dish-detail">Optional but recommended — a shallow dish just for bathing keeps the water dishes cleaner. Offer a few times a week.</div>
+        </div>
+      </div>
+      <p class="cage-note">Total: 5–6 dishes. No perches above any water or food dish — finches will foul them within minutes.</p>
+    </div>
+
+    <hr class="divider">
+
+    <div class="cage-block">
+      <div class="cage-heading">Finch cage 2 — 4 finches (same setup)</div>
+      <div class="dish-grid">
+        <div class="dish-card">
+          <div class="dish-icon">🌾</div>
+          <div class="dish-count">2</div>
+          <div class="dish-label">Main food dishes</div>
+          <div class="dish-detail">Opposite ends. Check both morning and evening — food must never fully run out.</div>
+        </div>
+        <div class="dish-card">
+          <div class="dish-icon">🥚</div>
+          <div class="dish-count">1</div>
+          <div class="dish-label">Treat/egg food dish</div>
+          <div class="dish-detail">Small cup for egg food 3x/week. Remove after 2–3 hours.</div>
+        </div>
+        <div class="dish-card">
+          <div class="dish-icon">💧</div>
+          <div class="dish-count">2</div>
+          <div class="dish-label">Water dishes</div>
+          <div class="dish-detail">Two dishes, opposite ends. Large enough to bathe in.</div>
+        </div>
+        <div class="dish-card">
+          <div class="dish-icon">🛁</div>
+          <div class="dish-count">1</div>
+          <div class="dish-label">Dedicated bath dish</div>
+          <div class="dish-detail">Shallow, offered a few times a week. Keeps bathing separate from drinking water.</div>
+        </div>
+      </div>
+      <p class="cage-note">Total: 5–6 dishes. Identical setup to Cage 1.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Quick reference — total dishes across all cages</div>
+    <div class="portion-row"><span class="portion-label">Budgie cage (Billy, Morgan, Doc)</span><span class="portion-value">5 dishes</span></div>
+    <div class="portion-row"><span class="portion-label">Budgie cage (Wyatt solo)</span><span class="portion-value">3 dishes</span></div>
+    <div class="portion-row"><span class="portion-label">Budgie cage (merged, future)</span><span class="portion-value">5 dishes</span></div>
+    <div class="portion-row"><span class="portion-label">Finch cage 1 (4 birds)</span><span class="portion-value">5–6 dishes</span></div>
+    <div class="portion-row"><span class="portion-label">Finch cage 2 (4 birds)</span><span class="portion-value">5–6 dishes</span></div>
+    <div class="portion-row"><span class="portion-label">Lou Dog — GCC (solo)</span><span class="portion-value">5 dishes (2 water, pellet, fresh food, treat)</span></div>
+    <div class="portion-row"><span class="portion-label">Maria — cockatiel (solo)</span><span class="portion-value">5 dishes (2 water, pellet, fresh food, treat)</span></div>
+  </div>
+
+  <div class="warn">⚠ Placement matters as much as quantity. Food and water dishes should never be positioned below a perch — droppings will contaminate them within hours. Clip-on dishes on cage bars, positioned at mid-height, are the cleanest option.</div>
+</div>
+
+<!-- SCHEDULE -->
+<div id="schedule" class="panel">
+  <p class="section-title">Weekly schedule — all tasks</p>
+
+  <div class="card">
+    <div class="card-label">Legend</div>
+    <div class="legend-wrap" style="margin-bottom:0;">
+      <div class="legend-row"><div class="legend-dot dot-teal"></div> Food / feeding</div>
+      <div class="legend-row"><div class="legend-dot dot-amber"></div> Egg food treat</div>
+      <div class="legend-row"><div class="legend-dot dot-blue"></div> Bath (rotate cage)</div>
+      <div class="legend-row"><div class="legend-dot dot-purple"></div> Crunch stick or millet</div>
+      <div class="legend-row"><div class="legend-dot dot-coral"></div> Cage liner swap</div>
+      <div class="legend-row"><div class="legend-dot dot-gray"></div> Cleaning / maintenance</div>
+    </div>
+  </div>
+
+  <!-- DAY CARDS -->
+  <div class="card">
+    <div class="cage-heading" style="font-size:14px; margin-bottom:10px;">Monday</div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">●</span><span>Dry mix — all cages (daily)</span></div>
+    <div class="step"><span class="step-num" style="color:#BA7517;">●</span><span>Egg food — pinch in treat dish, all cages. Remove after 2–3 hours.</span></div>
+    <div class="step"><span class="step-num" style="color:#378ADD;">●</span><span>Bath — Billy, Morgan &amp; Doc. Offer shower bath on cage side for ~1 hour, then remove.</span></div>
+    <div class="step"><span class="step-num" style="color:#D85A30;">●</span><span>Cage liner — swap tray paper in Billy/Morgan/Doc cage.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Rinse bath thoroughly with hot water before putting away.</span></div>
+  </div>
+
+  <div class="card">
+    <div class="cage-heading" style="font-size:14px; margin-bottom:10px;">Tuesday</div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">●</span><span>Dry mix — all cages (daily)</span></div>
+    <div class="step"><span class="step-num" style="color:#378ADD;">●</span><span>Bath — Wyatt. Offer shower bath for ~1 hour, then remove.</span></div>
+    <div class="step"><span class="step-num" style="color:#D85A30;">●</span><span>Cage liner — swap tray paper in Wyatt's cage.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Rinse bath thoroughly before putting away.</span></div>
+  </div>
+
+  <div class="card">
+    <div class="cage-heading" style="font-size:14px; margin-bottom:10px;">Wednesday</div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">●</span><span>Dry mix — all cages (daily)</span></div>
+    <div class="step"><span class="step-num" style="color:#BA7517;">●</span><span>Egg food — pinch in treat dish, all cages. Remove after 2–3 hours.</span></div>
+    <div class="step"><span class="step-num" style="color:#378ADD;">●</span><span>Bath — Finch cage 1. Offer shower bath on cage side for ~1 hour, then remove. (Finches may also use it as a drink — that's fine.)</span></div>
+    <div class="step"><span class="step-num" style="color:#D85A30;">●</span><span>Cage liner — swap tray paper in finch cage 1.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Rinse bath thoroughly before putting away.</span></div>
+  </div>
+
+  <div class="card">
+    <div class="cage-heading" style="font-size:14px; margin-bottom:10px;">Thursday</div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">●</span><span>Dry mix — all cages (daily)</span></div>
+    <div class="step"><span class="step-num" style="color:#534AB7;">●</span><span>Treats — clip a crunch stick or offer a small millet sprig to budgie cages.</span></div>
+    <div class="step"><span class="step-num" style="color:#378ADD;">●</span><span>Bath — Finch cage 2. Offer shower bath for ~1 hour, then remove.</span></div>
+    <div class="step"><span class="step-num" style="color:#378ADD;">●</span><span>Bath — Lou Dog. Offer the shower bath or a shallow dish in the cage for ~1 hour. GCCs love bathing and need it weekly for feather health.</span></div>
+    <div class="step"><span class="step-num" style="color:#D85A30;">●</span><span>Cage liner — swap tray paper in finch cage 2.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Perch check — scrape or wipe down any heavily soiled perches across all cages.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Rinse bath thoroughly before putting away.</span></div>
+  </div>
+
+  <div class="card">
+    <div class="cage-heading" style="font-size:14px; margin-bottom:10px;">Friday</div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">●</span><span>Dry mix — all cages (daily)</span></div>
+    <div class="step"><span class="step-num" style="color:#BA7517;">●</span><span>Egg food — pinch in treat dish, all cages. Remove after 2–3 hours.</span></div>
+    <div class="step"><span class="step-num" style="color:#378ADD;">●</span><span>Bath — Maria. Offer shower bath or shallow dish for ~1 hour. Cockatiels love bathing and it helps with powder down and feather condition.</span></div>
+    <div class="step"><span class="step-num" style="color:#D85A30;">●</span><span>Cage liner — swap tray paper in Maria's cage. Wipe down surfaces near cage (powder down settles on everything).</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Toy rotation — swap out 1–2 toys in each budgie cage and Lou Dog's cage.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Rinse bath before putting away.</span></div>
+  </div>
+
+  <div class="card">
+    <div class="cage-heading" style="font-size:14px; margin-bottom:10px;">Saturday</div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">●</span><span>Dry mix — all cages (daily)</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Deep clean — wash all food dishes, water dishes, and treat dishes with soap and hot water. Rinse thoroughly.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Soap wash the shower bath.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Wipe down cage bars where visibly soiled. Wipe down surfaces near Maria's cage — powder down accumulates all week.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Cuttlebone check — replace any that are nearly gone or heavily soiled across all cages.</span></div>
+  </div>
+
+  <div class="card">
+    <div class="cage-heading" style="font-size:14px; margin-bottom:10px;">Sunday</div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">●</span><span>Dry mix — all cages (daily)</span></div>
+    <div class="step"><span class="step-num" style="color:#534AB7;">●</span><span>Treats — clip a crunch stick or offer a small millet sprig to budgie cages.</span></div>
+    <div class="step"><span class="step-num" style="color:#534AB7;">●</span><span>Batch jar prep — crush ZuPreem, build budgie jar and finch jar for the week (see mix tabs for exact measurements).</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Stock check — review all ingredients and reorder anything running low.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Perch deep clean — remove and wash plastic perches; scrub wooden ones with a stiff dry brush.</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Every day — ~5–10 min morning</div>
+    <div class="step"><span class="step-num">1.</span><span>Blow seed hulls off budgie food dishes. Check finch dishes haven't emptied overnight.</span></div>
+    <div class="step"><span class="step-num">2.</span><span>Stir or shake batch jars, then scoop fresh mix into each budgie and finch food dish.</span></div>
+    <div class="step"><span class="step-num">3.</span><span>Lou Dog: fill pellet dish (1–2 tbsp Harrison's Fine). Fill fresh food dish (veg + small fruit). Refresh both water dishes.</span></div>
+    <div class="step"><span class="step-num">4.</span><span>Maria: fill pellet dish (1–2 tbsp Harrison's Fine). Fill fresh food/veg dish. Refresh both water dishes. Check cuttlebone — replace if nearly gone.</span></div>
+    <div class="step"><span class="step-num">5.</span><span>Refresh all other water dishes.</span></div>
+    <div class="step"><span class="step-num">5.</span><span>Do the day's scheduled task (bath, liner, egg food, etc.) per the day card above.</span></div>
+    <div class="step"><span class="step-num">6.</span><span>Lou Dog: remove fresh food dish after 2–3 hours. Change water dishes mid-day if heavily fouled with dunked food.</span></div>
+    <div class="step"><span class="step-num">7.</span><span>Out-of-cage time for Lou Dog: minimum 2–4 hours supervised. For Maria: 1–2 hours minimum. Ceiling fans off, nonstick cookware off, Clarence out of the room.</span></div>
+    <div class="step"><span class="step-num">8.</span><span>Evening: check finch food dishes and top up if more than half empty.</span></div>
+  </div>
+
+  <div class="info-box">Cage liner timing: doing the liner swap on the same day as the bath for each cage is intentional — it's the same cage interaction, so you're in and out once instead of twice.</div>
+
+  <p class="section-title" style="margin-top:1.25rem;">Monthly tasks</p>
+
+  <div class="card">
+    <div class="card-label">Do these once a month — pick a consistent day (e.g. 1st Sunday)</div>
+    <div class="step"><span class="step-num">1.</span><span><strong>Nail visual check — all birds.</strong> Look for nails that are curling, catching on things, or preventing normal perching. You're looking, not necessarily trimming. Healthy zebra finches rarely need trimming. Budgies typically every 3–6 months.</span></div>
+    <div class="step"><span class="step-num">2.</span><span><strong>Beak, eyes, and nares check — all birds.</strong> Look for: symmetry, smooth texture, clear nostrils, no crust. Flag anything unusual.</span></div>
+    <div class="step"><span class="step-num">3.</span><span><strong>Scaly face/mite inspection — budgies especially.</strong> Look at the cere and beak corners for any white, chalky, or honeycomb-like crusting. Early signs are subtle — compare to photos of healthy budgie ceres if unsure. Finches: check for crusting around eyes and legs.</span></div>
+    <div class="step"><span class="step-num">4.</span><span><strong>Mite and pest check — cage and food storage.</strong> Inspect cage corners, perch joints, and the underside of food storage lids for tiny dark spots, small webs, or any signs of insects. Check the seed jars and batch containers too.</span></div>
+    <div class="step"><span class="step-num">5.</span><span><strong>Food storage audit.</strong> Check batch jar lids are sealing properly. Smell each ingredient bag/jar — seed that smells musty or off should be tossed. Harrison's is 45 days once opened; track the date.</span></div>
+    <div class="step"><span class="step-num">6.</span><span><strong>Toy inspect and replace.</strong> Discard any toys with broken parts, fraying rope, or sharp edges. Replace anything worn.</span></div>
+  </div>
+
+  <p class="section-title" style="margin-top:1.25rem;">Every 3–6 months</p>
+
+  <div class="card">
+    <div class="card-label">As needed — schedule when you notice it's time</div>
+    <div class="step"><span class="step-num">1.</span><span><strong>Nail trim — budgies.</strong> If nails are catching on fabric, curling, or making perching uncomfortable. Best done by an avian vet or experienced groomer — the quick can bleed badly if cut wrong, especially in dark nails. If doing it yourself, have styptic powder on hand.</span></div>
+    <div class="step"><span class="step-num">2.</span><span><strong>Wing trim — budgies (optional).</strong> A personal choice. Prevents escape and injury during out-of-cage time. Needs to be repeated every few months as flight feathers regrow. Avian vet is the right person for this.</span></div>
+    <div class="step"><span class="step-num">3.</span><span><strong>Full cage deep clean.</strong> Disassemble and scrub the entire cage — bars, tray, grate, perches, toys — with a bird-safe cleaner or diluted white vinegar. Rinse thoroughly and air dry before reassembling.</span></div>
+  </div>
+
+  <p class="section-title" style="margin-top:1.25rem;">Annual tasks</p>
+
+  <div class="card">
+    <div class="card-label">Once a year per bird — book ahead, avian vet only</div>
+    <div class="step"><span class="step-num">1.</span><span><strong>Avian vet wellness exam — all birds.</strong> Birds hide illness instinctively as a prey survival mechanism. By the time symptoms are visible, they may already be seriously sick. Annual exams catch problems early. The vet will weigh the bird (even small weight changes signal illness), examine beak, nails, eyes, feathers, and listen to breathing. Blood work and fecal analysis may be recommended.</span></div>
+    <div class="step"><span class="step-num">2.</span><span><strong>Nail and beak trim at the vet</strong> — fold this into the annual exam. Cheaper and safer than a separate visit.</span></div>
+  </div>
+
+  <div class="warn">⚠ Wyatt is a new bird — he should see an avian vet within the first 1–2 weeks of coming home, before or during integration with Billy, Morgan, and Doc. New birds can carry diseases that show no symptoms for weeks.</div>
+
+  <p class="section-title" style="margin-top:1.25rem;">Illness — what to watch for daily</p>
+
+  <div class="card">
+    <div class="card-label">Go to the vet promptly if you see any of these</div>
+    <div class="rule-row"><span class="no">!</span>Fluffed feathers when not sleeping — one of the earliest and most reliable illness signs in all bird species.</div>
+    <div class="rule-row"><span class="no">!</span>Sitting on the cage floor — birds go to the floor when too weak to perch. Treat as urgent.</div>
+    <div class="rule-row"><span class="no">!</span>Tail bobbing with each breath — sign of respiratory distress.</div>
+    <div class="rule-row"><span class="no">!</span>Any clicking, wheezing, or labored breathing — especially in finches, where air sac mites are a known risk.</div>
+    <div class="rule-row"><span class="no">!</span>Discharge from nostrils or eyes, or crusting around the face/beak.</div>
+    <div class="rule-row"><span class="no">!</span>Droppings that are watery, discolored, or dramatically changed in volume for more than 1–2 days.</div>
+    <div class="rule-row"><span class="no">!</span>Not eating or drinking — especially critical for finches, who can decline fast.</div>
+    <div class="rule-row"><span class="no">!</span>Any unexplained weight loss (birds feel light when you hold them).</div>
+    <div class="rule-row"><span class="ok">Note</span>Budgies and finches should not be taken to a general dog/cat vet. Find an avian-specific vet or one who is a member of the Association of Avian Veterinarians (AAV).</div>
+  </div>
+
+  <div class="info-box">About feather dust: budgies and zebra finches produce normal dander — not heavy powder. You don't need special protocols. Cockatiels, cockatoos, and African greys are the powder-down species that require extra ventilation and cleaning. Your birds are fine with the regular weekly cage cleaning routine.</div>
+</div>
+
+<!-- RULES -->
+<div id="rules" class="panel">
+  <p class="section-title">Non-negotiables</p>
+  <div class="card">
+    <div class="card-label">Freeze-dried — buy right</div>
+    <div class="rule-row"><span class="ok">✓</span>Ingredient list = one item only.</div>
+    <div class="rule-row"><span class="ok">✓</span>Safe picks: blueberry, mango, papaya, strawberry, apple, pineapple, carrot, sweet potato, peas, corn.</div>
+    <div class="rule-row"><span class="ok">✓</span>Crush pieces small before adding to the finch jar — tiny beaks.</div>
+    <div class="rule-row"><span class="no">✗</span>No sulfites, added sugar, salt, or "natural flavors." Bright-colored soft dried fruit = sulfites. Skip it.</div>
+    <div class="rule-row"><span class="no">✗</span>Never: avocado, onion, garlic, rhubarb, fruit pits or seeds, raisins.</div>
+  </div>
+  <div class="card">
+    <div class="card-label">Grit — never, for any of your birds</div>
+    <div class="rule-row"><span class="no">✗</span>Budgies hull seeds before swallowing — grit is useless and can cause fatal crop impaction.</div>
+    <div class="rule-row"><span class="no">✗</span>Finches also crack and hull seeds — same risk. Volkman already has oyster shell built in.</div>
+    <div class="rule-row"><span class="ok">✓</span>Cuttlebone in every cage covers all calcium needs. Already doing this correctly.</div>
+  </div>
+  <div class="card">
+    <div class="card-label">Egg food — separate dish, rotation only</div>
+    <div class="rule-row"><span class="ok">✓</span>Treat dish only, 3x/week. Remove after 2–3 hours.</div>
+    <div class="rule-row"><span class="no">✗</span>Never in the main batch jar — moisture shortens shelf life.</div>
+    <div class="rule-row"><span class="no">✗</span>Not daily — can trigger hormonal and breeding behavior, especially in finches.</div>
+    <div class="rule-row">Volkman already contains egg — finches get daily protein from the base mix. Egg food is a boost, not a staple.</div>
+  </div>
+  <div class="card">
+    <div class="card-label">Millet — treat, not food</div>
+    <div class="rule-row">Prairie Blossom already contains spray millet. That counts.</div>
+    <div class="rule-row"><span class="no">✗</span>Standalone millet spray max 1x/week per budgie cage.</div>
+    <div class="rule-row">Finches: Volkman has millet built in. No separate spray needed.</div>
+  </div>
+  <div class="card">
+    <div class="card-label">Dish hygiene</div>
+    <div class="rule-row"><span class="ok">✓</span>Blow seed hulls daily — a dish that looks full may be 90% empty shells.</div>
+    <div class="rule-row"><span class="ok">✓</span>Soap + hot water wash weekly minimum (Saturday).</div>
+    <div class="rule-row"><span class="ok">✓</span>Finch cages: morning AND evening check. Never fully empty.</div>
+    <div class="rule-row"><span class="no">✗</span>No perches above food or water dishes in any cage — droppings contaminate fast.</div>
+  </div>
+</div>
 
 <script>
-// ── DATA ──────────────────────────────────────────────────────
-
-var BIRDS = [
-  { id:'billy', name:'Billy', variety:'Greywind / Dilute Blue' },
-  { id:'morgan',name:'Morgan',variety:'Normal Green' },
-  { id:'doc',   name:'Doc',   variety:'Sky Blue Opaline' }
-];
-
-var WEEKS = [
-  { warmup:{name:'Presence Training',desc:'Sit 3 feet from the cage for 15 minutes daily. Read aloud in a calm voice. No sudden movements. Goal: birds stay on perches and do not flee.'}, core:{name:'Name Recognition',desc:'Say each bird\'s name softly when they look at you. Reward attention with a millet sprig through the bars. No hand contact yet.'}, party:{name:'Sound Association',desc:'Whistle a 3-note phrase every time you approach the cage. This becomes your "I come in peace" signal for life.'}, trio:'Place 3 separate perch stations at least 12 inches apart. Each bird gets their own millet sprig at their station. Begin training only after all 3 are settled.' },
-  { warmup:{name:'Hand Desensitization',desc:'Rest your open hand flat on the outside of cage bars for 5 minutes. Do not move. Let birds investigate. Millet in palm.'}, core:{name:'Millet Targeting Through Bars',desc:'Hold millet just inside a bar opening. Wait for the bravest bird to approach. When beak touches millet say "good." Repeat 10 times.'}, party:{name:'Bell Introduction',desc:'Hang a small bell inside cage. Tap it gently. Every time a bird touches it say "ring ring" and reward immediately.'}, trio:'Train only one bird per session this week. Rotate: Billy Monday, Morgan Tuesday, Doc Wednesday, then repeat.' },
-  { warmup:{name:'Open Door Acclimation',desc:'Open cage door for 5 minutes without reaching in. Sit nearby. Let birds choose whether to approach. Zero pressure.'}, core:{name:'Step-Up Foundation',desc:'Present one finger 1 inch below breast of calmest bird. Say "step up." If they step on, jackpot 3 millet pieces. If not, retry in 60 seconds.'}, party:{name:'Target Stick Introduction',desc:'Touch tip of a chopstick to millet. Hold toward the bird. When beak follows the stick, target training has begun.'}, trio:'Station stay rule: only one bird out for training at a time. If a waiting bird interrupts, return them calmly and wait 2 minutes.' },
-  { warmup:{name:'Shoulder Confidence',desc:'For birds comfortable on your hand, allow them to walk up to your shoulder. Sit still. Let them explore. Do not grab.'}, core:{name:'Step-Up First Reliable Reps',desc:'Aim for 5 clean step-ups per bird per session. Only count confident ones with no hesitation. Below 5 means slow down.'}, party:{name:'Spin Initial Luring',desc:'Use target stick to lure bird in a small arc. Say "spin." This week just 90 degrees. Build the full 360 over 2-3 weeks.'}, trio:'Introduce stationing mats - small cork coasters at each perch station. Birds learn: mat equals waiting zone equals treats incoming.' },
-  { warmup:{name:'Recall Warm-Up',desc:'Practice step-up from one hand to another before any trick work. Keeps birds mentally warm and physically engaged.'}, core:{name:'Target Training Distance Building',desc:'Hold target stick 3 inches away. Let bird walk to touch it. Reward. Extend to 6 inches. Building recall through object targeting.'}, party:{name:'Wave Foundation',desc:'Present finger for step-up but withdraw slowly as bird lifts foot. The moment one foot raises, say "wave" and reward immediately.'}, trio:'Run relay drills. Bird A steps up, moves to station 2. Bird B steps up from station 1. Each bird gets 3 reps then rotates.' },
-  { warmup:{name:'Free Flight Warm-Up',desc:'Supervised free-flight in designated room. Dog secured. Fans off. Let birds explore for 10 minutes before directed training.'}, core:{name:'Recall to Hand First Attempts',desc:'Hold millet in palm at arm length. Say bird name plus "come." Celebrate every approach, even partial ones. Never force.'}, party:{name:'Basketball Object Introduction',desc:'Place tiny basketball on flat surface inside cage. Wait for bird to investigate. When beak touches ball, say "basket" and reward.'}, trio:'Audience system: one bird trains while the other two watch from stations. Teach the most confident bird first.' },
-  { warmup:{name:'Perch to Perch Confidence',desc:'Set up two perch stations 2 feet apart in the free-roam room. Encourage birds to fly between them voluntarily before training.'}, core:{name:'Recall Building Distance',desc:'Call name plus "come" from 3 feet with millet visible. When reliable at 3 feet, extend to 6. Precision before distance.'}, party:{name:'Spin Completing the 360',desc:'Continue luring with target stick to complete the full circle. Say "spin" clearly at start of each attempt. Jackpot on a clean 360.'}, trio:'Begin group step-up drills. Step up Bird A to station 2. Step up Bird B to station 3. Step up Bird C. Work the sequence.' },
-  { warmup:{name:'Shoulder Taxi Warm-Up',desc:'Carry each bird on your shoulder to a different room and back before training. Builds confidence with movement.'}, core:{name:'Wave Reliable on Cue',desc:'Bird should wave on verbal cue alone without the finger lure. If still needing the finger, slow down and reward smaller approximations.'}, party:{name:'Basketball The Shot',desc:'Position hoop below where bird is sitting. When they touch ball and it drops near hoop, jackpot. Shape toward intentional drop.'}, trio:'Name-recall game: call one bird name specifically while the other two wait. Only the named bird gets rewarded for flying to you.' },
-  { warmup:{name:'Environmental Confidence',desc:'Introduce one new object per session near the cage. Let birds observe and decide to investigate on their own terms.'}, core:{name:'Play Dead Bang Game',desc:'Point finger like a gun and say "bang." Use target stick to slowly guide bird to lean back. Reward any backward lean this week.'}, party:{name:'Ring Toss Introduction',desc:'Place small plastic rings near a dowel on flat surface. Wait for a bird to pick up a ring naturally. When they do, say "ring" and reward.'}, trio:'Trio recall: call all three to return to cage using "home time" paired with millet placed inside.' },
-  { warmup:{name:'Novel Person Introduction',desc:'Have a family member sit near the cage without interaction for 10 minutes. Builds flock tolerance of new humans.'}, core:{name:'Shoulder Taxi Named Person',desc:'Say a person name and gesture toward them. Encourage bird to fly from your shoulder to theirs. The shoulder taxi trick.'}, party:{name:'Pull the Wagon',desc:'Tie short string to a tiny container. When bird pecks the string, say "pull" and reward. Shape toward intentional tugging.'}, trio:'Synchronized bow: all three birds learn to bow on cue. Teach individually this week. Triggered by lowering your finger.' },
-  { warmup:{name:'Full Free-Flight Session',desc:'45-minute free-roam with minimal directed activity. Observe natural flock dynamics: who leads, who follows, who explores first.'}, core:{name:'Play Dead Completing the Roll',desc:'Work toward full relaxed-on-back position in your palm. Many birds reach this. Some never fully relax. Celebrate what you get.'}, party:{name:'Shell Game Introduction',desc:'Three cups upside down. Treat under one. Shuffle slowly. Reward touching the correct cup. Testing working memory.'}, trio:'Synchronized bow full trio: all three bow on a single hand signal. Have all three on stations. Reward any bird that bows.' },
-  { warmup:{name:'Free-Form Exploration',desc:'Full free-roam with all trained props available. Observe which each bird gravitates toward independently. Self-directed play is the goal.'}, core:{name:'Full Repertoire Run-Through',desc:'Work through every learned behavior in one session per bird. Note what is solid and what needs maintenance. Your year-two baseline.'}, party:{name:'Follow the Leader Trio Finale',desc:'Step up Bird A and walk slowly. Bird B follows to station 2. Bird C follows Bird B. You have built a coordinated flock.'}, trio:'Graduation: Can you call each bird by name and have only that bird fly to you? Do they return to cage on one phrase? These birds are royalty.' }
-];
-
-var TRICKS = ['Step up on cue','Target stick nose touch','Name recognition','Return to cage on cue','Wave','Spin 360','Bell ring','Play dead / bang','Recall to hand','Shoulder taxi','Slam dunk basketball','Shell game','Synchronized bow (trio)'];
-
-var FACTS = [
-  {cat:'practical',title:'Why budgies are the canary in your coal mine',body:'Their respiratory system has no diaphragm and uses a series of air sacs that flow air in one direction through the lungs. This makes oxygen exchange extremely efficient and means toxins like Teflon fumes, candles, and aerosols reach lethal concentrations in seconds. They will die before you smell anything wrong. The silent killer sweep is non-negotiable every single day.'},
-  {cat:'bizarre',title:'They talk in their sleep - it is called subsong',body:'Budgies enter a state called subsong during light sleep, a quiet rambling murmur of half-formed words and sounds. Scientists believe this is how they practice and consolidate new vocalizations, similar to how humans replay memories during REM sleep. If your birds learned a new sound today, listen carefully tonight.'},
-  {cat:'practical',title:'They see four colors, you only see three',body:'Humans are trichromats with red, green, and blue cones. Budgies are tetrachromats, they have a fourth cone sensitive to ultraviolet light. Under UV their feathers display patterns completely invisible to you. The blue bird you see is displaying an entirely different, more complex pattern to every other budgie in the room.'},
-  {cat:'bizarre',title:'Their top beak moves independently',body:'Budgies have cranial kinesis, a joint between the upper beak and skull that allows the upper mandible to move independently of the lower. When a budgie opens its beak both halves move. This is why they can hull a millet seed in under a second.'},
-  {cat:'health',title:'Beak grinding means they are happy, not hungry',body:'That rhythmic grinding sound at bedtime indicates the bird is relaxed enough to let its guard down. It also hones the beak edges slightly. If you hear all three birds grinding in the evening, that is your performance review as a bird parent. You passed.'},
-  {cat:'behavior',title:'The head bob dance is hardwired, not learned',body:'When a budgie hears a beat it likes, the rhythmic head bobbing is a genuine motor response linked to their vocal learning circuitry. Budgies and humans are among the very few animals with this trait.'},
-  {cat:'nutrition',title:'Seed-only diets are a slow emergency',body:'Budgies fed exclusively on seed will develop fatty liver disease, vitamin A deficiency, and calcium depletion often silently over years. Seeds are high fat and nutritionally incomplete. Persistence over 4-6 weeks with millet rewards is standard protocol for converting to pellets.'},
-  {cat:'bizarre',title:'They have regional accents and learn yours',body:'Wild budgie flocks in different parts of Australia have measurably distinct contact calls. Your flock will develop a unique Elk Grove dialect. No other flock on the planet will sound exactly like yours.'},
-  {cat:'health',title:'They hide illness until it is critical',body:'In the wild, a visibly sick bird is a dead bird. Budgies have evolved to suppress all outward signs of illness until they can no longer compensate. By the time a budgie looks sick, it has often been sick for days. A 10 percent drop in body weight can be your only early warning.'},
-  {cat:'anatomy',title:'They have a third eyelid',body:'Budgies have a nictitating membrane, a translucent third eyelid that sweeps horizontally across the eye in milliseconds. It cleans the surface, distributes moisture, and protects the eye during flight. You will occasionally see it flash when a bird blinks.'},
-  {cat:'bizarre',title:'They sleep with half their brain awake',body:'Budgies can engage in unihemispheric slow-wave sleep: one hemisphere enters sleep while the other remains alert for predators. The eye connected to the awake hemisphere stays open. Your flock sleeping with both eyes closed is the highest compliment they can pay you.'},
-  {cat:'bizarre',title:'They navigate using the Earth\'s magnetic field',body:'Budgies possess cryptochrome proteins in their eyes sensitive to the Earth\'s magnetic field. Current evidence suggests they may literally visualize magnetic field lines as an overlay on their normal vision, a built-in compass that is always on.'},
-  {cat:'anatomy',title:'Their heart beats up to 600 times per minute in flight',body:'A budgie resting heart rate is approximately 300 beats per minute, already five times a human. During active flight or acute stress this can reach 600 bpm. This is why small stressors register as genuine physical emergencies.'},
-  {cat:'behavior',title:'They recognize themselves in mirrors with experience',body:'Modified protocols show budgies can distinguish their own reflection from other birds after extended exposure. They are one of very few non-primate animals with this capacity.'},
-  {cat:'bizarre',title:'Wild budgies form flocks of up to 30,000 birds',body:'In inland Australia following rainfall events, budgies congregate in enormous nomadic flocks. They move with rain fronts tracking grass seed availability across thousands of miles. The chirping, the need for flock contact calls, the distress when separated - all of it makes sense when you picture 30,000 of them moving together.'},
-  {cat:'anatomy',title:'They can produce over 100 distinct vocalizations',body:'The budgie vocal repertoire includes contact calls, alarm calls, flock rally calls, begging calls, threat calls, and an open-ended learned category that includes human speech and environmental sounds. The world record was 1,728 words by a budgie named Puck.'},
-  {cat:'health',title:'Going light is a 24-hour emergency',body:'"Going light" means a budgie has lost significant body weight, often with a visibly prominent keel bone. A budgie that feels light in the hand with a sharp keel bone needs an avian vet the same day - not the next week.'},
-  {cat:'health',title:'What a healthy dropping looks like',body:'A healthy budgie dropping has three components: dark green or black feces, white or cream urates, and a small amount of clear liquid urine. Watch for all-liquid droppings, bright yellow urates indicating liver stress, or red tarry droppings. The cage liner is your daily diagnostic panel.'},
-  {cat:'behavior',title:'Night frights: what they are and how to prevent them',body:'Night frights are episodes where a sleeping budgie is startled and thrashes violently in the dark cage, often injuring themselves. Prevention is a small nightlight near the cage. The bird wakes, sees their surroundings, and settles.'},
-  {cat:'anatomy',title:'How their kidneys differ from mammals',body:'Budgies excrete nitrogen waste as uric acid rather than urea. Their kidneys are very sensitive to dehydration. A budgie without water for 24 hours can suffer kidney damage.'},
-  {cat:'behavior',title:'Regurgitation is a love language',body:'Regurgitation in budgies is not illness - it is affection. When a budgie bobs its head rhythmically and then regurgitates onto your finger, it is expressing the highest form of attachment in its emotional vocabulary. Try not to be too grossed out.'},
-  {cat:'nutrition',title:'Calcium metabolism and why egg-binding kills females',body:'Egg-binding is fatal without emergency intervention. Laying an egg shell requires large amounts of calcium. If the diet is calcium-poor the body pulls calcium from bones, impairing the muscle contractions needed to move the egg. Cuttlebone and mineral blocks are your prevention protocol.'},
-  {cat:'bizarre',title:'They went to space',body:'The Soviet space program used budgies in early life support experiments testing the effects of zero gravity and altered atmospheres. Their sensitivity to air quality made them useful atmospheric safety test subjects.'},
-  {cat:'behavior',title:'Flock contact calls and why you should answer',body:'In a wild flock, budgies maintain near-constant acoustic contact through specific contact calls. When you leave the room your birds will call for you. When you respond, even with a whistle, you are participating in their contact call system and reducing their stress. You are the fourth flock member. Talk back.'}
-];
-
-var EMERGENCIES = [
-  {sev:'high',  title:'Teflon or fume exposure',          body:'Remove bird from area immediately. Fresh air at once. Call avian vet now, do not wait for symptoms. Teflon fumes cause rapid death. Keep bird warm at 85 degrees while calling.'},
-  {sev:'high',  title:'Fluffed feathers and lethargy',    body:'Always a sign of illness in a budgie. Keep warm at 85 degrees. Minimize handling. Call avian vet same day. Do not wait to see if it improves.'},
-  {sev:'high',  title:'Going light - feels too light',     body:'Visible keel bone and low weight is a serious illness sign. Same-day avian vet visit required. Offer warm water and millet while calling.'},
-  {sev:'high',  title:'Active bleeding',                   body:'Apply gentle pressure with clean cloth. If a blood feather is broken it may need vet removal - do not pull it yourself. Call vet immediately. Plain cornstarch on external wounds only. Never styptic powder on birds.'},
-  {sev:'high',  title:'Not eating or drinking 24+ hours', body:'A budgie not eating for 24 hours is an emergency. Call avian vet. Offer warm water and millet. Keep warm. Do not wait another day.'},
-  {sev:'high',  title:'Labored breathing or tail bobbing', body:'Tail bobbing with each breath is respiratory distress. Emergency vet visit. Keep bird calm and warm. Minimize handling.'},
-  {sev:'medium',title:'Night fright episode',              body:'Add a small nightlight near cage to prevent recurrence. Check bird for injuries: damaged feathers, broken blood feathers, eye injury. If uninjured and alert, monitor closely.'},
-  {sev:'medium',title:'Vomiting vs regurgitation',         body:'Regurgitation with head bobbing is normal bonding behavior. True vomiting - uncontrolled with wet feathers around beak - is illness. Wet sticky head feathers are a red flag.'},
-  {sev:'low',   title:'Sneezing',                          body:'Occasional sneezing is normal. Concerning if frequent, discharge present, one nostril larger than the other, or accompanied by other symptoms.'},
-  {sev:'low',   title:'Molting behavior concern',          body:'Feathers on the floor and pin feathers on the head is normal molt. Bald patches with no new feathers is abnormal. Feather-destructive behavior requires vet consult.'}
-];
-
-var VETS = [
-  {name:'Bradshaw Animal Hospital',           addr:'9670 Elk Grove-Florin Rd, Elk Grove', phone:'19167141622', specialty:'Avian services available',        maps:'Bradshaw+Animal+Hospital+Elk+Grove+CA'},
-  {name:'VCA Sacramento Animal Medical Group',addr:'4990 Mack Rd, Sacramento',            phone:'19163834011', specialty:'Full avian care - exotic specialist', maps:'VCA+Sacramento+Animal+Medical+Group+Sacramento+CA'},
-  {name:'ASPCA Poison Control',               addr:'Available 24/7 - Nationwide',         phone:'18884264435', specialty:'24/7 emergency poison hotline',     maps:null}
-];
-
-var DAILY_FACTS = [
-  'Billy, Morgan, and Doc can see ultraviolet light. They live in a more colorful world than any of us will ever know.',
-  'Beak grinding at bedtime means the day went well. Three birds grinding is the highest possible review.',
-  'A budgie heart beats 300 times per minute at rest - five times faster than a human.',
-  'They talk in their sleep. It is called subsong and it is how they rehearse new sounds.',
-  'Your flock will develop a unique Elk Grove dialect. No other three birds sound exactly like them.',
-  'Wild budgies form flocks of 30,000. Billy, Morgan, and Doc are a very intimate version of that.',
-  'When a budgie regurgitates on you, that is the highest form of love they know.',
-  'They have a third eyelid that sweeps clean in milliseconds.',
-  'Budgies and humans are among the only animals on Earth that move rhythmically to music.',
-  'When you call back to them from another room, you are participating in their flock contact call system.'
-];
-
-// ── STATE ─────────────────────────────────────────────────────
-var activePage   = 'flock';
-var currentWeek  = 0;
-var trickBird    = 'billy';
-var weightBird   = 'billy';
-var moltBird     = 'billy';
-var wikiFilter   = 'all';
-var wikiSearch   = '';
-var photoTarget  = null;
-
-// ── STORAGE ───────────────────────────────────────────────────
-function ls(k, d) {
-  try { var v = localStorage.getItem('flockapp_' + k); return v !== null ? JSON.parse(v) : d; } catch(e) { return d; }
-}
-function lsSet(k, v) { try { localStorage.setItem('flockapp_' + k, JSON.stringify(v)); } catch(e) {} }
-
-// ── UTILS ─────────────────────────────────────────────────────
-function el(tag, cls, txt) {
-  var e = document.createElement(tag);
-  if (cls) e.className = cls;
-  if (txt !== undefined) e.textContent = txt;
-  return e;
-}
-function todayVal() {
-  var d = new Date(), m = d.getMonth()+1, dy = d.getDate();
-  return d.getFullYear() + '-' + (m<10?'0':'') + m + '-' + (dy<10?'0':'') + dy;
-}
-function fmtDate(s) {
-  if (!s) return '';
-  var p = s.split('-');
-  return p.length === 3 ? p[1] + '/' + p[2] + '/' + p[0] : s;
-}
-function openTel(p) { var a = document.createElement('a'); a.href='tel:+'+p; document.body.appendChild(a); a.click(); document.body.removeChild(a); }
-function openMaps(q) { var a = document.createElement('a'); a.href='https://maps.apple.com/?q='+encodeURIComponent(q); a.target='_blank'; document.body.appendChild(a); a.click(); document.body.removeChild(a); }
-
-// ── HEADER DATE ───────────────────────────────────────────────
-(function() {
-  var days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  var d = new Date();
-  var el2 = document.getElementById('header-date');
-  if (el2) el2.textContent = days[d.getDay()] + ' ' + months[d.getMonth()] + ' ' + d.getDate();
-})();
-
-// ── TAB BAR ───────────────────────────────────────────────────
-var TABS = [
-  { id:'flock',    label:'Flock',    icon:'M12 2C9.24 2 7 4.24 7 7c0 2.85 2.03 5.21 4.74 5.87L12 20l.26-7.13C14.97 12.21 17 9.85 17 7c0-2.76-2.24-5-5-5zm0 7c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z' },
-  { id:'weight',   label:'Weight',   icon:'M3 3h18v2H3zm0 4h18v2H3zm0 4h11v2H3zm0 4h11v2H3zm13-2l4 4-4 4v-3h-3v-2h3z' },
-  { id:'molt',     label:'Molt',     icon:'M19 4H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zm-7-9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z' },
-  { id:'training', label:'Train',    icon:'M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z' },
-  { id:'wiki',     label:'Wiki',     icon:'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z' },
-  { id:'more',     label:'SOS',      icon:'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z' }
-];
-
-function buildTabBar() {
-  var bar = document.getElementById('tab-bar');
-  if (!bar) return;
-  bar.innerHTML = '';
-  TABS.forEach(function(t) {
-    var btn = el('button', 'tab-btn' + (t.id === activePage ? ' active' : ''));
-    btn.setAttribute('data-page', t.id);
-    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('viewBox', '0 0 24 24');
-    svg.setAttribute('fill', 'currentColor');
-    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    path.setAttribute('d', t.icon);
-    svg.appendChild(path);
-    btn.appendChild(svg);
-    btn.appendChild(el('span', null, t.label));
-    btn.addEventListener('click', function() { switchPage(t.id); });
-    bar.appendChild(btn);
-  });
-}
-
-function switchPage(id) {
-  activePage = id;
-  document.querySelectorAll('.page').forEach(function(p) { p.className = 'page'; });
-  var target = document.getElementById('page-' + id);
-  if (target) target.className = 'page active';
-  document.querySelectorAll('.tab-btn').forEach(function(b) {
-    b.className = 'tab-btn' + (b.getAttribute('data-page') === id ? ' active' : '');
-  });
-  var scroll = document.getElementById('app-scroll');
-  if (scroll) scroll.scrollTop = 0;
-  if (id === 'weight')   buildWeightPage();
-  if (id === 'molt')     buildMoltPage();
-  if (id === 'training') { buildTrainingCards(); buildTrickList(); }
-  if (id === 'wiki')     buildWikiPage();
-  if (id === 'more')     buildMorePage();
-}
-
-// ── BIRD SVG ──────────────────────────────────────────────────
-function buildBirdSvg(id) {
-  var colors = {billy:'#b8c8d8', morgan:'#6ab04c', doc:'#e8f4f8'};
-  var bodies  = {billy:'#8898a8', morgan:'#4e8a38', doc:'#7ec8d0'};
-  var cheeks  = {billy:'#d8e4ee', morgan:'#a8d060', doc:'#f0fafe'};
-  var c = colors[id]||'#aaa', b = bodies[id]||'#888', ch = cheeks[id]||'#eee';
-  var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-  svg.setAttribute('viewBox', '0 0 80 80');
-  [['ellipse',{cx:'40',cy:'52',rx:'18',ry:'22',fill:b}],
-   ['ellipse',{cx:'40',cy:'30',rx:'14',ry:'14',fill:c}],
-   ['ellipse',{cx:'34',cy:'28',rx:'4', ry:'5', fill:ch}],
-   ['ellipse',{cx:'46',cy:'28',rx:'4', ry:'5', fill:ch}],
-   ['circle', {cx:'36',cy:'27',r:'3',  fill:'#222'}],
-   ['circle', {cx:'48',cy:'27',r:'3',  fill:'#222'}],
-   ['circle', {cx:'37',cy:'26',r:'1',  fill:'#fff'}],
-   ['circle', {cx:'49',cy:'26',r:'1',  fill:'#fff'}],
-   ['ellipse',{cx:'40',cy:'35',rx:'3', ry:'2', fill:'#c8aa50'}],
-   ['ellipse',{cx:'26',cy:'45',rx:'6', ry:'14',fill:b,transform:'rotate(-15 26 45)'}],
-   ['ellipse',{cx:'54',cy:'45',rx:'6', ry:'14',fill:b,transform:'rotate(15 54 45)'}],
-   ['ellipse',{cx:'35',cy:'70',rx:'4', ry:'8', fill:'#c8aa50'}],
-   ['ellipse',{cx:'45',cy:'70',rx:'4', ry:'8', fill:'#c8aa50'}]
-  ].forEach(function(s) {
-    var e = document.createElementNS('http://www.w3.org/2000/svg', s[0]);
-    Object.keys(s[1]).forEach(function(k) { e.setAttribute(k, s[1][k]); });
-    svg.appendChild(e);
-  });
-  return svg;
-}
-
-// ── FLOCK PAGE ────────────────────────────────────────────────
-function buildFlockPage() {
-  var cont = document.getElementById('bird-cards');
-  if (!cont) return;
-  cont.innerHTML = '';
-  BIRDS.forEach(function(bird) {
-    var card = el('div', 'bird-card');
-
-    var wrap = el('div', 'bird-portrait-wrap');
-    wrap.id = 'portrait-' + bird.id;
-    var photo = ls('photo_' + bird.id, null);
-    if (photo) { var img = document.createElement('img'); img.src = photo; wrap.appendChild(img); }
-    else { wrap.appendChild(buildBirdSvg(bird.id)); }
-    wrap.appendChild(el('div', 'upload-hint', 'tap to upload photo'));
-    wrap.addEventListener('click', function() {
-      photoTarget = bird.id;
-      var inp = document.getElementById('photo-input');
-      if (inp) inp.click();
-    });
-    card.appendChild(wrap);
-
-    var body = el('div', 'bird-body');
-    body.appendChild(el('div', 'bird-name', bird.name));
-    body.appendChild(el('div', 'bird-variety', bird.variety));
-
-    var stats = el('div', 'bird-stats');
-    [['Weight','w_'+bird.id,'e.g. 32g'],['Molt','m_'+bird.id,'light/heavy'],['Last Vet','v_'+bird.id,'date']].forEach(function(s) {
-      var box = el('div', 'bird-stat');
-      box.appendChild(el('div', 'bird-stat-label', s[0]));
-      var inp = el('input', 'bird-stat-input');
-      inp.value = ls(s[1], '');
-      inp.placeholder = s[2];
-      inp.addEventListener('change', function() { lsSet(s[1], inp.value); });
-      inp.addEventListener('click', function(e) { e.stopPropagation(); });
-      box.appendChild(inp);
-      stats.appendChild(box);
-    });
-    body.appendChild(stats);
-    card.appendChild(body);
-    cont.appendChild(card);
-  });
-}
-
-// Photo upload
-function setupPhotoUpload() {
-  var inp = document.getElementById('photo-input');
-  if (!inp) return;
-  inp.addEventListener('change', function(e) {
-    var file = e.target.files[0]; if (!file || !photoTarget) return;
-    var reader = new FileReader();
-    reader.onload = function(ev) {
-      try { lsSet('photo_' + photoTarget, ev.target.result); } catch(er) {}
-      var wrap = document.getElementById('portrait-' + photoTarget);
-      if (wrap) {
-        wrap.innerHTML = '';
-        var img = document.createElement('img'); img.src = ev.target.result; wrap.appendChild(img);
-        wrap.appendChild(el('div', 'upload-hint', 'tap to change'));
-      }
-    };
-    reader.readAsDataURL(file); e.target.value = '';
-  });
-}
-
-// ── WEIGHT PAGE ───────────────────────────────────────────────
-function buildWeightPage() {
-  var cont = document.getElementById('weight-content');
-  if (!cont) return;
-  cont.innerHTML = '';
-
-  var tabs = el('div', 'weight-bird-tabs');
-  BIRDS.forEach(function(bird) {
-    var btn = el('button', 'wbird-tab' + (bird.id === weightBird ? ' active' : ''), bird.name);
-    btn.addEventListener('click', function() { weightBird = bird.id; buildWeightPage(); });
-    tabs.appendChild(btn);
-  });
-  cont.appendChild(tabs);
-
-  var entries = ls('we_' + weightBird, []);
-
-  var form = el('div', 'weight-form');
-  var inp = el('input', 'weight-inp'); inp.placeholder = 'e.g. 32.5g';
-  var dateInp = el('input', 'weight-date'); dateInp.type = 'date'; dateInp.value = todayVal();
-  var addBtn = el('button', 'weight-add', 'Add');
-  addBtn.addEventListener('click', function() {
-    var val = inp.value.trim(); if (!val) return;
-    var es = ls('we_' + weightBird, []);
-    es.unshift({ val: val, date: dateInp.value });
-    lsSet('we_' + weightBird, es);
-    inp.value = '';
-    buildWeightPage();
-  });
-  form.appendChild(inp); form.appendChild(dateInp); form.appendChild(addBtn);
-  cont.appendChild(form);
-
-  var canvas = document.createElement('canvas');
-  canvas.className = 'weight-canvas';
-  canvas.id = 'wcanvas';
-  canvas.height = 120;
-  cont.appendChild(canvas);
-
-  var listWrap = el('div', 'card card-pad');
-  if (!entries.length) {
-    listWrap.appendChild(el('div', 'weight-empty', 'No entries yet for ' + (weightBird.charAt(0).toUpperCase() + weightBird.slice(1)) + '. Add the first reading above.'));
-  } else {
-    var list = el('div', 'weight-list');
-    entries.slice(0, 10).forEach(function(entry, idx) {
-      var row = el('div', 'weight-row');
-      row.appendChild(el('div', 'weight-val', entry.val));
-      row.appendChild(el('div', 'weight-rowdate', fmtDate(entry.date)));
-      var del = el('button', 'weight-del', 'x');
-      (function(i) {
-        del.addEventListener('click', function() {
-          var es = ls('we_' + weightBird, []); es.splice(i, 1);
-          lsSet('we_' + weightBird, es); buildWeightPage();
-        });
-      })(idx);
-      row.appendChild(del);
-      list.appendChild(row);
-    });
-    listWrap.appendChild(list);
-  }
-  cont.appendChild(listWrap);
-
-  // Draw chart
-  setTimeout(function() {
-    var c = document.getElementById('wcanvas'); if (!c) return;
-    var pts = [];
-    entries.slice(0, 12).reverse().forEach(function(e) { var n = parseFloat(e.val); if (!isNaN(n)) pts.push(n); });
-    c.width = c.offsetWidth || 320;
-    var ctx = c.getContext('2d'), w = c.width, h = 110, pad = 18;
-    ctx.clearRect(0, 0, w, h);
-    if (pts.length < 2) {
-      ctx.fillStyle = '#cfc4b2'; ctx.font = 'italic 12px Georgia,serif';
-      ctx.textAlign = 'center'; ctx.fillText('Add 2+ entries to see chart', w/2, h/2); return;
-    }
-    var minV = Math.min.apply(null, pts), maxV = Math.max.apply(null, pts), range = maxV - minV || 5;
-    ctx.strokeStyle = '#e2d9cc'; ctx.lineWidth = 1;
-    for (var i = 0; i <= 3; i++) { var y2 = pad + (h-2*pad)*i/3; ctx.beginPath(); ctx.moveTo(pad, y2); ctx.lineTo(w-pad, y2); ctx.stroke(); }
-    ctx.strokeStyle = '#1a1714'; ctx.lineWidth = 2.5; ctx.beginPath();
-    pts.forEach(function(p, idx) { var x = pad+(w-2*pad)*idx/(pts.length-1), y2 = pad+(h-2*pad)*(1-(p-minV)/range); idx===0?ctx.moveTo(x,y2):ctx.lineTo(x,y2); });
-    ctx.stroke();
-    pts.forEach(function(p, idx) { var x = pad+(w-2*pad)*idx/(pts.length-1), y2 = pad+(h-2*pad)*(1-(p-minV)/range); ctx.beginPath(); ctx.arc(x,y2,4,0,2*Math.PI); ctx.fillStyle='#1a1714'; ctx.fill(); });
-  }, 50);
-}
-
-// ── MOLT PAGE ─────────────────────────────────────────────────
-function buildMoltPage() {
-  var cont = document.getElementById('molt-content');
-  if (!cont) return;
-  cont.innerHTML = '';
-
-  var tabs = el('div', 'molt-bird-tabs');
-  BIRDS.forEach(function(bird) {
-    var btn = el('button', 'mbird-tab' + (bird.id === moltBird ? ' active' : ''), bird.name);
-    btn.addEventListener('click', function() { moltBird = bird.id; buildMoltPage(); });
-    tabs.appendChild(btn);
-  });
-  cont.appendChild(tabs);
-
-  var d = new Date(), cm = d.getMonth(), cy = d.getFullYear();
-  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-
-  var calWrap = el('div', 'molt-cal-wrap');
-  calWrap.appendChild(el('div', 'molt-month-lbl', months[cm] + ' ' + cy));
-  var cal = el('div', 'molt-grid');
-  ['Su','Mo','Tu','We','Th','Fr','Sa'].forEach(function(dl) { cal.appendChild(el('div', 'molt-day-lbl', dl)); });
-  var fd = new Date(cy, cm, 1).getDay();
-  for (var i = 0; i < fd; i++) cal.appendChild(el('div', 'molt-day empty'));
-  var dim = new Date(cy, cm+1, 0).getDate();
-  for (var day = 1; day <= dim; day++) {
-    var key = 'molt_' + moltBird + '_' + cy + '_' + cm + '_' + day;
-    var marked = ls(key, false);
-    var de = el('div', 'molt-day' + (marked ? ' marked' : ''), String(day));
-    (function(k, de2) {
-      de2.addEventListener('click', function() {
-        var nm = !ls(k, false); lsSet(k, nm);
-        de2.className = 'molt-day' + (nm ? ' marked' : '');
-      });
-    })(key, de);
-    cal.appendChild(de);
-  }
-  calWrap.appendChild(cal);
-  cont.appendChild(calWrap);
-}
-
-// ── TRAINING PAGE ─────────────────────────────────────────────
-function setupWeekNav() {
-  var prev = document.getElementById('week-prev');
-  var next = document.getElementById('week-next');
-  if (prev) prev.addEventListener('click', function() { if (currentWeek > 0)  { currentWeek--; buildTrainingCards(); } });
-  if (next) next.addEventListener('click', function() { if (currentWeek < 11) { currentWeek++; buildTrainingCards(); } });
-}
-
-function buildTrainingCards() {
-  var lbl  = document.getElementById('week-lbl');
-  var prev = document.getElementById('week-prev');
-  var next = document.getElementById('week-next');
-  if (lbl)  lbl.textContent = 'Week ' + (currentWeek + 1);
-  if (prev) prev.disabled = (currentWeek === 0);
-  if (next) next.disabled = (currentWeek === 11);
-
-  var cont = document.getElementById('training-cards');
-  var trio = document.getElementById('trio-card');
-  if (!cont || !trio) return;
-  cont.innerHTML = ''; trio.innerHTML = '';
-
-  var w = WEEKS[currentWeek];
-  [['WARM-UP', w.warmup], ['CORE SKILL', w.core], ['PARTY TRICK', w.party]].forEach(function(s) {
-    var card = el('div', 'session-card');
-    card.appendChild(el('div', 'session-type', s[0]));
-    card.appendChild(el('div', 'session-name', s[1].name));
-    card.appendChild(el('div', 'session-desc', s[1].desc));
-    cont.appendChild(card);
-  });
-  trio.appendChild(el('div', 'trio-lbl', 'TRIO LOGIC'));
-  trio.appendChild(el('div', 'trio-txt', w.trio));
-}
-
-function buildTrickTabs() {
-  var tabs = document.getElementById('trick-tabs');
-  if (!tabs) return;
-  tabs.innerHTML = '';
-  BIRDS.forEach(function(bird) {
-    var btn = el('button', 'tbird-tab' + (bird.id === trickBird ? ' active' : ''), bird.name);
-    btn.addEventListener('click', function() { trickBird = bird.id; buildTrickTabs(); buildTrickList(); });
-    tabs.appendChild(btn);
-  });
-}
-
-function buildTrickList() {
-  buildTrickTabs();
-  var list = document.getElementById('trick-list');
-  if (!list) return;
-  list.innerHTML = '';
-  TRICKS.forEach(function(trick, ti) {
-    var key = 'trick_' + trickBird + '_' + ti;
-    var done = ls(key, false);
-    var row = el('div', 'trick-row');
-    var dot = el('div', 'trick-dot' + (done ? ' done' : ''));
-    if (done) dot.appendChild(document.createTextNode('\u2713'));
-    var lbl = el('div', 'trick-lbl' + (done ? ' done' : ''), trick);
-    dot.addEventListener('click', function() {
-      var nd = !ls(key, false); lsSet(key, nd);
-      dot.className = 'trick-dot' + (nd ? ' done' : '');
-      dot.innerHTML = nd ? '\u2713' : '';
-      lbl.className = 'trick-lbl' + (nd ? ' done' : '');
-    });
-    row.appendChild(dot); row.appendChild(lbl);
-    list.appendChild(row);
-  });
-}
-
-// ── WIKI PAGE ─────────────────────────────────────────────────
-function buildWikiPage() {
-  var dailyEl = document.getElementById('daily-txt');
-  if (dailyEl) dailyEl.textContent = DAILY_FACTS[new Date().getDate() % DAILY_FACTS.length];
-
-  var search = document.getElementById('wiki-search');
-  if (search) { search.value = wikiSearch; search.oninput = function() { wikiSearch = search.value; buildWikiList(); }; }
-
-  var filters = document.getElementById('wiki-filters');
-  if (filters) {
-    filters.innerHTML = '';
-    ['all','practical','bizarre','health','behavior','anatomy','nutrition'].forEach(function(c) {
-      var btn = el('button', 'wiki-filter' + (c === wikiFilter ? ' active' : ''), c.charAt(0).toUpperCase() + c.slice(1));
-      btn.addEventListener('click', function() {
-        wikiFilter = c;
-        filters.querySelectorAll('.wiki-filter').forEach(function(b) { b.className = 'wiki-filter'; });
-        btn.className = 'wiki-filter active';
-        buildWikiList();
-      });
-      filters.appendChild(btn);
-    });
-  }
-  buildWikiList();
-}
-
-function buildWikiList() {
-  var cont = document.getElementById('wiki-list');
-  if (!cont) return;
-  cont.innerHTML = '';
-  var q = wikiSearch.toLowerCase();
-  FACTS.forEach(function(fact) {
-    if (wikiFilter !== 'all' && fact.cat !== wikiFilter) return;
-    if (q && fact.title.toLowerCase().indexOf(q) === -1 && fact.body.toLowerCase().indexOf(q) === -1) return;
-    var card = el('div', 'wiki-card');
-    var hdr = el('div', 'wiki-hdr');
-    hdr.appendChild(el('div', 'wiki-cat wcat-' + fact.cat, fact.cat.charAt(0).toUpperCase() + fact.cat.slice(1)));
-    hdr.appendChild(el('div', 'wiki-title', fact.title));
-    var arrow = el('div', 'wiki-arrow', '\u25bc');
-    hdr.appendChild(arrow); card.appendChild(hdr);
-    card.appendChild(el('div', 'wiki-body', fact.body));
-    card.addEventListener('click', function() {
-      var open = card.className.indexOf('open') !== -1;
-      card.className = 'wiki-card' + (open ? '' : ' open');
-      arrow.style.transform = open ? '' : 'rotate(180deg)';
-    });
-    cont.appendChild(card);
-  });
-}
-
-// ── MORE / EMERGENCY PAGE ─────────────────────────────────────
-function buildMorePage() {
-  var elist = document.getElementById('emerg-list');
-  if (elist) {
-    elist.innerHTML = '';
-    EMERGENCIES.forEach(function(em) {
-      var card = el('div', 'emerg-card sev-' + em.sev);
-      var hdr = el('div', 'emerg-hdr');
-      hdr.appendChild(el('div', 'sev-dot'));
-      hdr.appendChild(el('div', 'emerg-title', em.title));
-      var arrow = el('div', 'wiki-arrow', '\u25bc');
-      hdr.appendChild(arrow); card.appendChild(hdr);
-      card.appendChild(el('div', 'emerg-body', em.body));
-      card.addEventListener('click', function() {
-        var open = card.className.indexOf('open') !== -1;
-        card.className = 'emerg-card sev-' + em.sev + (open ? '' : ' open');
-        arrow.style.transform = open ? '' : 'rotate(180deg)';
-      });
-      elist.appendChild(card);
-    });
-  }
-
-  var vlist = document.getElementById('vet-list');
-  if (vlist) {
-    vlist.innerHTML = '';
-    VETS.forEach(function(vet) {
-      var card = el('div', 'vet-card');
-      card.appendChild(el('div', 'vet-name', vet.name));
-      card.appendChild(el('div', 'vet-addr', vet.addr));
-      card.appendChild(el('div', 'vet-spec', vet.specialty));
-      var btns = el('div', 'vet-btns');
-      var cb = el('div', 'vet-btn call', 'Call');
-      cb.addEventListener('click', function() { openTel(vet.phone); });
-      btns.appendChild(cb);
-      if (vet.maps) {
-        var mb = el('div', 'vet-btn', 'Apple Maps');
-        mb.addEventListener('click', function() { openMaps(vet.maps); });
-        btns.appendChild(mb);
-      }
-      card.appendChild(btns); vlist.appendChild(card);
-    });
-  }
-}
-
-// ── INIT ──────────────────────────────────────────────────────
-function init() {
-  buildTabBar();
-  buildFlockPage();
-  buildWikiPage();
-  buildMorePage();
-  buildTrainingCards();
-  buildTrickList();
-  setupWeekNav();
-  setupPhotoUpload();
-}
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
-} else {
-  init();
+function show(id, btn) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
 }
 </script>
 </body>
