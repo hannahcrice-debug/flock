@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bird Feeding Guide v2</title>
+<title>Bird Feeding & Care Guide</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f9f8f5; color: #1a1a18; padding: 16px; font-size: 15px; line-height: 1.5; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #f9f8f5; color: #1a1a18; padding: 16px; font-size: 15px; line-height: 1.5; }
   h1 { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
   .subtitle { font-size: 13px; color: #888780; margin-bottom: 16px; }
   .tab-row { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
@@ -39,23 +39,12 @@
   .pill-amber { background: #FAEEDA; color: #854F0B; }
   .pill-blue { background: #E6F1FB; color: #185FA5; }
   .pill-coral { background: #FAECE7; color: #993C1D; }
-  .pill-green { background: #E1F5EE; color: #0F6E56; }
   .portion-row { display: flex; justify-content: space-between; align-items: baseline; padding: 7px 0; border-bottom: 0.5px solid #f1efe8; font-size: 13px; }
   .portion-row:last-child { border-bottom: none; }
   .portion-label { color: #5f5e5a; flex: 1; padding-right: 8px; }
   .portion-value { font-weight: 500; color: #1a1a18; white-space: nowrap; }
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   @media (max-width: 520px) { .two-col { grid-template-columns: 1fr; } }
-  .day-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin: 8px 0 10px; }
-  .day-cell { border: 0.5px solid #d3d1c7; border-radius: 8px; padding: 6px 4px; text-align: center; background: #fff; }
-  .day-name { font-size: 10px; font-weight: 600; color: #888780; margin-bottom: 4px; }
-  .day-dot { width: 8px; height: 8px; border-radius: 50%; margin: 2px auto; }
-  .dot-teal { background: #1D9E75; }
-  .dot-amber { background: #BA7517; }
-  .dot-purple { background: #534AB7; }
-  .dot-gray { background: #888780; }
-  .dot-blue { background: #378ADD; }
-  .dot-coral { background: #D85A30; }
   .legend-wrap { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
   .legend-row { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #5f5e5a; }
   .legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
@@ -68,11 +57,7 @@
   .rule-row:last-child { border-bottom: none; }
   .ok { color: #0F6E56; font-weight: 600; margin-right: 4px; }
   .no { color: #993C1D; font-weight: 600; margin-right: 4px; }
-  .badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em; margin-left: 6px; vertical-align: middle; }
-  .badge-updated { background: #E1F5EE; color: #0F6E56; }
-  .badge-unchanged { background: #F1EFE8; color: #5F5E5A; }
-
-  /* Dish setup styles */
+  .badge { display: inline-block; font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.04em; margin-left: 6px; vertical-align: middle; background: #E1F5EE; color: #0F6E56; }
   .cage-block { margin-bottom: 14px; }
   .cage-heading { font-size: 13px; font-weight: 600; color: #1a1a18; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 0.5px solid #f1efe8; }
   .dish-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-bottom: 6px; }
@@ -83,936 +68,1034 @@
   .dish-detail { font-size: 11px; color: #5f5e5a; margin-top: 4px; line-height: 1.4; }
   .cage-note { font-size: 11px; color: #888780; line-height: 1.5; margin-top: 4px; }
   .divider { border: none; border-top: 0.5px solid #f1efe8; margin: 14px 0; }
+  .toy-row { padding: 8px 0; border-bottom: 0.5px solid #f1efe8; font-size: 13px; }
+  .toy-row:last-child { border-bottom: none; }
+  .toy-name { font-weight: 500; color: #1a1a18; margin-bottom: 3px; }
+  .toy-note { font-size: 11px; color: #888780; margin-top: 2px; }
+  .tag { display: inline-block; font-size: 10px; font-weight: 600; padding: 1px 6px; border-radius: 4px; margin: 1px; }
+  .tag-all { background: #E1F5EE; color: #0F6E56; }
+  .tag-parrot { background: #E6F1FB; color: #185FA5; }
+  .tag-budgie { background: #EEEDFE; color: #3C3489; }
+  .tag-finch { background: #FFF3E0; color: #8B4E00; }
+  .tag-no { background: #FAECE7; color: #993C1D; }
 </style>
 </head>
 <body>
-
-<h1>Bird Feeding Guide <span class="badge badge-updated">v2</span></h1>
-<p class="subtitle">Billy, Morgan, Doc &amp; Wyatt · Bonnie &amp; Clyde flock · Lou Dog (GCC) · Maria (cockatiel) · Clarence · 32 oz deli containers</p>
-
+<h1>Bird Feeding &amp; Care Guide <span class="badge">Final</span></h1>
+<p class="subtitle">Billy, Morgan, Doc &amp; Wyatt &middot; Bonnie, Clyde, Donut &amp; Ocean &middot; Bean &amp; Polly &middot; Vinnie &amp; Fabbie &middot; Lou Dog &middot; Maria &middot; Clarence</p>
 <div class="tab-row">
-  <button class="tab active" onclick="show('budgie-mix', this)">Budgie mix</button>
-  <button class="tab" onclick="show('finch-mix', this)">Finch mix</button>
-  <button class="tab" onclick="show('conure', this)">🦜 Lou Dog</button>
-  <button class="tab" onclick="show('cockatiel', this)">🐤 Maria</button>
-  <button class="tab" onclick="show('pellets', this)">Pellet plan</button>
-  <button class="tab" onclick="show('portions', this)">Portions</button>
-  <button class="tab" onclick="show('dishes', this)">Dishes</button>
-  <button class="tab" onclick="show('toys', this)">🪀 Toys</button>
-  <button class="tab" onclick="show('schedule', this)">Schedule</button>
-  <button class="tab" onclick="show('rules', this)">Rules</button>
+  <button class="tab active" onclick="show('budgie-mix', this)">&#x1F426; Flock</button>
+  <button class="tab" onclick="show('finch-mix', this)">&#x1F426; Finch Zoo</button>
+  <button class="tab" onclick="show('conure', this)">&#x1F99C; Lou Dog</button>
+  <button class="tab" onclick="show('cockatiel', this)">&#x1F424; Maria</button>
+  <button class="tab" onclick="show('portions', this)">&#x1F4CF; Portions</button>
+  <button class="tab" onclick="show('dishes', this)">&#x1F37D; Dishes</button>
+  <button class="tab" onclick="show('toys', this)">&#x1FA80; Toys</button>
+  <button class="tab" onclick="show('plants', this)">&#x1F33F; Plants</button>
+  <button class="tab" onclick="show('schedule', this)">&#x1F4C5; Schedule</button>
+  <button class="tab" onclick="show('rules', this)">&#x26A0;&#xFE0F; Rules</button>
 </div>
 
 <!-- BUDGIE MIX -->
 <div id="budgie-mix" class="panel active">
-  <p class="section-title">Budgie master dry mix <span class="badge badge-updated">updated</span></p>
+  <p class="section-title">Budgie master dry mix &mdash; Billy, Morgan, Doc &amp; Wyatt</p>
   <div class="card">
-    <div class="card-label">Exact measurements — one 32 oz deli container (fills to ~27 oz, leaving headspace for shaking)</div>
+    <div class="card-label">Exact measurements &mdash; one 32 oz deli container (fills to ~27 oz)</div>
     <div class="ingr-block">
-      <div class="ingr-top">
-        <span class="ingr-name">Kaylor Rainforest Exotics parakeet</span>
-        <span class="ingr-pct">45%</span>
-        <span class="ingr-measure">1½ cups</span>
-      </div>
+      <div class="ingr-top"><span class="ingr-name">Kaylor Rainforest Exotics parakeet</span><span class="ingr-pct">45%</span><span class="ingr-measure">1&frac12; cups</span></div>
       <div class="bar-wrap"><div class="bar bar-teal" style="width:45%"></div></div>
-      <span class="ingr-role">Enriched seed base — the anchor of the mix. Add this first.</span>
+      <span class="ingr-role">Enriched seed base &mdash; the anchor. Add first.</span>
     </div>
     <div class="ingr-block">
-      <div class="ingr-top">
-        <span class="ingr-name">Freeze-dried fruit/veg chop</span>
-        <span class="ingr-pct">17%</span>
-        <span class="ingr-measure">10 tbsp</span>
-      </div>
+      <div class="ingr-top"><span class="ingr-name">Freeze-dried fruit/veg chop</span><span class="ingr-pct">17%</span><span class="ingr-measure">10 tbsp</span></div>
       <div class="bar-wrap"><div class="bar bar-blue" style="width:17%"></div></div>
-      <span class="ingr-role">Bumped up to offset reduced pellet coverage</span>
+      <span class="ingr-role">Nutrients &amp; variety. Check for raisins before adding.</span>
     </div>
     <div class="ingr-block">
-      <div class="ingr-top">
-        <span class="ingr-name">China Prairie Prairie Blossom</span>
-        <span class="ingr-pct">15%</span>
-        <span class="ingr-measure">8 tbsp</span>
-      </div>
-      <div class="bar-wrap"><div class="bar bar-purple" style="width:15%"></div></div>
-      <span class="ingr-role">Herbs, flowers, foraging enrichment</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top">
-        <span class="ingr-name">ZuPreem FruitBlend — crushed to dust</span>
-        <span class="ingr-pct">15%</span>
-        <span class="ingr-measure">8 tbsp</span>
-      </div>
+      <div class="ingr-top"><span class="ingr-name">Harrison's High Potency Super Fine</span><span class="ingr-pct">15%</span><span class="ingr-measure">8 tbsp</span></div>
       <div class="bar-wrap"><div class="bar bar-amber" style="width:15%"></div></div>
-      <span class="ingr-role">Grind fine before measuring — stealth nutrition, coats the seed</span>
+      <span class="ingr-role">Added whole &mdash; not crushed. Birds encounter and try them naturally.</span>
     </div>
     <div class="ingr-block">
-      <div class="ingr-top">
-        <span class="ingr-name">Freeze-dried sprouted seed mix</span>
-        <span class="ingr-pct">8%</span>
-        <span class="ingr-measure">4 tbsp</span>
-      </div>
-      <div class="bar-wrap"><div class="bar bar-coral" style="width:8%"></div></div>
-      <span class="ingr-role">Enzymes &amp; protein — bumped up to compensate for lighter pellet load</span>
+      <div class="ingr-top"><span class="ingr-name">Freeze-dried sprouted seeds</span><span class="ingr-pct">10%</span><span class="ingr-measure">5 tbsp</span></div>
+      <div class="bar-wrap"><div class="bar bar-coral" style="width:10%"></div></div>
+      <span class="ingr-role">Protein &amp; enzyme boost &mdash; now a permanent jar ingredient</span>
     </div>
-    <div class="total-row">
-      <span>Total fill</span>
-      <span>27 oz &nbsp;<span class="container-note">(32 oz container, ~5 oz headspace for shaking)</span></span>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">9-Flower foraging blend</span><span class="ingr-pct">8%</span><span class="ingr-measure">4 tbsp</span></div>
+      <div class="bar-wrap"><div class="bar bar-purple" style="width:8%"></div></div>
+      <span class="ingr-role">Dried botanicals &mdash; foraging enrichment and variety</span>
     </div>
-    <p class="note">Shake or stir well before every scoop — Prairie Blossom floats. Egg food, crunch sticks, and millet are treats; never add to the batch jar.</p>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">Herb supplement</span><span class="ingr-pct">5%</span><span class="ingr-measure">2&frac12; tbsp</span></div>
+      <div class="bar-wrap"><div class="bar bar-teal" style="width:5%"></div></div>
+      <span class="ingr-role">Wellness blend &mdash; goes on top last so it distributes evenly</span>
+    </div>
+    <div class="total-row"><span>Total fill</span><span>~27 oz &nbsp;<span class="container-note">(32 oz container, ~5 oz headspace)</span></span></div>
+    <p class="note">Shake or stir before every scoop. Egg food, crunch sticks, and millet are treats &mdash; never in the batch jar. Scoop fresh each morning.</p>
   </div>
   <div class="card">
-    <div class="card-label">How to build the jar — order matters</div>
-    <div class="step"><span class="step-num">1.</span><span>Kaylor (1½ cups) first — heaviest, goes on the bottom.</span></div>
-    <div class="step"><span class="step-num">2.</span><span>Freeze-dried chop (10 tbsp) and sprouted seed (4 tbsp).</span></div>
-    <div class="step"><span class="step-num">3.</span><span>ZuPreem dust (8 tbsp) — pour over the seed so it settles down through.</span></div>
-    <div class="step"><span class="step-num">4.</span><span>Prairie Blossom (8 tbsp) last — lightest, goes on top.</span></div>
-    <div class="step"><span class="step-num">5.</span><span>Seal and shake vigorously 20–30 seconds.</span></div>
+    <div class="card-label">How to build the jar &mdash; order matters</div>
+    <div class="step"><span class="step-num">1.</span><span>Kaylor (1&frac12; cups) &mdash; heaviest, goes on the bottom.</span></div>
+    <div class="step"><span class="step-num">2.</span><span>Freeze-dried chop (10 tbsp) &mdash; check for raisins first.</span></div>
+    <div class="step"><span class="step-num">3.</span><span>Harrison's Super Fine (8 tbsp) &mdash; whole, not crushed.</span></div>
+    <div class="step"><span class="step-num">4.</span><span>Freeze-dried sprouted seeds (5 tbsp).</span></div>
+    <div class="step"><span class="step-num">5.</span><span>9-Flower blend (4 tbsp).</span></div>
+    <div class="step"><span class="step-num">6.</span><span>Herb supplement (2&frac12; tbsp) &mdash; lightest, goes on top.</span></div>
+    <div class="step"><span class="step-num">7.</span><span>Seal and shake vigorously 20&ndash;30 seconds. Stir before each daily scoop.</span></div>
   </div>
-  <div class="card">
-    <div class="card-label">How to crush the ZuPreem</div>
-    <div style="font-size:13px; color:#5f5e5a; line-height:1.8;">Mortar and pestle, zip-lock bag with a rolling pin, or a small spice grinder. Target: fine powder — not visible as a distinct piece. The dust coats the seed so they ingest it without realizing. Crush your full 8 tbsp before mixing into the jar each Sunday.</div>
-  </div>
-  <div class="info-box">When Harrison's High Potency Super Fine arrives: swap it in whole (don't crush) at 8 tbsp in place of ZuPreem dust. Leave it as-is — some birds pick it up thinking it's a seed and start eating it over time.</div>
 </div>
 
 <!-- FINCH MIX -->
 <div id="finch-mix" class="panel">
-  <p class="section-title">Finch master dry mix <span class="badge badge-unchanged">unchanged</span></p>
+  <p class="section-title">Finch master dry mix &mdash; all 8 finches</p>
+  <p class="note" style="margin-bottom:8px; color:#5f5e5a;">Cage 1: Bean &amp; Polly, Vinnie &amp; Fabbie &nbsp;&middot;&nbsp; Cage 2: Bonnie, Clyde, Donut &amp; Ocean</p>
   <div class="card">
-    <div class="card-label">Exact measurements — one 32 oz deli container (fills to exactly 28 oz)</div>
+    <div class="card-label">Exact measurements &mdash; one 32 oz deli container (fills to ~28 oz)</div>
     <div class="ingr-block">
-      <div class="ingr-top">
-        <span class="ingr-name">Volkman Avian Science Super Finch</span>
-        <span class="ingr-pct">50%</span>
-        <span class="ingr-measure">1¾ cups</span>
-      </div>
+      <div class="ingr-top"><span class="ingr-name">Volkman Avian Science Super Finch</span><span class="ingr-pct">50%</span><span class="ingr-measure">1&frac34; cups</span></div>
       <div class="bar-wrap"><div class="bar bar-teal" style="width:50%"></div></div>
-      <span class="ingr-role">Base + built-in egg, oyster shell, carrot, spinach — the workhorse. Add first.</span>
+      <span class="ingr-role">Base + built-in egg, oyster shell, carrot, spinach &mdash; the workhorse. Add first.</span>
     </div>
     <div class="ingr-block">
-      <div class="ingr-top">
-        <span class="ingr-name">Higgins Sunburst Gourmet (canary/finch)</span>
-        <span class="ingr-pct">25%</span>
-        <span class="ingr-measure">14 tbsp</span>
-      </div>
+      <div class="ingr-top"><span class="ingr-name">Higgins Sunburst Gourmet (canary/finch)</span><span class="ingr-pct">25%</span><span class="ingr-measure">14 tbsp</span></div>
       <div class="bar-wrap"><div class="bar bar-amber" style="width:25%"></div></div>
-      <span class="ingr-role">Variety, gourmet texture — or measure as ¾ cup + 2 tbsp</span>
+      <span class="ingr-role">Variety &amp; gourmet texture &mdash; or measure as &frac34; cup + 2 tbsp</span>
     </div>
     <div class="ingr-block">
-      <div class="ingr-top">
-        <span class="ingr-name">China Prairie Prairie Blossom</span>
-        <span class="ingr-pct">15%</span>
-        <span class="ingr-measure">8 tbsp</span>
-      </div>
-      <div class="bar-wrap"><div class="bar bar-purple" style="width:15%"></div></div>
-      <span class="ingr-role">Herbs, flowers, foraging enrichment</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top">
-        <span class="ingr-name">Freeze-dried fruit/veg chop</span>
-        <span class="ingr-pct">7%</span>
-        <span class="ingr-measure">4 tbsp</span>
-      </div>
+      <div class="ingr-top"><span class="ingr-name">Freeze-dried fruit/veg chop (crushed small)</span><span class="ingr-pct">7%</span><span class="ingr-measure">4 tbsp</span></div>
       <div class="bar-wrap"><div class="bar bar-blue" style="width:7%"></div></div>
-      <span class="ingr-role">Crush pieces small before adding — tiny finch beaks</span>
+      <span class="ingr-role">Crush before adding &mdash; tiny finch beaks. Check for raisins first.</span>
     </div>
     <div class="ingr-block">
-      <div class="ingr-top">
-        <span class="ingr-name">Freeze-dried sprouted seed mix</span>
-        <span class="ingr-pct">3%</span>
-        <span class="ingr-measure">2 tbsp</span>
-      </div>
-      <div class="bar-wrap"><div class="bar bar-coral" style="width:3%"></div></div>
-      <span class="ingr-role">Enzymes &amp; protein boost</span>
+      <div class="ingr-top"><span class="ingr-name">Freeze-dried sprouted seeds</span><span class="ingr-pct">8%</span><span class="ingr-measure">4 tbsp</span></div>
+      <div class="bar-wrap"><div class="bar bar-coral" style="width:8%"></div></div>
+      <span class="ingr-role">Protein &amp; enzyme boost &mdash; now a permanent jar ingredient</span>
     </div>
-    <div class="total-row">
-      <span>Total fill</span>
-      <span>28 oz &nbsp;<span class="container-note">(32 oz container, ~4 oz headspace for shaking)</span></span>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">9-Flower foraging blend</span><span class="ingr-pct">6%</span><span class="ingr-measure">3 tbsp</span></div>
+      <div class="bar-wrap"><div class="bar bar-purple" style="width:6%"></div></div>
+      <span class="ingr-role">Dried botanicals &mdash; foraging enrichment and variety</span>
     </div>
-    <p class="note">Volkman already contains egg — supplemental egg food is 3x/week max, not daily. No grit ever. Cuttlebone handles calcium.</p>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">Herb supplement</span><span class="ingr-pct">4%</span><span class="ingr-measure">2 tbsp</span></div>
+      <div class="bar-wrap"><div class="bar bar-teal" style="width:4%"></div></div>
+      <span class="ingr-role">Wellness blend &mdash; goes on top last</span>
+    </div>
+    <div class="total-row"><span>Total fill</span><span>~28 oz &nbsp;<span class="container-note">(32 oz container)</span></span></div>
+    <p class="note">Volkman already contains egg &mdash; supplemental egg food 3x/week max. No grit ever. Cuttlebone handles calcium. Scoop fresh each morning.</p>
   </div>
   <div class="card">
-    <div class="card-label">How to build the jar — order matters</div>
-    <div class="step"><span class="step-num">1.</span><span>Volkman (1¾ cups) first — heaviest, goes on the bottom.</span></div>
+    <div class="card-label">How to build the jar</div>
+    <div class="step"><span class="step-num">1.</span><span>Volkman (1&frac34; cups) &mdash; heaviest, on the bottom.</span></div>
     <div class="step"><span class="step-num">2.</span><span>Higgins Sunburst (14 tbsp).</span></div>
-    <div class="step"><span class="step-num">3.</span><span>Freeze-dried chop (4 tbsp, pre-crushed) and sprouted seed (2 tbsp).</span></div>
-    <div class="step"><span class="step-num">4.</span><span>Prairie Blossom (8 tbsp) last — lightest, goes on top.</span></div>
-    <div class="step"><span class="step-num">5.</span><span>Seal and shake vigorously 20–30 seconds.</span></div>
+    <div class="step"><span class="step-num">3.</span><span>Freeze-dried chop (4 tbsp, pre-crushed). Check for raisins first.</span></div>
+    <div class="step"><span class="step-num">4.</span><span>Freeze-dried sprouted seeds (4 tbsp).</span></div>
+    <div class="step"><span class="step-num">5.</span><span>9-Flower blend (3 tbsp).</span></div>
+    <div class="step"><span class="step-num">6.</span><span>Herb supplement (2 tbsp) &mdash; lightest, goes on top.</span></div>
+    <div class="step"><span class="step-num">7.</span><span>Seal and shake vigorously 20&ndash;30 seconds.</span></div>
   </div>
-  <div class="warn">⚠ Finch dishes must NEVER fully empty. Check morning and evening. A finch without food for even a few hours risks digestive shutdown — the only birds in your flock where an empty dish is a medical emergency.</div>
+  <div class="warn">&#x26A0; Finch dishes must NEVER fully empty. Check morning and evening. Bean &amp; Polly (owl finches) are the most timid birds in the flock. Now housed with Vinnie &amp; Fabbie (society/spice hybrids) who share a similar gentle temperament &mdash; a much better match than their previous cage with zebra finches.</div>
+  <div class="info-box">Vinnie &amp; Fabbie (society/spice hybrid finches) are prolific breeders. Cage 1 has one male (Vinnie) and three females (Fabbie, Bean, Polly) &mdash; watch for Vinnie pestering non-bonded females and for any female starting chronic egg laying from hormonal stimulation. Remove nesting materials proactively. Monitor that Bean and Polly (his non-bonded cagemates) are not stressed by his courtship behavior.</div>
+  <div class="card">
+    <div class="card-label">Why these cages &mdash; compatibility reasoning</div>
+    <div style="font-size:13px; color:#5f5e5a; line-height:1.9;">
+      <div style="margin-bottom:6px"><strong>Cage 1 &mdash; Bean, Polly, Vinnie &amp; Fabbie:</strong> Owl finches and society/spice finches are the closest temperament match in your flock &mdash; both gentle, non-aggressive species. Society finches have actually hybridized with owl finches in nature, confirming genetic and behavioral compatibility. The spice finch component in Vinnie and Fabbie adds no aggression. One male (Vinnie) with three females requires monitoring but is workable.</div>
+      <div style="margin-bottom:6px"><strong>Cage 2 &mdash; Bonnie, Clyde, Donut &amp; Ocean:</strong> All four zebra finches together is the cleanest pairing. Same species means they understand each other's social signals and hierarchy. Two established pairs (Bonnie &amp; Clyde, Donut &amp; Ocean) create natural balance. Zebra finches can be pushy with other species but are generally fine with their own kind at this group size.</div>
+      <div><strong>Why NOT zebra finches with owl finches:</strong> Zebra finches are classified as "bullies" in finch compatibility guides. Owl finches are mellow and don't defend themselves well against more assertive birds. Keeping Bean and Polly with Bonnie, Clyde, Donut, and Ocean would put the owl finches under ongoing stress.</div>
+    </div>
+  </div>
 </div>
 
-<!-- CONURE -->
+<!-- LOU DOG -->
 <div id="conure" class="panel">
-  <p class="section-title">Lou Dog — Green-Cheeked Conure <span class="badge badge-updated">new</span></p>
-
+  <p class="section-title">Lou Dog &mdash; Green-Cheeked Conure</p>
+  <p class="section-title" style="font-size:13px; color:#888780; font-weight:400; margin-top:-6px; margin-bottom:10px;">Fresh food topping mix &mdash; 32 oz mason jar</p>
   <div class="card">
-    <div class="card-label">Diet overview — how a GCC is different from your other birds</div>
+    <div class="card-label">Exact measurements &mdash; 32 oz mason jar (fills to ~20 oz, ~1 week supply)</div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">Freeze-dried fruit/veg chop</span><span class="ingr-pct">50%</span><span class="ingr-measure">10 tbsp</span></div>
+      <div class="bar-wrap"><div class="bar bar-blue" style="width:50%"></div></div>
+      <span class="ingr-role">The base &mdash; nutrients, variety, texture. Check for raisins before adding. Add first.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">Freeze-dried sprouted seeds</span><span class="ingr-pct">20%</span><span class="ingr-measure">4 tbsp</span></div>
+      <div class="bar-wrap"><div class="bar bar-coral" style="width:20%"></div></div>
+      <span class="ingr-role">Protein &amp; enzyme boost</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">9-Flower foraging blend</span><span class="ingr-pct">20%</span><span class="ingr-measure">4 tbsp</span></div>
+      <div class="bar-wrap"><div class="bar bar-purple" style="width:20%"></div></div>
+      <span class="ingr-role">Dried botanicals &mdash; foraging enrichment and variety</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">Herb supplement</span><span class="ingr-pct">10%</span><span class="ingr-measure">2 tbsp</span></div>
+      <div class="bar-wrap"><div class="bar bar-teal" style="width:10%"></div></div>
+      <span class="ingr-role">16-herb wellness blend &mdash; goes on top last</span>
+    </div>
+    <div class="total-row"><span>Total fill</span><span>~20 oz &nbsp;<span class="container-note">(32 oz mason jar)</span></span></div>
+    <p class="note">Scoop 1&ndash;2 tbsp daily into fresh food dish alongside fresh veg. Pellets stay in their own clip-on dish all day &mdash; never in this jar.</p>
+  </div>
+  <div class="card">
+    <div class="card-label">How to build the jar</div>
+    <div class="step"><span class="step-num">1.</span><span>Freeze-dried chop (10 tbsp) &mdash; check for raisins first.</span></div>
+    <div class="step"><span class="step-num">2.</span><span>Freeze-dried sprouted seeds (4 tbsp).</span></div>
+    <div class="step"><span class="step-num">3.</span><span>9-Flower blend (4 tbsp).</span></div>
+    <div class="step"><span class="step-num">4.</span><span>Herb supplement (2 tbsp) &mdash; lightest, goes on top.</span></div>
+    <div class="step"><span class="step-num">5.</span><span>Seal and shake gently. Stir before each daily scoop.</span></div>
+  </div>
+  <div class="card">
+    <div class="card-label">Diet overview &mdash; already on Harrison's Fine</div>
     <div style="font-size:13px; color:#5f5e5a; line-height:1.9;">
-      <div style="margin-bottom:6px"><span class="pill pill-teal">Pellets first</span> A GCC diet is built the opposite way from budgies. Pellets should make up 60–70% of daily intake — not a supplement, the main event. Lou Dog needs to actually eat pellets, not just have them in a mix.</div>
-      <div style="margin-bottom:6px"><span class="pill pill-blue">Fresh food daily</span> Vegetables 20–30% of diet. Fruits 10% max — high sugar. This means actual fresh or freeze-dried veg every single day, not optional.</div>
-      <div style="margin-bottom:6px"><span class="pill pill-amber">Seed = treat only</span> Seeds are 10% max, offered as treats or in foraging toys. Not a base food. A seed-heavy diet leads directly to malnutrition and a shortened life in conures.</div>
-      <div><span class="pill pill-coral">Lifespan commitment</span> A healthy GCC with good diet and care lives 20–30 years. Diet is the single biggest factor in hitting that number.</div>
+      <div style="margin-bottom:6px"><span class="pill pill-teal">Pellets 60&ndash;70%</span> Harrison's High Potency Fine &mdash; available all day in pellet dish. Keep 45-day date on the foil bag. Buy 1 lb at a time.</div>
+      <div style="margin-bottom:6px"><span class="pill pill-blue">Fresh food 20&ndash;30%</span> Vegetables daily, with dried flowers (9-flower blend), herb supplement, and sprouted seeds mixed in on rotation. Fruit 10% max. Fresh dish each morning, removed after 2&ndash;3 hours.</div>
+      <div style="margin-bottom:6px"><span class="pill pill-amber">Sprouted seeds</span> 1&ndash;2 tsp fresh, 3&ndash;4x/week in fresh food dish alongside veg. Same sprouting mix as the budgies.</div>
+      <div><span class="pill pill-coral">Seed = treat only</span> 10% max. In foraging toys or training &mdash; never the main dish. Seed-heavy conure diets lead directly to malnutrition.</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-label">Daily dish &mdash; Lou Dog's morning</div>
+    <div class="portion-row"><span class="portion-label">Pellets (all day)</span><span class="portion-value">1&ndash;2 tbsp Harrison's Fine</span></div>
+    <div class="portion-row"><span class="portion-label">Fresh/freeze-dried veg (remove after 2&ndash;3 hrs)</span><span class="portion-value">1&ndash;2 tbsp</span></div>
+    <div class="portion-row"><span class="portion-label">Sprouted seeds (3&ndash;4x/week with veg)</span><span class="portion-value">1&ndash;2 tsp fresh</span></div>
+    <div class="portion-row"><span class="portion-label">Dried flowers scattered over fresh food (3&ndash;4x/week)</span><span class="portion-value">small pinch of 9-flower blend</span></div>
+    <div class="portion-row"><span class="portion-label">Herb supplement sprinkled over fresh food (3&ndash;4x/week)</span><span class="portion-value">small pinch</span></div>
+    <div class="portion-row"><span class="portion-label">Fruit (2&ndash;3x/week, small)</span><span class="portion-value">1 tsp max</span></div>
+    <div class="portion-row"><span class="portion-label">Egg food treat (Mon/Wed/Fri, side dish)</span><span class="portion-value">pinch, remove after 2&ndash;3 hrs</span></div>
+    <div class="portion-row"><span class="portion-label">Water (2 dishes &mdash; she dunks everything)</span><span class="portion-value">refresh twice daily</span></div>
+    <div class="portion-row"><span class="portion-label">Nutriberry / nut / training treat</span><span class="portion-value">out-of-cage time only</span></div>
+    <div class="portion-row"><span class="portion-label">Foraging toy with seed/Sunburst</span><span class="portion-value">2&ndash;3x/week enrichment</span></div>
+  </div>
+  <div class="card">
+    <div class="card-label">Safe foods</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Veg: bell pepper, broccoli, carrot, sweet potato, kale, spinach, collard greens, peas, corn, zucchini, cucumber, green beans.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Fruit: apple (no seeds), banana, mango, papaya, blueberry, strawberry, melon, pear, peach (no pit), grapes (moderation only).</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Cooked grains: brown rice, quinoa, oats &mdash; plain, no seasoning.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Cooked legumes: lentils, chickpeas, black beans &mdash; fully cooked only, never raw.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Cooked egg: scrambled or hard-boiled, plain.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Nuts: walnut, almond, pecan &mdash; unsalted, unroasted, tiny piece, rare treat.</div>
+  </div>
+  <div class="card">
+    <div class="card-label">Never feed</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>Avocado, onion, garlic, chocolate, caffeine, raisins, rhubarb, raw beans, xylitol, mushrooms, fruit pits/seeds, salted/seasoned/fried anything.</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>Food from your mouth or plate &mdash; human oral bacteria can cause illness in birds.</div>
+  </div>
+  <div class="card">
+    <div class="card-label">Training treats &mdash; what actually works for Lou Dog</div>
+    <div style="font-size:13px; color:#5f5e5a; line-height:1.9; margin-bottom:8px;">Lou Dog goes wild for food you're eating — that's classic GCC flock behavior. In the wild, eating is social: if you're eating it, it must be valuable. Use this as your training lever.</div>
+    <div class="rule-row"><span class="ok">&#x2605;</span><strong>Pomegranate seeds</strong> &mdash; the #1 GCC obsession in the community. Messy, intensely flavored, irresistible. Small enough for single-reward bites. Nutritious. Try these first.</div>
+    <div class="rule-row"><span class="ok">&#x2605;</span><strong>Pine nuts</strong> &mdash; tiny, high-fat, extremely motivating. One pine nut per successful behavior is a classic professional bird trainer technique. The fat content makes them genuinely high-value in a bird's brain.</div>
+    <div class="rule-row"><span class="ok">&#x2605;</span><strong>Almond sliver</strong> &mdash; not a whole almond, literally a thin sliver. Same high-fat high-value principle. Unsalted, unroasted only.</div>
+    <div class="rule-row"><span class="ok">&#x2605;</span><strong>Dried bird pepper / chili tip</strong> &mdash; capsaicin doesn't affect birds but the texture and aroma are very appealing to GCCs. A small piece of dried bird pepper or fresh chili tip.</div>
+    <div class="rule-row"><span class="ok">&#x2605;</span><strong>Eat with him first</strong> &mdash; before a training session, sit with something he can have a piece of (apple, banana, grape) and let him eat from your hand. He'll enter "food mode." Then transition to training with small pieces of that same food as reward. You're borrowing the motivation from the social eating context.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span><strong>Enthusiastic praise</strong> &mdash; may be his highest-value reward of all. Some GCCs work as hard for social excitement from their person as for food. Test both and see what makes him more animated.</div>
+    <p class="note">Training session rules: 5&ndash;10 min max, right before his normal mealtime when hungriest. Have 10&ndash;15 tiny treat pieces ready. Reward arrives within 2 seconds of the behavior &mdash; timing is everything. Start with step-up (he likely knows it), get fluent, then build new behaviors from there.</p>
+  </div>
+  <div class="card">
+    <div class="card-label">Play gym engagement</div>
+    <div style="font-size:13px; color:#5f5e5a; line-height:1.9; margin-bottom:8px;">Lou Dog is social first, forager second. He needs a reason to stay on the gym, not just land on it.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Hang a foraging toy from the gym &mdash; something he has to work to get a treat out of. Pomegranate seed or pine nut inside.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>A foot toy on the platform he can pick up and manipulate &mdash; cabone ring, cork piece, wood bead on macrame.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Scatter plain rolled oats (raw, unflavored) on the platform surface &mdash; safe, creates a foraging activity, and he'll pick through them.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Designate the gym as your training perch &mdash; do all training sessions there. The gym becomes associated with good things and he'll want to go back.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Be near or on the gym yourself &mdash; your presence is the biggest draw. He'll follow you to it.</div>
+  </div>
+  <div class="card">
+    <div class="card-label">Training progression &mdash; start here, build in order</div>
+    <div style="font-size:12px; color:#5f5e5a; margin-bottom:10px;">Sessions: 5&ndash;10 min max, before mealtime, reward within 2 seconds. End every session on a success &mdash; even an easy one. Never end frustrated.</div>
+    <div class="toy-row">
+      <div class="toy-name">1. Target training &mdash; the foundation of everything</div>
+      <div class="toy-note">Hold a wooden chopstick or dowel near Lou Dog. The moment his beak touches it, reward instantly. Once reliable, move the stick to different positions so he has to follow it. Target training is the base skill that makes every other trick easier to teach &mdash; it teaches him that touching something on cue = treat. Takes 1&ndash;3 sessions for most GCCs. <strong>Resource:</strong> Parrot Wizard on YouTube has a GCC-specific first target training video that walks through this exactly.</div>
+    </div>
+    <div class="toy-row">
+      <div class="toy-name">2. Step up on cue (verbal)</div>
+      <div class="toy-note">He likely does this already, but the goal is a reliable verbal cue &mdash; say "step up," present finger, reward every time even if he was already going to do it. Never skip the reward. Once reliable, add "step down" to return to perch on cue. These two commands alone make every vet visit, cage return, and safety situation much easier.</div>
+    </div>
+    <div class="toy-row">
+      <div class="toy-name">3. Wave</div>
+      <div class="toy-note">Say "wave" and offer your finger for a step-up &mdash; but pull it away just before he grabs it. His foot will stay lifted for a moment. That moment is your reward window. Click or say "yes" and treat immediately. Repeat. After several sessions the word alone will lift the foot. This builds directly from step-up so teach that first.</div>
+    </div>
+    <div class="toy-row">
+      <div class="toy-name">4. Turn around / spin</div>
+      <div class="toy-note">Hold a treat to his side so he has to turn his head to follow it. Lure him in a full circle rewarding at completion. Add the verbal "spin" once he's doing the circle reliably. GCCs typically pick this up very fast &mdash; it's one of their most natural trick behaviors.</div>
+    </div>
+    <div class="toy-row">
+      <div class="toy-name">5. Recall (fly to me)</div>
+      <div class="toy-note">Once Lou Dog is comfortable flying during out-of-cage time, recall training is the most useful safety skill you can teach. Start with short distances on a play gym, say his name + "come," reward the moment he lands on you. Build distance slowly. A reliable recall can prevent an escape situation from becoming a crisis.</div>
+    </div>
+    <div class="toy-row">
+      <div class="toy-name">6. Fetch</div>
+      <div class="toy-note">GCCs can learn to retrieve small objects. Start by rewarding him for picking up a small foot toy. Then reward for carrying it toward you. Then reward only for dropping it in your hand. Takes patience but once learned is endlessly entertaining for both of you.</div>
+    </div>
+    <div class="toy-row" style="border-bottom:none;">
+      <div class="toy-name">7. Color/shape identification (advanced)</div>
+      <div class="toy-note">GCCs are intelligent enough to learn to pick a specific colored object from a group on cue. Use colored foot toys or caps. Say "red" and reward only when he picks the red one. This takes weeks of consistent sessions but is a genuine cognitive exercise.</div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-label">What to buy — pellets (the most important purchase)</div>
-    <div class="ingr-block">
-      <div class="ingr-top">
-        <span class="ingr-name">Harrison's High Potency Fine</span>
-        <span class="ingr-pct">top pick</span>
-      </div>
-      <div class="bar-wrap"><div class="bar bar-teal" style="width:90%"></div></div>
-      <span class="ingr-role">USDA organic, vet-recommended, sized correctly for a GCC beak. Note: Fine (not Super Fine — that's for budgies). Foil-packaged, 45 days once opened. Buy the 1 lb bag.</span>
+    <div class="card-label">Games &mdash; interactive play that isn't formal training</div>
+    <div class="toy-row">
+      <div class="toy-name">&#x1F3C0; Basketball</div>
+      <div class="toy-note">Small ball, small hoop (conure-sized sets exist on Amazon and Etsy). Lure him to drop the ball through the hoop using target training. GCCs often become obsessed with this. Can find mini basketball sets specifically for small parrots on Amazon for under $10.</div>
     </div>
-    <div class="ingr-block">
-      <div class="ingr-top">
-        <span class="ingr-name">Roudybush Daily Maintenance (small)</span>
-        <span class="ingr-pct">excellent alt</span>
-      </div>
-      <div class="bar-wrap"><div class="bar bar-blue" style="width:75%"></div></div>
-      <span class="ingr-role">No dyes, no artificial anything, consistent formula. Many GCCs accept it well. Good backup if Lou Dog resists Harrison's.</span>
+    <div class="toy-row">
+      <div class="toy-name">&#x1F6D2; Shopping cart / skateboard pushing</div>
+      <div class="toy-note">Miniature wooden shopping carts and skateboards made for parrots teach object manipulation. He pushes it with his beak or feet for a treat. The Wontee Bird Toys Mini Shopping Cart set (Amazon, ~$10) is specifically sized for conures and cockatiels and includes the cart, skateboard, and rings.</div>
     </div>
-    <div class="ingr-block">
-      <div class="ingr-top">
-        <span class="ingr-name">ZuPreem Natural (medium)</span>
-        <span class="ingr-pct">acceptable</span>
-      </div>
-      <div class="bar-wrap"><div class="bar bar-amber" style="width:55%"></div></div>
-      <span class="ingr-role">Not the ZuPreem FruitBlend (dyes, sugar) — the Natural version only. Decent nutrition, some GCCs accept it easily. Use as a transition food if needed.</span>
+    <div class="toy-row">
+      <div class="toy-name">&#x1F9E9; Cup stacking / ring on peg</div>
+      <div class="toy-note">Small stacking cups or a ring-on-peg toy teaches sequential problem solving. He learns to put the ring on the post for a reward. Start with just one ring and build up. More of a shaping project than a quick game &mdash; very rewarding when he gets it.</div>
     </div>
-    <p class="note">Whatever pellet Lou Dog comes home eating — keep feeding that first, then transition gradually. A bird that won't eat pellets at all needs the same slow conversion approach as the budgies, but it's more critical here since pellets are the primary food source.</p>
-  </div>
-
-  <div class="card">
-    <div class="card-label">What to buy — supplemental foods</div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">Higgins Sunburst Gourmet (conure/small parrot size)</span></div>
-      <span class="ingr-role">Occasional foraging mix — fruit, seed, grain pieces. You already have the canary/finch version; get the conure-appropriate size. Used as a treat/foraging food, not a staple.</span>
+    <div class="toy-row">
+      <div class="toy-name">&#x1F4E6; Box opening</div>
+      <div class="toy-note">Put a pomegranate seed or pine nut inside a small cardboard box with a lid. Let him work out how to open it. No training needed &mdash; the motivation is built in. Escalate to boxes with flaps, then boxes inside boxes. Costs nothing and keeps him busy for 10&ndash;20 minutes.</div>
     </div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">Lafeber Nutriberries (conure size)</span></div>
-      <span class="ingr-role">Widely loved by GCCs. Pellet-enriched berry shapes — nutritionally balanced unlike pure seed treats. Great for foraging toys and training rewards. Limit to a few per day.</span>
+    <div class="toy-row">
+      <div class="toy-name">&#x1F4AC; Talking and mimicry</div>
+      <div class="toy-note">GCCs have a limited but real vocabulary with consistent practice. Repeat simple words in context &mdash; "hello" when you approach, "step up" during training, his name before treats. Don't expect African Grey-level speech but many GCCs learn 5&ndash;15 words and phrases. Talk to him constantly during out-of-cage time.</div>
     </div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">Freeze-dried fruit/veg chop (same as budgie jar)</span></div>
-      <span class="ingr-role">Same product you're using for the budgies. Offer daily in a separate fresh food dish alongside pellets.</span>
+    <div class="toy-row" style="border-bottom:none;">
+      <div class="toy-name">&#x1F575; Hide and seek</div>
+      <div class="toy-note">Go around a corner and call his name. When he flies or walks to find you, big reward and praise. Builds recall and uses his natural flock-finding instinct. Only works if he's confident in the space &mdash; don't do this if he's anxious about being separated from you.</div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-label">Daily diet — Lou Dog's dish setup each morning</div>
-    <div class="portion-row"><span class="portion-label">Pellet dish (available all day)</span><span class="portion-value">1–2 tbsp Harrison's Fine</span></div>
-    <div class="portion-row"><span class="portion-label">Fresh/freeze-dried veg dish (morning, remove after 2–3 hrs)</span><span class="portion-value">1–2 tbsp</span></div>
-    <div class="portion-row"><span class="portion-label">Fresh/freeze-dried fruit (small, separate or combined with veg)</span><span class="portion-value">1 tsp max</span></div>
-    <div class="portion-row"><span class="portion-label">Water dish</span><span class="portion-value">fresh daily, 2 dishes</span></div>
-    <div class="portion-row"><span class="portion-label">Training treat (Nutriberry, small nut, millet sprig)</span><span class="portion-value">during out-of-cage time only</span></div>
-    <p class="note">Seed mix or Sunburst offered in a foraging toy 2–3x/week as enrichment — not in the main food dish. Egg food: same 3x/week pinch as the other birds, in a side dish.</p>
+    <div class="card-label">Foraging puzzles &mdash; specific products worth buying</div>
+    <div style="font-size:12px; color:#5f5e5a; margin-bottom:10px;">Key sizing note: most puzzle toys are made for larger parrots. Look specifically for conure/cockatiel scale. Budgie-scale is too flimsy; Amazon/Grey scale is too big and won't engage him.</div>
+    <div class="toy-row">
+      <div class="toy-name">Super Bird Creations Puzzle Play</div>
+      <div class="toy-note">Beads, gears, and rings he has to manipulate to dislodge seed tucked into the gear spokes. Recommended by avian professionals, assembled in the USA, bird-safe components. One of the most well-reviewed conure puzzle toys available. <a href="https://www.amazon.com/Super-Bird-Creations-Puzzle-Birds/dp/B00JL3N144" style="color:#185FA5;">Amazon link</a></div>
+    </div>
+    <div class="toy-row">
+      <div class="toy-name">Natural Birdie Waffle by Cheep Thrills Bird Toys</div>
+      <div class="toy-note">Tons of nooks and crannies to tuck treats of all kinds. Any toy with hiding spots promotes natural foraging behavior. Ranked one of the top conure toys of 2025. Search "Natural Birdie Waffle Cheep Thrills" on Amazon or their website.</div>
+    </div>
+    <div class="toy-row">
+      <div class="toy-name">Planet Pleasures Pineapple Forager (small)</div>
+      <div class="toy-note">Hand-braided, natural shredding and foraging toy in one. The small size is right for a GCC. Widely recommended in the GCC community specifically. Available on Amazon &mdash; search "Planet Pleasures Pineapple Forager small."</div>
+    </div>
+    <div class="toy-row">
+      <div class="toy-name">Wontee Mini Shopping Cart Set</div>
+      <div class="toy-note">Cart, skateboard, rings, and bell sized for conures and cockatiels. Teaches object manipulation and pushing. Around $10 on Amazon. Search "Wontee Bird Toys Mini Shopping Cart Conure." <a href="https://www.amazon.com/s?k=wontee+bird+toys+mini+shopping+cart+conure" style="color:#185FA5;">Amazon search</a></div>
+    </div>
+    <div class="toy-row">
+      <div class="toy-name">DIY foraging options (free)</div>
+      <div class="toy-note">Paper cups with treats under them &mdash; lift the right cup. Muffin tin with marbles covering some treat-filled holes. Small cardboard box maze. Cork with a seed pushed inside. Folded unbleached paper towel with pomegranate seed inside. These often work better than purchased toys because you can customize difficulty.</div>
+    </div>
+    <div class="toy-row" style="border-bottom:none;">
+      <div class="toy-name">Training resources</div>
+      <div class="toy-note"><strong>Parrot Wizard (YouTube / parrotwizard.com)</strong> &mdash; Michael Sazhin has GCC-specific target training and trick videos, well-regarded in the parrot community. <strong>BirdTricks (birdtricks.com)</strong> &mdash; comprehensive training blog and video library covering all skill levels. <strong>@maikosbirdworld (TikTok)</strong> &mdash; GCC-specific training tutorials including wave and clicker training, concise and practical.</div>
+    </div>
   </div>
 
   <div class="card">
-    <div class="card-label">Safe foods ✓</div>
-    <div class="rule-row"><span class="ok">✓</span>Vegetables: bell pepper, broccoli, carrot, sweet potato, kale, spinach, collard greens, peas, corn, zucchini, cucumber, green beans.</div>
-    <div class="rule-row"><span class="ok">✓</span>Fruits: apple (no seeds), banana, mango, papaya, blueberry, strawberry, melon, pear, peach (no pit), grapes (in moderation — high sugar).</div>
-    <div class="rule-row"><span class="ok">✓</span>Cooked grains: brown rice, quinoa, oats — plain, no seasoning.</div>
-    <div class="rule-row"><span class="ok">✓</span>Cooked legumes: lentils, chickpeas, black beans — cooked only, never raw.</div>
-    <div class="rule-row"><span class="ok">✓</span>Cooked egg: scrambled or hard boiled, plain — occasional protein treat.</div>
-    <div class="rule-row"><span class="ok">✓</span>Nuts: walnut, almond, pecan — unsalted, unroasted, tiny piece, rare treat only.</div>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Never feed ✗</div>
-    <div class="rule-row"><span class="no">✗</span>Avocado — can kill within hours. Absolute hard line.</div>
-    <div class="rule-row"><span class="no">✗</span>Onion and garlic — toxic, breaks down red blood cells.</div>
-    <div class="rule-row"><span class="no">✗</span>Chocolate and caffeine.</div>
-    <div class="rule-row"><span class="no">✗</span>Fruit seeds and pits — apple seeds, cherry/peach/plum pits contain cyanide.</div>
-    <div class="rule-row"><span class="no">✗</span>Rhubarb — oxalic acid, kidney damage.</div>
-    <div class="rule-row"><span class="no">✗</span>Raw beans — phytohemagglutinin, fatal. Always cook thoroughly.</div>
-    <div class="rule-row"><span class="no">✗</span>Xylitol (sugar-free products) — toxic.</div>
-    <div class="rule-row"><span class="no">✗</span>Mushrooms — liver/digestive toxicity risk.</div>
-    <div class="rule-row"><span class="no">✗</span>Anything salted, heavily seasoned, or fried.</div>
-    <div class="rule-row"><span class="no">✗</span>Raisins — same rule as budgies and finches.</div>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Out-of-cage time — non-negotiable for a GCC</div>
+    <div class="card-label">Out-of-cage time &mdash; non-negotiable</div>
     <div style="font-size:13px; color:#5f5e5a; line-height:1.9;">
-      <div style="margin-bottom:6px">GCCs require a minimum of <strong>2–4 hours of supervised out-of-cage time daily.</strong> This isn't enrichment — it's a baseline welfare requirement. A conure kept mostly caged will develop behavioral problems: screaming, feather plucking, biting, and depression. Plan your day around this before Lou Dog comes home.</div>
-      <div style="margin-bottom:6px"><strong>Bird-safe the room first:</strong> no open windows or doors, ceiling fans off, no nonstick cookware in use (Teflon fumes are instantly fatal to birds), no candles or air fresheners, no other pets unsupervised in the room.</div>
-      <div>Out-of-cage time is also your primary training and bonding window. GCCs are intelligent and love trick training — use Nutriberry pieces or a small nut as rewards. Even 10 minutes of focused training per session makes a big difference.</div>
+      <div style="margin-bottom:6px"><strong>Minimum 2&ndash;4 hours daily, supervised.</strong> Welfare requirement &mdash; not optional enrichment. Conures kept mostly caged develop screaming, feather plucking, biting, depression.</div>
+      <div style="margin-bottom:6px"><strong>Before Lou Dog comes out:</strong> ceiling fans off, nonstick cookware off, Clarence out of room, no candles/aerosols, windows and doors closed.</div>
+      <div>Use this time for training. Step up, wave, spin, target &mdash; 10&ndash;15 min daily. Nutriberry as reward. Best enrichment possible for a GCC.</div>
     </div>
   </div>
-
-  <div class="card">
-    <div class="card-label">Dish setup — Lou Dog's cage</div>
-    <div class="portion-row"><span class="portion-label">Pellet dish (clip-on, mid-height)</span><span class="portion-value">1 dish, available all day</span></div>
-    <div class="portion-row"><span class="portion-label">Fresh food dish (clip-on or freestanding)</span><span class="portion-value">1 dish, remove after 2–3 hrs</span></div>
-    <div class="portion-row"><span class="portion-label">Treat/egg food dish</span><span class="portion-value">1 small dish, 3x/week</span></div>
-    <div class="portion-row"><span class="portion-label">Water dishes</span><span class="portion-value">2 dishes — GCCs dunk food in water constantly, second dish stays cleaner</span></div>
-    <p class="note">Total: 5 dishes. GCCs are notorious water-dunkers — they will drop food into every water dish. Two water stations means at least one stays reasonably clean. Change water more frequently than the other birds — at least twice daily.</p>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Coming home — first two weeks</div>
-    <div class="step"><span class="step-num">1.</span><span>Avian vet visit within the first week — same rule as Wyatt. New bird, full health screen before any interaction with other birds.</span></div>
-    <div class="step"><span class="step-num">2.</span><span>Find out what Lou Dog is currently eating and keep feeding that for the first 1–2 weeks. Moving homes is already stressful — don't change the diet simultaneously.</span></div>
-    <div class="step"><span class="step-num">3.</span><span>Introduce new foods one at a time after the bird is settled. Offer new items first thing in the morning when hunger is highest.</span></div>
-    <div class="step"><span class="step-num">4.</span><span>If not already on pellets, begin the same gradual conversion approach as the budgies — new pellets alongside familiar food, increase ratio slowly over weeks.</span></div>
-    <div class="step"><span class="step-num">5.</span><span>Keep cage separate from budgie cages until cleared by vet and fully settled in — minimum 30 days quarantine from other birds.</span></div>
-  </div>
-
-  <div class="warn">⚠ Do NOT use nonstick cookware (Teflon/PTFE) anywhere in the home while Lou Dog is free-roaming. The fumes are colorless, odorless, and kill birds within minutes. This is the #1 accidental cause of parrot death in homes. Switch to stainless, cast iron, or ceramic.</div>
-  <div class="info-box">No sleeping huts or fabric tents for Lou Dog. Soft-sided huts cause hormonal behavior and birds can ingest the fibers, causing fatal crop impaction. A rope perch or a designated sleeping spot on a regular perch is the safe alternative.</div>
+  <div class="warn">&#x26A0; No fabric huts or soft sleeping tents. Hormonal behavior trigger + fiber ingestion = fatal crop impaction risk. Rope boing or high perch for sleeping only.</div>
+  <div class="warn">&#x26A0; Nonstick cookware (Teflon/PTFE) fumes kill birds within minutes. Colorless, odorless. Switch to stainless, cast iron, or ceramic. Applies to entire home always.</div>
+  <div class="warn">&#x26A0; No aerosols, scented candles, air fresheners, plug-in diffusers, or incense near any bird cage.</div>
 </div>
 
-<!-- COCKATIEL -->
+<!-- MARIA -->
 <div id="cockatiel" class="panel">
-  <p class="section-title">Maria — Female Cockatiel <span class="badge badge-updated">new</span></p>
-
+  <p class="section-title">Maria &mdash; Female Cockatiel</p>
+  <p class="section-title" style="font-size:13px; color:#888780; font-weight:400; margin-top:-6px; margin-bottom:10px;">Fresh food topping mix &mdash; 32 oz mason jar</p>
   <div class="card">
-    <div class="card-label">Important: female cockatiel = special health considerations</div>
+    <div class="card-label">Exact measurements &mdash; 32 oz mason jar (fills to ~20 oz, ~1 week supply)</div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">Freeze-dried fruit/veg chop</span><span class="ingr-pct">50%</span><span class="ingr-measure">10 tbsp</span></div>
+      <div class="bar-wrap"><div class="bar bar-blue" style="width:50%"></div></div>
+      <span class="ingr-role">The base &mdash; nutrients, variety, texture. Check for raisins before adding. Add first.</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">Freeze-dried sprouted seeds</span><span class="ingr-pct">20%</span><span class="ingr-measure">4 tbsp</span></div>
+      <div class="bar-wrap"><div class="bar bar-coral" style="width:20%"></div></div>
+      <span class="ingr-role">Protein &amp; calcium boost &mdash; especially important for a female cockatiel</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">9-Flower foraging blend</span><span class="ingr-pct">20%</span><span class="ingr-measure">4 tbsp</span></div>
+      <div class="bar-wrap"><div class="bar bar-purple" style="width:20%"></div></div>
+      <span class="ingr-role">Dried botanicals &mdash; foraging enrichment and variety</span>
+    </div>
+    <div class="ingr-block">
+      <div class="ingr-top"><span class="ingr-name">Bird spice blend</span><span class="ingr-pct">10%</span><span class="ingr-measure">2 tbsp</span></div>
+      <div class="bar-wrap"><div class="bar bar-amber" style="width:10%"></div></div>
+      <span class="ingr-role">Bay leaf, basil, spearmint, thyme, marjoram &mdash; calcium-rich. Goes on top last. No herb supplement in Maria's jar.</span>
+    </div>
+    <div class="total-row"><span>Total fill</span><span>~20 oz &nbsp;<span class="container-note">(32 oz mason jar)</span></span></div>
+    <p class="note">Scoop 1&ndash;2 tbsp daily into fresh food dish alongside fresh veg &mdash; prioritize dark leafy greens. Pellets stay in their own dish all day. Bird spices only &mdash; no herb supplement.</p>
+  </div>
+  <div class="card">
+    <div class="card-label">How to build the jar</div>
+    <div class="step"><span class="step-num">1.</span><span>Freeze-dried chop (10 tbsp) &mdash; check for raisins first.</span></div>
+    <div class="step"><span class="step-num">2.</span><span>Freeze-dried sprouted seeds (4 tbsp).</span></div>
+    <div class="step"><span class="step-num">3.</span><span>9-Flower blend (4 tbsp).</span></div>
+    <div class="step"><span class="step-num">4.</span><span>Bird spice blend (2 tbsp) &mdash; lightest, goes on top. NOT herb supplement.</span></div>
+    <div class="step"><span class="step-num">5.</span><span>Seal and shake gently. Stir before each daily scoop.</span></div>
+  </div>
+  <div class="card">
+    <div class="card-label">Already on Harrison's Fine &mdash; key female health priorities</div>
     <div style="font-size:13px; color:#5f5e5a; line-height:1.9;">
-      <div style="margin-bottom:6px"><span class="pill pill-coral">Chronic egg laying risk</span> Female cockatiels are one of the most prolific chronic egg-layers of any pet bird. Maria can lay infertile eggs solo — no male needed. Each egg drains significant calcium and protein from her body. Without a good diet, this leads to egg binding, brittle bones, seizures, and can be fatal.</div>
-      <div style="margin-bottom:6px"><span class="pill pill-teal">Pellets are non-negotiable for her</span> A seed-only diet has no calcium, almost no vitamin A or D3, and no protein adequate for egg production. A female cockatiel on seeds is at serious risk. Pellets are the most important thing you can buy for Maria.</div>
-      <div><span class="pill pill-amber">Powder down alert</span> Unlike your other birds, cockatiels are powder-down birds. They produce a fine white dust constantly from specialized feathers. This is normal — but it means more frequent cage cleaning, and anyone with bird allergies will notice it more. A HEPA air purifier near Maria's cage is worth considering.</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-label">What to buy — pellets</div>
-    <div class="ingr-block">
-      <div class="ingr-top">
-        <span class="ingr-name">Harrison's High Potency Fine</span>
-        <span class="ingr-pct">top pick</span>
-      </div>
-      <div class="bar-wrap"><div class="bar bar-teal" style="width:90%"></div></div>
-      <span class="ingr-role">Same as Lou Dog — Fine size is right for a cockatiel beak too. USDA organic, vet-recommended. One bag serves both birds.</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top">
-        <span class="ingr-name">Roudybush Daily Maintenance (small)</span>
-        <span class="ingr-pct">excellent alt</span>
-      </div>
-      <div class="bar-wrap"><div class="bar bar-blue" style="width:75%"></div></div>
-      <span class="ingr-role">Clean formula, no dyes. Good option if Maria resists Harrison's.</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top">
-        <span class="ingr-name">Lafeber Nutriberries (cockatiel size)</span>
-        <span class="ingr-pct">treat + supplement</span>
-      </div>
-      <div class="bar-wrap"><div class="bar bar-amber" style="width:55%"></div></div>
-      <span class="ingr-role">Pellet-enriched, nutritionally balanced. Great for converting seed-addicted birds — they think it's a treat. Limit 1–2 per day.</span>
-    </div>
-    <p class="note">Pellets should make up 60–75% of Maria's daily diet. This is higher priority for her than for the budgies because of egg-laying calcium demands.</p>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Daily diet — Maria's dish setup each morning</div>
-    <div class="portion-row"><span class="portion-label">Pellet dish (available all day)</span><span class="portion-value">1–2 tbsp Harrison's Fine</span></div>
-    <div class="portion-row"><span class="portion-label">Seed mix (treat, not staple)</span><span class="portion-value">1–2 tsp Kaylor or similar, 2–3x/week max</span></div>
-    <div class="portion-row"><span class="portion-label">Fresh/freeze-dried veg (remove after 2–3 hrs)</span><span class="portion-value">1–2 tbsp</span></div>
-    <div class="portion-row"><span class="portion-label">Fruit (small, occasional)</span><span class="portion-value">1 tsp max, 2–3x/week</span></div>
-    <div class="portion-row"><span class="portion-label">Egg food (3x/week, separate dish)</span><span class="portion-value">pinch, remove after 2–3 hrs</span></div>
-    <div class="portion-row"><span class="portion-label">Water</span><span class="portion-value">2 dishes, refreshed daily</span></div>
-    <p class="note">Cuttlebone must always be available — non-negotiable for a female cockatiel. She will self-regulate calcium intake, especially if she begins laying. Check and replace weekly rather than monthly.</p>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Safe foods ✓</div>
-    <div class="rule-row"><span class="ok">✓</span>Vegetables: bell pepper (high vitamin A — excellent for cockatiels), broccoli, carrot, kale, collard greens, zucchini, peas, corn, sweet potato, bok choy, dandelion greens.</div>
-    <div class="rule-row"><span class="ok">✓</span>Fruits: apple (no seeds), banana, mango, papaya, blueberry, melon — offered 2–3x/week, small amounts only.</div>
-    <div class="rule-row"><span class="ok">✓</span>Cooked grains: brown rice, quinoa, oats — plain, no seasoning. Good calcium-depleted supplement after egg laying.</div>
-    <div class="rule-row"><span class="ok">✓</span>Cooked egg: scrambled or hard-boiled, plain — especially good after she lays eggs to replenish protein.</div>
-    <div class="rule-row"><span class="ok">✓</span>Calcium sources: cuttlebone (always in cage), dark leafy greens, broccoli. Avoid spinach and Swiss chard — they block calcium absorption.</div>
-    <div class="rule-row"><span class="ok">✓</span>Sprouted seed: same sprouted mix you use for budgies, offered fresh 3–4x/week.</div>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Never feed ✗</div>
-    <div class="rule-row"><span class="no">✗</span>Avocado — toxic, can kill within hours.</div>
-    <div class="rule-row"><span class="no">✗</span>Onion and garlic.</div>
-    <div class="rule-row"><span class="no">✗</span>Chocolate, caffeine.</div>
-    <div class="rule-row"><span class="no">✗</span>Fruit seeds and pits.</div>
-    <div class="rule-row"><span class="no">✗</span>Spinach and Swiss chard in large amounts — oxalates block calcium absorption, especially dangerous for an egg-laying female.</div>
-    <div class="rule-row"><span class="no">✗</span>Rhubarb, raw beans, xylitol, mushrooms.</div>
-    <div class="rule-row"><span class="no">✗</span>Raisins.</div>
-    <div class="rule-row"><span class="no">✗</span>Soy and flax in large amounts — phytoestrogens can trigger egg-laying hormones.</div>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Chronic egg laying — what to watch for and how to prevent it</div>
-    <div class="step"><span class="step-num">1.</span><span><strong>Diet is the #1 prevention.</strong> A pellet-fed cockatiel with proper calcium is far less at risk from egg laying complications than a seed-fed one. Get her on Harrison's Fine as the priority.</span></div>
-    <div class="step"><span class="step-num">2.</span><span><strong>Don't pet her back, wings, or vent area.</strong> This stimulates mating behavior and triggers hormonal egg laying. Head and neck only for Maria.</span></div>
-    <div class="step"><span class="step-num">3.</span><span><strong>Limit daylight to 10–12 hours.</strong> Long days trigger reproductive cycles. Cover her cage earlier in the evening than your other birds if needed.</span></div>
-    <div class="step"><span class="step-num">4.</span><span><strong>No nesting materials.</strong> Don't put anything soft, dark, or cave-like in her cage — she will treat it as a nesting spot and begin laying.</span></div>
-    <div class="step"><span class="step-num">5.</span><span><strong>If she lays an egg:</strong> don't remove it immediately. Let her sit on it for 2–3 weeks. Removing it early causes her to replace it with another. Swap the egg for a fake egg if available — she'll eventually abandon it.</span></div>
-    <div class="step"><span class="step-num">6.</span><span><strong>Egg binding emergency signs:</strong> straining, tail bobbing, sitting on the floor, visible distress. This is a same-day vet emergency. Don't wait.</span></div>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Powder down — what it means for your home</div>
-    <div style="font-size:13px; color:#5f5e5a; line-height:1.8;">Maria produces a fine white dust from specialized down feathers continuously — it's how cockatiels condition their feathers. It's completely normal and healthy for her. For you it means: cage area needs more frequent wiping down (every 2–3 days rather than weekly), nearby surfaces collect a fine white film, and anyone with respiratory sensitivities or bird allergies will notice it. A HEPA air purifier near her cage makes a significant difference. Never use aerosol sprays, scented candles, air fresheners, or plug-in diffusers near any of your birds — but especially near Maria. Her respiratory system is extremely sensitive.</div>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Coming home — first two weeks</div>
-    <div class="step"><span class="step-num">1.</span><span>Avian vet visit within the first week. For a female cockatiel, the vet will also assess her reproductive health baseline.</span></div>
-    <div class="step"><span class="step-num">2.</span><span>Keep feeding whatever she came with for 1–2 weeks before introducing Harrison's Fine.</span></div>
-    <div class="step"><span class="step-num">3.</span><span>30-day quarantine from all other birds — separate cage, separate airspace if possible.</span></div>
-    <div class="step"><span class="step-num">4.</span><span>Introduce pellets gradually. If she's been on seed, start by crushing pellets into dust and mixing with seed, exactly like the budgie conversion approach.</span></div>
-    <div class="step"><span class="step-num">5.</span><span>Make sure cuttlebone is in her cage from day one.</span></div>
-  </div>
-
-  <div class="warn">⚠ Nonstick cookware fumes (Teflon/PTFE) kill cockatiels just as fast as they kill conures. Maria is equally sensitive. The no-nonstick rule applies to the whole home, not just during Lou Dog's out-of-cage time.</div>
-</div>
-
-<!-- TOYS -->
-<div id="toys" class="panel">
-  <p class="section-title">Toys &amp; enrichment by bird</p>
-
-  <div class="card">
-    <div class="card-label">Budgies — Billy, Morgan, Doc, Wyatt</div>
-    <div style="font-size:13px; color:#5f5e5a; line-height:1.9; margin-bottom:8px;">Budgies are curious, social, and love to investigate and chew. They're not as destructive as conures so toys last longer, but they need mental variety more than brute-force chewing. Rotate 2 toys out every Friday to keep things fresh.</div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">🪞 Mirrors</span></div>
-      <span class="ingr-role">Good for solo birds (Wyatt during integration). Remove once he joins the flock. Watch for obsessive regurgitation at mirror — sign of over-bonding.</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">🔔 Bells</span></div>
-      <span class="ingr-role">Budgies love to ring bells. Small stainless steel bells only — no zinc or lead. Remove bell clappers (the small metal piece inside) as they can be chewed off and swallowed.</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">🪢 Foraging wraps</span></div>
-      <span class="ingr-role">Paper or coffee filter with a pinch of seed/Prairie Blossom twisted inside. Hang with plain cotton string. Excellent mental enrichment, costs nothing.</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">🧱 Balsa wood chews</span></div>
-      <span class="ingr-role">Soft enough for budgie beaks. Keeps beaks trimmed. Small blocks or hanging pieces. Natural, untreated only.</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">📄 Paper shredders</span></div>
-      <span class="ingr-role">Toilet paper tube stuffed with paper strips and a little seed. Balsa blocks with paper woven through. Shredding is a natural budgie behavior.</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">🪜 Swings and ladders</span></div>
-      <span class="ingr-role">Budgies love swings — they'll use them constantly. Wooden runged ladders give climbing enrichment. Avoid soft rope or fabric that frays into long strands.</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">🌱 Foraging grass mats</span></div>
-      <span class="ingr-role">Seagrass woven mats they can climb and pick at. Hide small seeds or freeze-dried pieces in the weave. Great for all four budgies.</span>
-    </div>
-    <div class="ingr-block" style="border-bottom:none;">
-      <div class="ingr-top"><span class="ingr-name">🔵 Foot toys</span></div>
-      <span class="ingr-role">Small corks, wooden beads, plain bottle caps — things they can pick up and carry. Budgies don't hold toys in their feet like parrots do, but they'll push and investigate foot toys on a flat surface.</span>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Finches — Bonnie, Clyde, owl finches, society finches, zebra finches</div>
-    <div style="font-size:13px; color:#5f5e5a; line-height:1.9; margin-bottom:8px;">Finches are not interactive toy players like parrots or budgies. Their enrichment is environmental — variety of perches, things to investigate and land on, and nesting-type materials for the bonded pairs. Keep it simple.</div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">🌿 Natural perches at varied heights</span></div>
-      <span class="ingr-role">Safe wood branches (willow, apple, birch) at different diameters exercise feet and prevent arthritis. Far more valuable than any toy for finches.</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">🪺 Nesting material (managed)</span></div>
-      <span class="ingr-role">Short paper strips (3–4 inches max), dried grass, or plain coconut fiber. Finches will weave and arrange these. Watch Bonnie and Clyde — if they start serious nesting, remove materials to prevent egg-laying cycles. Same for the society finches who are prolific nesters.</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">🛁 Bath dish</span></div>
-      <span class="ingr-role">Already in the rotation. Finches treat bathing as a major event — it IS their enrichment. The shower bath on their bath day is the highlight of their week.</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">🌾 Millet spray clipped to bars</span></div>
-      <span class="ingr-role">A whole spray millet clipped to the bars gives finches a foraging activity and landing spot in one. Use on treat days within the weekly millet allowance.</span>
-    </div>
-    <div class="ingr-block" style="border-bottom:none;">
-      <div class="ingr-top"><span class="ingr-name">❌ What NOT to give finches</span></div>
-      <span class="ingr-role">No mirrors (can cause aggression in male zebra finches). No jute or long rope strands. No small bells with removable clappers. No hanging toys that swing aggressively — finches startle easily and need stable landing zones.</span>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Lou Dog — Green-Cheeked Conure</div>
-    <div style="font-size:13px; color:#5f5e5a; line-height:1.9; margin-bottom:8px;">GCCs are the most toy-driven birds in your flock. They're intelligent, destructive, and need regular new stimulation. Lou Dog needs more toys than anyone else, rotated more frequently. Expect to replace destroyed toys regularly — that's success, not waste.</div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">🧩 Foraging puzzle toys</span></div>
-      <span class="ingr-role">Boxes with lids, cups with paper locks, pull-cord feeders. GCCs love problem-solving. Start easy (partially open) and increase difficulty as Lou Dog figures them out. Use Nutriberry pieces or small seeds as the reward inside.</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">🌿 Seagrass and vine balls</span></div>
-      <span class="ingr-role">Perfect texture for conure beaks. They'll shred them completely. Sola balls, vine balls, corn husk pieces — natural, safe, destroyable. Stock up because they'll go fast.</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">🪵 Soft to medium wood chews</span></div>
-      <span class="ingr-role">Balsa and pine are good starting points. Harder woods like manzanita last longer but are less satisfying to chew. Small scale — toys sized for budgies are too flimsy, toys for Amazons are too big. Conure/cockatiel scale is right.</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">📄 Shreddable paper toys</span></div>
-      <span class="ingr-role">Paper rolls, cardboard strips layered on a skewer, newspaper-wrapped treasure bundles. GCCs shred with purpose — give them something to destroy every week.</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">🔔 Foot toys</span></div>
-      <span class="ingr-role">Unlike budgies, GCCs actually hold toys in one foot and manipulate them. Small wooden blocks, cork pieces, small leather strips (vegetable-tanned only, no chrome-tanned). Out-of-cage foot toys keep Lou Dog busy during supervised time.</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">🪢 Boings and rope perches</span></div>
-      <span class="ingr-role">A boing (coiled rope perch) hung in the middle of the cage is a GCC favorite — they bounce, swing, and sleep on them. Use cotton rope only, inspect regularly for fraying, replace when strands start to unravel.</span>
-    </div>
-    <div class="ingr-block" style="border-bottom:none;">
-      <div class="ingr-top"><span class="ingr-name">🎓 Training as enrichment</span></div>
-      <span class="ingr-role">GCCs are smart enough that 10–15 minutes of trick training per day counts as major enrichment. Step up, wave, spin, target training — use Nutriberry pieces as reward. This is the best enrichment you can give a conure and it builds your bond simultaneously.</span>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Maria — Cockatiel</div>
-    <div style="font-size:13px; color:#5f5e5a; line-height:1.9; margin-bottom:8px;">Cockatiels are somewhere between budgies and conures in play style. They love music, whistling, and social interaction more than destruction. Maria will enjoy toys she can explore and preen rather than demolish.</div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">🔔 Bells</span></div>
-      <span class="ingr-role">Cockatiels are bell obsessed — they'll ring them and sing at them. Same rule as budgies: stainless steel only, remove clappers.</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">🪜 Swings</span></div>
-      <span class="ingr-role">Cockatiels love to swing and perch on moving objects. A swing in the upper area of the cage will get heavy use.</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">🌾 Millet and foraging toys</span></div>
-      <span class="ingr-role">Millet spray clipped to bars, small foraging boxes, treat cups. Cockatiels aren't as driven to problem-solve as conures but enjoy simple foraging. Nutriberries work as training treats and enrichment both.</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">🪵 Light wood chews</span></div>
-      <span class="ingr-role">Balsa or soft pine pieces. Cockatiels chew less aggressively than conures but enjoy having something to work on. Good for beak health.</span>
-    </div>
-    <div class="ingr-block">
-      <div class="ingr-top"><span class="ingr-name">🪞 Mirrors — use carefully</span></div>
-      <span class="ingr-role">Female cockatiels can become bonded to mirrors and treat the reflection as a mate, triggering egg laying. This is bad for Maria specifically. Skip mirrors or use very sparingly and monitor her response closely.</span>
-    </div>
-    <div class="ingr-block" style="border-bottom:none;">
-      <div class="ingr-top"><span class="ingr-name">🎵 Music and whistling</span></div>
-      <span class="ingr-role">Not a toy but the best enrichment for a cockatiel. Maria will likely start to mimic songs, whistles, or household sounds. Play music during the day, whistle to her, and she'll engage enthusiastically. Female cockatiels vocalize less than males but still enjoy sound enrichment.</span>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="card-label">Universal toy safety rules — all birds</div>
-    <div class="rule-row"><span class="no">✗</span>No zinc or lead anywhere — galvanized metal, cheap chain links, certain colored dyes. Zinc toxicity is a common and serious bird emergency.</div>
-    <div class="rule-row"><span class="no">✗</span>No jute rope — frays into long dangerous strands that wrap around toes and necks.</div>
-    <div class="rule-row"><span class="no">✗</span>No synthetic fibers — polyester, nylon, acrylic. Cotton only for any rope or fabric elements.</div>
-    <div class="rule-row"><span class="no">✗</span>No sharp edges or points on any plastic or metal pieces.</div>
-    <div class="rule-row"><span class="no">✗</span>No glue — some toy assemblies use adhesives that are toxic when chewed.</div>
-    <div class="rule-row"><span class="no">✗</span>No painted or varnished wood — natural and untreated only.</div>
-    <div class="rule-row"><span class="ok">✓</span>Inspect toys weekly — replace anything with fraying rope, broken parts, or sharp edges from chewing damage.</div>
-    <div class="rule-row"><span class="ok">✓</span>Rotate 2 toys per budgie cage every Friday. Lou Dog gets new toys most frequently — weekly or when destroyed.</div>
-    <div class="rule-row"><span class="ok">✓</span>Safe toy materials: untreated natural wood (balsa, pine, willow, birch, apple, manzanita), seagrass, vine, corn husk, palm, unbleached paper, stainless steel, cotton rope, vegetable-tanned leather.</div>
-  </div>
-</div>
-
-<!-- PELLET PLAN -->
-<div id="pellets" class="panel">
-  <p class="section-title">Pellet conversion plan</p>
-  <div class="card">
-    <div class="card-label">The recommendation: Harrison's High Potency Super Fine</div>
-    <div style="font-size:13px; color:#5f5e5a; line-height:1.8;">
-      <div style="margin-bottom:8px"><span class="pill pill-teal">Why Super Fine, not Fine</span> Fine is sized for cockatiels and small conures. Super Fine is closer to a millet seed — the right scale for a budgie beak. Less intimidating, more likely to be picked up out of curiosity.</div>
-      <div style="margin-bottom:8px"><span class="pill pill-blue">Why Harrison's over Roudybush</span> Harrison's Super Fine is already the right size straight from the bag. Roudybush crumbles still need crushing before budgies will accept them. Harrison's is USDA organic, foil-packaged for better freshness, and tends to have a higher acceptance rate with resistant birds.</div>
-      <div><span class="pill pill-amber">Shelf life</span> 45 days once opened. Buy the 1 lb bag. Don't bulk buy.</div>
+      <div style="margin-bottom:6px"><span class="pill pill-teal">Pellets 60&ndash;75%</span> Harrison's High Potency Fine &mdash; available all day. Pellets are non-negotiable for a female cockatiel. Egg-laying depletes calcium; a pellet-fed bird is dramatically better protected than a seed-fed one.</div>
+      <div style="margin-bottom:6px"><span class="pill pill-blue">Dark greens daily</span> Kale, collard greens, bok choy, broccoli &mdash; highest priority vegetables. Calcium-rich and matter more for Maria than any other bird in the flock.</div>
+      <div style="margin-bottom:6px"><span class="pill pill-amber">Sprouted seeds</span> 1 tsp fresh, 3&ndash;4x/week. High protein and calcium. More important for Maria than the budgies specifically because of reproductive health demands.</div>
+      <div><span class="pill pill-coral">Powder down</span> Maria produces fine white dust from specialized feathers continuously. Normal and healthy. Means more frequent cleaning near her cage &mdash; a HEPA air purifier nearby is worth it.</div>
     </div>
   </div>
   <div class="card">
-    <div class="card-label">Phase 1 — now, with current ZuPreem</div>
-    <div class="step"><span class="step-num">1.</span><span>Crush ZuPreem to fine dust — measure 8 tbsp of crushed dust into the budgie batch jar.</span></div>
-    <div class="step"><span class="step-num">2.</span><span>It coats the seed so they ingest it passively with every beak-full.</span></div>
-    <div class="step"><span class="step-num">3.</span><span>Egg food 3x/week matters more now — it's carrying more nutritional weight without solid pellet coverage.</span></div>
+    <div class="card-label">Daily dish &mdash; Maria's morning</div>
+    <div class="portion-row"><span class="portion-label">Pellets (all day)</span><span class="portion-value">1&ndash;2 tbsp Harrison's Fine</span></div>
+    <div class="portion-row"><span class="portion-label">Fresh/freeze-dried veg &mdash; dark greens priority (remove after 2&ndash;3 hrs)</span><span class="portion-value">1&ndash;2 tbsp</span></div>
+    <div class="portion-row"><span class="portion-label">Sprouted seeds (3&ndash;4x/week with veg)</span><span class="portion-value">1 tsp fresh</span></div>
+    <div class="portion-row"><span class="portion-label">Bird spices (bay leaf, basil, spearmint, thyme, etc.) sprinkled over fresh food</span><span class="portion-value">small pinch, 3&ndash;4x/week</span></div>
+    <div class="portion-row"><span class="portion-label">Dried flowers scattered over fresh food (3&ndash;4x/week)</span><span class="portion-value">small pinch of 9-flower blend</span></div>
+    <div class="portion-row"><span class="portion-label">Fruit (2&ndash;3x/week, small)</span><span class="portion-value">1 tsp max</span></div>
+    <div class="portion-row"><span class="portion-label">Seed treat (2&ndash;3x/week, side dish)</span><span class="portion-value">1&ndash;2 tsp Kaylor</span></div>
+    <div class="portion-row"><span class="portion-label">Egg food (Mon/Wed/Fri, side dish)</span><span class="portion-value">pinch, remove after 2&ndash;3 hrs</span></div>
+    <div class="portion-row"><span class="portion-label">Cuttlebone (always in cage)</span><span class="portion-value">check weekly &mdash; replace proactively</span></div>
+    <div class="portion-row"><span class="portion-label">Water (2 dishes)</span><span class="portion-value">refresh daily</span></div>
   </div>
   <div class="card">
-    <div class="card-label">Phase 2 — when Harrison's Super Fine arrives</div>
-    <div class="step"><span class="step-num">1.</span><span>Measure 8 tbsp of Harrison's Super Fine whole (no crushing) into the batch jar in place of ZuPreem dust.</span></div>
-    <div class="step"><span class="step-num">2.</span><span>Leave it as-is. Some birds pick it up thinking it's a seed, crack it, and start eating. Don't rush this.</span></div>
-    <div class="step"><span class="step-num">3.</span><span>If no uptake after 2–3 weeks, offer a small dish of just Harrison's first thing in the morning when they're hungriest. Give the main mix 30 minutes later.</span></div>
-    <div class="step"><span class="step-num">4.</span><span>Acceptance timeline is weeks to months — completely normal. Keep offering consistently.</span></div>
+    <div class="card-label">Safe foods</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Fruit: apple (no seeds), banana, mango, papaya, blueberry, melon &mdash; 2&ndash;3x/week, small amounts only.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Cooked grains: brown rice, quinoa, oats &mdash; plain. Good post-egg-laying recovery food.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Cooked egg: plain scrambled or hard-boiled &mdash; especially after she lays, to replenish protein.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Calcium boosters: dark leafy greens, broccoli, cuttlebone, and the bird spice blend (basil, spearmint, thyme are all naturally high in calcium &mdash; sprinkle over fresh food 3&ndash;4x/week).</div>
   </div>
-  <div class="info-box">No grit — ever. Budgies and finches both crack and hull seeds before swallowing, so grit serves no digestive purpose and can cause fatal crop impaction. Cuttlebone in every cage covers all calcium needs.</div>
+  <div class="card">
+    <div class="card-label">Never feed</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>Avocado, onion, garlic, chocolate, caffeine, raisins, rhubarb, raw beans, xylitol, mushrooms, fruit pits/seeds.</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>Spinach and Swiss chard in large amounts &mdash; oxalates block calcium absorption. Especially dangerous for an egg-laying female.</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>Soy and flax in large amounts &mdash; phytoestrogens can trigger egg-laying hormones.</div>
+  </div>
+  <div class="card">
+    <div class="card-label">Chronic egg laying &mdash; prevention protocol</div>
+    <div class="step"><span class="step-num">1.</span><span><strong>Pellets first, always.</strong> Never let Maria drift back to a seed-heavy diet. This is the single most important protection against egg-laying complications.</span></div>
+    <div class="step"><span class="step-num">2.</span><span><strong>Head and neck only when petting Maria.</strong> Stroking her back, wings, or vent area stimulates mating behavior and directly triggers hormonal egg-laying. Non-negotiable.</span></div>
+    <div class="step"><span class="step-num">3.</span><span><strong>Limit daylight to 10&ndash;12 hours.</strong> Cover her cage earlier in the evening. Long days trigger reproductive cycles.</span></div>
+    <div class="step"><span class="step-num">4.</span><span><strong>No nesting materials, no dark enclosed spaces, no fabric huts, no mirrors.</strong> All of these trigger egg-laying. A high perch is her sleeping spot.</span></div>
+    <div class="step"><span class="step-num">5.</span><span><strong>If she lays an egg:</strong> don't remove it immediately. Let her sit on it 2&ndash;3 weeks. Early removal causes replacement. Swap for a fake egg if available &mdash; she'll eventually abandon it.</span></div>
+    <div class="step"><span class="step-num">6.</span><span><strong>Egg binding emergency:</strong> straining, tail bobbing with each breath, sitting on floor, visible distress. Same-day vet emergency &mdash; do not wait.</span></div>
+  </div>
+  <div class="card">
+    <div class="card-label">Play gym engagement</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Scatter plain rolled oats (raw, unflavored) on the platform &mdash; cockatiels are ground foragers by nature, picking through material on a flat surface is instinctively compelling.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Sprinkle a small pinch of the bird spice blend (bay leaf, basil, rosemary, thyme, etc.) on the platform &mdash; the aroma draws her in and she'll pick through it.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Hang a bell at her height &mdash; she'll ring it and sing at it. Heavy use expected.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Clip a small millet sprig nearby (within weekly millet allowance) &mdash; gives her a reason to stay.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Play music near the gym &mdash; Maria vocalizes and engages more with sound around her. She may start mimicking while up there.</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>No mirrors on the gym for Maria &mdash; same rule as the cage.</div>
+  </div>
+  <div class="card">
+    <div class="card-label">Out-of-cage time</div>
+    <div style="font-size:13px; color:#5f5e5a; line-height:1.8;">Minimum 1&ndash;2 hours daily supervised. Same room safety as Lou Dog. Maria and Lou Dog can be in the same room together with attentive supervision but should not share free-roam time without you present &mdash; a conure can injure a cockatiel.</div>
+  </div>
+  <div class="warn">&#x26A0; No fabric huts, soft tents, or enclosed nesting spaces &mdash; ever. No mirrors. Head and neck petting only. These rules are the difference between a healthy bird and a chronic egg-laying medical crisis.</div>
+  <div class="info-box">Powder down: wipe surfaces near Maria's cage 2&ndash;3x/week. Saturday deep clean includes her area. HEPA air purifier nearby makes a significant difference for anyone with respiratory sensitivities.</div>
 </div>
 
 <!-- PORTIONS -->
 <div id="portions" class="panel">
-  <p class="section-title">Daily portions — morning serving</p>
+  <p class="section-title">Daily portions &mdash; morning serving</p>
   <div class="two-col">
     <div class="card">
-      <div class="card-label">Budgie cages</div>
-      <div class="portion-row"><span class="portion-label">Billy, Morgan, Doc (3 birds)</span><span class="portion-value">4–5 tsp</span></div>
-      <div class="portion-row"><span class="portion-label">Wyatt (solo)</span><span class="portion-value">1½–2 tsp</span></div>
-      <div class="portion-row"><span class="portion-label">Merged flock (4 birds)</span><span class="portion-value">5–6 tsp</span></div>
-      <p class="note">~1½ tsp per bird. Adjust up if empty before evening.</p>
+      <div class="card-label">Budgies &mdash; all 4 in one cage</div>
+      <div class="portion-row"><span class="portion-label">Billy, Morgan, Doc &amp; Wyatt</span><span class="portion-value">5&ndash;6 tsp dry mix</span></div>
+      <p class="note">~1&frac12; tsp per bird. Adjust up if dishes empty before evening.</p>
     </div>
     <div class="card">
       <div class="card-label">Finch cages</div>
-      <div class="portion-row"><span class="portion-label">Cage 1 — 4 finches</span><span class="portion-value">4–5 tsp</span></div>
-      <div class="portion-row"><span class="portion-label">Cage 2 — 4 finches</span><span class="portion-value">4–5 tsp</span></div>
-      <p class="note">~1 tsp per bird. Slightly overfill. Evening top-up check required.</p>
+      <div class="portion-row"><span class="portion-label">Cage 1 &mdash; Bean, Polly, Vinnie &amp; Fabbie</span><span class="portion-value">4&ndash;5 tsp</span></div>
+      <div class="portion-row"><span class="portion-label">Cage 2 &mdash; Bonnie, Clyde, Donut &amp; Ocean</span><span class="portion-value">4&ndash;5 tsp</span></div>
+      <p class="note">~1 tsp per bird. Slightly overfill. Evening check required.</p>
+    </div>
+  </div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-label">Lou Dog &mdash; GCC</div>
+      <div class="portion-row"><span class="portion-label">Pellets (all day)</span><span class="portion-value">1&ndash;2 tbsp</span></div>
+      <div class="portion-row"><span class="portion-label">Fresh veg (morning)</span><span class="portion-value">1&ndash;2 tbsp</span></div>
+      <div class="portion-row"><span class="portion-label">Dried flowers over fresh food (3&ndash;4x/week)</span><span class="portion-value">small pinch</span></div>
+      <div class="portion-row"><span class="portion-label">Herb supplement over fresh food (3&ndash;4x/week)</span><span class="portion-value">small pinch</span></div>
+      <div class="portion-row"><span class="portion-label">Sprouted seeds (3&ndash;4x/week)</span><span class="portion-value">1&ndash;2 tsp fresh</span></div>
+      <div class="portion-row"><span class="portion-label">Fruit (2&ndash;3x/week)</span><span class="portion-value">1 tsp max</span></div>
+    </div>
+    <div class="card">
+      <div class="card-label">Maria &mdash; cockatiel</div>
+      <div class="portion-row"><span class="portion-label">Pellets (all day)</span><span class="portion-value">1&ndash;2 tbsp</span></div>
+      <div class="portion-row"><span class="portion-label">Fresh veg &mdash; dark greens (morning)</span><span class="portion-value">1&ndash;2 tbsp</span></div>
+      <div class="portion-row"><span class="portion-label">Bird spice blend sprinkled over fresh food</span><span class="portion-value">small pinch, 3&ndash;4x/week</span></div>
+      <div class="portion-row"><span class="portion-label">Dried flowers over fresh food (3&ndash;4x/week)</span><span class="portion-value">small pinch</span></div>
+      <div class="portion-row"><span class="portion-label">Sprouted seeds (3&ndash;4x/week)</span><span class="portion-value">1 tsp fresh</span></div>
+      <div class="portion-row"><span class="portion-label">Seed treat (2&ndash;3x/week)</span><span class="portion-value">1&ndash;2 tsp Kaylor</span></div>
     </div>
   </div>
   <div class="card">
-    <div class="card-label">Treats — separate dish, never in batch jar</div>
-    <div class="portion-row"><span class="portion-label">Vitakraft egg food — all cages</span><span class="portion-value">pinch, 3x/week, remove after 2–3 hrs</span></div>
-    <div class="portion-row"><span class="portion-label">Budgie crunch stick</span><span class="portion-value">1 stick/cage, 1x/week</span></div>
-    <div class="portion-row"><span class="portion-label">Finch crunch stick</span><span class="portion-value">1 stick/cage, 1x/week</span></div>
-    <div class="portion-row"><span class="portion-label">Millet spray — budgies only</span><span class="portion-value">small sprig/cage, 1x/week max</span></div>
-    <div class="portion-row"><span class="portion-label">Lou Dog — Nutriberry or small nut treat</span><span class="portion-value">during out-of-cage/training time only</span></div>
-    <div class="portion-row"><span class="portion-label">Maria — Nutriberry or millet sprig</span><span class="portion-value">1–2 Nutriberries/day or small millet sprig 2x/week</span></div>
+    <div class="card-label">Treats &mdash; separate dish, never in batch jar</div>
+    <div class="portion-row"><span class="portion-label">Vitakraft egg food &mdash; all cages</span><span class="portion-value">pinch, Mon/Wed/Fri, remove after 2&ndash;3 hrs</span></div>
+    <div class="portion-row"><span class="portion-label">Budgie crunch stick</span><span class="portion-value">1 stick/cage, Thu or Sun</span></div>
+    <div class="portion-row"><span class="portion-label">Finch crunch stick</span><span class="portion-value">1 stick/cage, Thu or Sun</span></div>
+    <div class="portion-row"><span class="portion-label">Millet spray &mdash; budgies only</span><span class="portion-value">small sprig, 1x/week max</span></div>
+    <div class="portion-row"><span class="portion-label">Lou Dog &mdash; Nutriberry or small nut</span><span class="portion-value">out-of-cage/training only</span></div>
+    <div class="portion-row"><span class="portion-label">Maria &mdash; Nutriberry or millet sprig</span><span class="portion-value">1&ndash;2 Nutriberries/day or millet 2x/week</span></div>
   </div>
-  <div class="warn">⚠ Prairie Blossom already contains spray millet. A separate millet spray on top means double millet that week. Skip the standalone spray any week the Prairie Blossom was heavy in the batch.</div>
 </div>
 
 <!-- DISHES -->
 <div id="dishes" class="panel">
   <p class="section-title">Dish setup by cage</p>
-
   <div class="card">
     <div class="cage-block">
-      <div class="cage-heading">Budgie cage — Billy, Morgan &amp; Doc (3 birds)</div>
+      <div class="cage-heading">Budgie cage &mdash; Billy, Morgan, Doc &amp; Wyatt</div>
       <div class="dish-grid">
-        <div class="dish-card">
-          <div class="dish-icon">🌾</div>
-          <div class="dish-count">2</div>
-          <div class="dish-label">Main food dishes</div>
-          <div class="dish-detail">One on each side of the cage — prevents one bird blocking access. Clip-on cups work well here.</div>
-        </div>
-        <div class="dish-card">
-          <div class="dish-icon">🥚</div>
-          <div class="dish-count">1</div>
-          <div class="dish-label">Treat/egg food dish</div>
-          <div class="dish-detail">Small side dish for egg food 3x/week, crunch stick clip on treat days. Remove when empty.</div>
-        </div>
-        <div class="dish-card">
-          <div class="dish-icon">💧</div>
-          <div class="dish-count">2</div>
-          <div class="dish-label">Water dishes</div>
-          <div class="dish-detail">One on each side. Enough volume for drinking and occasional bathing. Clip-on or freestanding both fine.</div>
-        </div>
+        <div class="dish-card"><div class="dish-icon">&#x1F33E;</div><div class="dish-count">2</div><div class="dish-label">Main food dishes</div><div class="dish-detail">One each side &mdash; prevents dominant birds blocking access.</div></div>
+        <div class="dish-card"><div class="dish-icon">&#x1F95A;</div><div class="dish-count">1</div><div class="dish-label">Treat dish</div><div class="dish-detail">Egg food 3x/week, crunch stick clip on treat days. Remove after 2&ndash;3 hours.</div></div>
+        <div class="dish-card"><div class="dish-icon">&#x1F4A7;</div><div class="dish-count">2</div><div class="dish-label">Water dishes</div><div class="dish-detail">One each side. Large enough for occasional bathing.</div></div>
       </div>
-      <p class="cage-note">Total: 5 dishes. With 3 birds there's always a risk of one dominant bird blocking a station — two food and two water stations prevent any bird from going without.</p>
+      <p class="cage-note">Total: 5 dishes. Dishes at opposite ends reduce squabbling.</p>
     </div>
-
     <hr class="divider">
-
     <div class="cage-block">
-      <div class="cage-heading">Budgie cage — Wyatt (solo)</div>
+      <div class="cage-heading">Finch cage 1 &mdash; Bean, Polly, Vinnie &amp; Fabbie</div>
       <div class="dish-grid">
-        <div class="dish-card">
-          <div class="dish-icon">🌾</div>
-          <div class="dish-count">1</div>
-          <div class="dish-label">Main food dish</div>
-          <div class="dish-detail">One clip-on cup is fine for a solo bird. Position away from perches to avoid droppings.</div>
-        </div>
-        <div class="dish-card">
-          <div class="dish-icon">🥚</div>
-          <div class="dish-count">1</div>
-          <div class="dish-label">Treat/egg food dish</div>
-          <div class="dish-detail">Small secondary cup. Use on egg food days; also where you'll offer Harrison's during conversion.</div>
-        </div>
-        <div class="dish-card">
-          <div class="dish-icon">💧</div>
-          <div class="dish-count">1</div>
-          <div class="dish-label">Water dish</div>
-          <div class="dish-detail">One is enough for a solo bird. Large enough for bathing.</div>
-        </div>
+        <div class="dish-card"><div class="dish-icon">&#x1F33E;</div><div class="dish-count">2</div><div class="dish-label">Main food dishes</div><div class="dish-detail">Opposite ends. Bean &amp; Polly (owl finches) are gentle &mdash; two stations ensure no single bird monopolizes food. Vinnie (male) may attempt to court all three females; extra food stations reduce competition stress.</div></div>
+        <div class="dish-card"><div class="dish-icon">&#x1F95A;</div><div class="dish-count">1</div><div class="dish-label">Treat dish</div><div class="dish-detail">Egg food 3x/week. Remove after 2&ndash;3 hours.</div></div>
+        <div class="dish-card"><div class="dish-icon">&#x1F4A7;</div><div class="dish-count">2</div><div class="dish-label">Water dishes</div><div class="dish-detail">Two &mdash; finches foul water constantly. Large enough to bathe in.</div></div>
       </div>
-      <p class="cage-note">Total: 3 dishes. Bump to 5 (matching the 3-bird cage) once Wyatt joins the main flock.</p>
+      <p class="cage-note">Total: 5 dishes. No perches above any dish.</p>
     </div>
-
     <hr class="divider">
-
     <div class="cage-block">
-      <div class="cage-heading">Merged budgie cage — all 4 birds (future setup)</div>
+      <div class="cage-heading">Finch cage 2 &mdash; Bonnie, Clyde, Donut &amp; Ocean</div>
       <div class="dish-grid">
-        <div class="dish-card">
-          <div class="dish-icon">🌾</div>
-          <div class="dish-count">2</div>
-          <div class="dish-label">Main food dishes</div>
-          <div class="dish-detail">One on each side — opposite ends of the cage. Prevents squabbling during integration.</div>
-        </div>
-        <div class="dish-card">
-          <div class="dish-icon">🥚</div>
-          <div class="dish-count">1</div>
-          <div class="dish-label">Treat/egg food dish</div>
-          <div class="dish-detail">One is fine — treats are time-limited anyway. Remove after 2–3 hours.</div>
-        </div>
-        <div class="dish-card">
-          <div class="dish-icon">💧</div>
-          <div class="dish-count">2</div>
-          <div class="dish-label">Water dishes</div>
-          <div class="dish-detail">One on each side. Critical during the integration period — any bird can drink without confrontation.</div>
-        </div>
+        <div class="dish-card"><div class="dish-icon">&#x1F33E;</div><div class="dish-count">2</div><div class="dish-label">Main food dishes</div><div class="dish-detail">Opposite ends. Two established pairs &mdash; all four will move between stations. Two dishes reduce competition between Clyde and Ocean (both males).</div></div>
+        <div class="dish-card"><div class="dish-icon">&#x1F95A;</div><div class="dish-count">1</div><div class="dish-label">Treat dish</div><div class="dish-detail">Egg food 3x/week. Remove after 2&ndash;3 hours.</div></div>
+        <div class="dish-card"><div class="dish-icon">&#x1F4A7;</div><div class="dish-count">2</div><div class="dish-label">Water dishes</div><div class="dish-detail">Two, opposite ends. Large enough to bathe in.</div></div>
       </div>
-      <p class="cage-note">Total: 5 dishes. During integration keep dishes at opposite ends to reduce territorial tension over resources.</p>
+      <p class="cage-note">Total: 5 dishes. All four zebra finches &mdash; same species, two established pairs (Bonnie &amp; Clyde, Donut &amp; Ocean). Most harmonious same-species grouping. Watch for Clyde and Ocean (males) competing if nesting materials are present.</p>
+    </div>
+    <hr class="divider">
+    <div class="cage-block">
+      <div class="cage-heading">Lou Dog &mdash; GCC</div>
+      <div class="dish-grid">
+        <div class="dish-card"><div class="dish-icon">&#x1F48A;</div><div class="dish-count">1</div><div class="dish-label">Pellet dish</div><div class="dish-detail">Clip-on, mid-height. Harrison's Fine all day.</div></div>
+        <div class="dish-card"><div class="dish-icon">&#x1F966;</div><div class="dish-count">1</div><div class="dish-label">Fresh food dish</div><div class="dish-detail">Veg + sprouts morning. Dried flowers and herb supplement mixed in on rotation. Remove after 2&ndash;3 hours.</div></div>
+        <div class="dish-card"><div class="dish-icon">&#x1F95A;</div><div class="dish-count">1</div><div class="dish-label">Treat dish</div><div class="dish-detail">Egg food 3x/week. Remove when done.</div></div>
+        <div class="dish-card"><div class="dish-icon">&#x1F4A7;</div><div class="dish-count">2</div><div class="dish-label">Water dishes</div><div class="dish-detail">GCCs dunk food constantly &mdash; second dish stays cleaner. Refresh twice daily.</div></div>
+      </div>
+      <p class="cage-note">Total: 5 dishes. Lou Dog's water needs the most frequent attention of any cage.</p>
+    </div>
+    <hr class="divider">
+    <div class="cage-block">
+      <div class="cage-heading">Maria &mdash; cockatiel</div>
+      <div class="dish-grid">
+        <div class="dish-card"><div class="dish-icon">&#x1F48A;</div><div class="dish-count">1</div><div class="dish-label">Pellet dish</div><div class="dish-detail">Available all day. Harrison's Fine. Non-negotiable for a female cockatiel.</div></div>
+        <div class="dish-card"><div class="dish-icon">&#x1F966;</div><div class="dish-count">1</div><div class="dish-label">Fresh food dish</div><div class="dish-detail">Veg + sprouts morning. Dark greens priority. Bird spices + dried flowers on rotation. Remove after 2&ndash;3 hours.</div></div>
+        <div class="dish-card"><div class="dish-icon">&#x1F95A;</div><div class="dish-count">1</div><div class="dish-label">Treat dish</div><div class="dish-detail">Egg food 3x/week or seed treat 2&ndash;3x/week.</div></div>
+        <div class="dish-card"><div class="dish-icon">&#x1F4A7;</div><div class="dish-count">2</div><div class="dish-label">Water dishes</div><div class="dish-detail">Two &mdash; Maria bathes and fouls water regularly.</div></div>
+      </div>
+      <p class="cage-note">Total: 5 dishes + cuttlebone always clipped to bars. Check cuttlebone weekly &mdash; replace proactively. Most important cuttlebone of all the cages.</p>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-label">Total dish count across all cages</div>
+    <div class="portion-row"><span class="portion-label">Budgie cage (Billy, Morgan, Doc, Wyatt)</span><span class="portion-value">5 dishes</span></div>
+    <div class="portion-row"><span class="portion-label">Finch cage 1 (Bean, Polly, Vinnie, Fabbie)</span><span class="portion-value">5 dishes</span></div>
+    <div class="portion-row"><span class="portion-label">Finch cage 2 (Bonnie, Clyde, Donut, Ocean)</span><span class="portion-value">5 dishes</span></div>
+    <div class="portion-row"><span class="portion-label">Lou Dog</span><span class="portion-value">5 dishes</span></div>
+    <div class="portion-row"><span class="portion-label">Maria</span><span class="portion-value">5 dishes + cuttlebone</span></div>
+  </div>
+  <div class="warn">&#x26A0; No perches above food or water dishes in any cage. All stainless steel dishes are dishwasher safe (top rack). Saturday deep clean recommended for all dishes.</div>
+</div>
+
+<!-- TOYS -->
+<div id="toys" class="panel">
+  <p class="section-title">Toys &amp; enrichment</p>
+
+  <div class="card">
+    <div class="card-label">Your art store haul &mdash; what you bought and who it is safe for</div>
+    <div class="toy-row">
+      <div class="toy-name">Natural cotton macrame cord (100% cotton, undyed, cream/tan)</div>
+      <div><span class="tag tag-all">All birds</span></div>
+      <div class="toy-note">Safe for all. Knot it, hang it, weave through cage bars. For finches cut to 3&ndash;4 inch pieces only &mdash; no long loose lengths. Lou Dog will work knots apart obsessively. Good base for any hanging toy.</div>
+    </div>
+    <div class="toy-row">
+      <div class="toy-name">Natural wood bead box (~300 pieces, mixed shapes, unfinished)</div>
+      <div><span class="tag tag-parrot">Lou Dog</span> <span class="tag tag-budgie">Budgies</span> <span class="tag tag-no">Not finches (loose beads)</span></div>
+      <div class="toy-note">Best value item from the haul. String on macrame cord for hanging toys. Geometric/faceted beads give beaks something to work against. Lou Dog will hold and manipulate as foot toys. Budgies will investigate and push. Finches don't interact meaningfully with loose beads &mdash; save these for the others. The walnut-labeled bag: skip &mdash; black walnut contains juglone which is toxic to birds.</div>
+    </div>
+    <div class="toy-row">
+      <div class="toy-name">Cabone wood rings 2" (unfinished natural wood)</div>
+      <div><span class="tag tag-parrot">Lou Dog</span> <span class="tag tag-budgie">Budgies</span></div>
+      <div class="toy-note">Foot toys, link into chains, hang from cage bars. Lou Dog will chew and manipulate. Budgies will investigate. Link several together with macrame cord for a simple hanging toy. Great value per piece.</div>
+    </div>
+    <div class="toy-row">
+      <div class="toy-name">Basswood dowel + pre-drilled driftwood piece</div>
+      <div><span class="tag tag-all">All birds</span></div>
+      <div class="toy-note">Use as perches. The driftwood's irregular shape is actually better for foot health than straight dowels &mdash; varied diameter exercises different muscles. Driftwood works in any cage. Safe as-is for natural wood, but bake any outdoor-sourced wood at 250&deg;F for 30 min before use.</div>
+    </div>
+    <div class="toy-row">
+      <div class="toy-name">Curly willow bundle 30"</div>
+      <div><span class="tag tag-all">All birds</span></div>
+      <div class="toy-note">Willow is one of the best bird-safe chewing woods. Break into smaller pieces for individual cages. Lou Dog and Maria will chew aggressively. Budgies will chew lightly. Finches will perch on and investigate. No prep needed &mdash; willow is safe raw.</div>
+    </div>
+    <div class="toy-row">
+      <div class="toy-name">Sola flowers on ting stems</div>
+      <div><span class="tag tag-parrot">Lou Dog</span> <span class="tag tag-budgie">Budgies</span> <span class="tag tag-finch">Finches</span></div>
+      <div class="toy-note">Sola is tapioca root wood &mdash; completely bird safe, used in commercial bird toys routinely. Lou Dog will shred them completely. Budgies will investigate and nibble. Finches will pull at stems and petals. Great value for the volume of enrichment material.</div>
+    </div>
+    <div class="toy-row">
+      <div class="toy-name">Bunny tail grass (natural, undyed only)</div>
+      <div><span class="tag tag-finch">Finches especially</span> <span class="tag tag-budgie">Budgies</span> <span class="tag tag-no">Avoid for Maria (nesting trigger)</span></div>
+      <div class="toy-note">Finches love bunny tails &mdash; Bonnie, Clyde, and the whole flock will pick at and shred these. Best finch enrichment from your haul. Budgies enjoy the texture. Do NOT use for Maria (enclosed/soft materials trigger egg-laying). Manage with Vinnie &amp; Fabbie (society finches) &mdash; they will build a nest with this if given the chance.</div>
+    </div>
+    <div class="toy-row">
+      <div class="toy-name">Wheat/foxtail grass bundles (natural, undyed)</div>
+      <div><span class="tag tag-finch">Finches especially</span> <span class="tag tag-budgie">Budgies</span></div>
+      <div class="toy-note">Same use as bunny tails. Hide a pinch of seed in the bundle for foraging enrichment. Same nesting material caution applies for Maria, Vinnie &amp; Fabbie, and Bonnie &amp; Clyde.</div>
+    </div>
+    <div class="toy-row">
+      <div class="toy-name">Dried botanical bundle (mixed bird-safe grasses and botanicals)</div>
+      <div><span class="tag tag-all">All birds</span></div>
+      <div class="toy-note">Best universal enrichment item from the haul. Break apart and distribute between cages. Hang a piece in each cage &mdash; everyone investigates and uses it differently. Replace when depleted.</div>
+    </div>
+    <div class="toy-row" style="border-bottom:none;">
+      <div class="toy-name">Grapevine wreath</div>
+      <div><span class="tag tag-all">All birds</span> <span class="tag tag-no">Remove ALL wire first &mdash; non-negotiable</span></div>
+      <div class="toy-note">CRITICAL: remove every piece of wire before any bird contact. Once wire-free, break into pieces for individual cages or use whole as a play gym base for Lou Dog. Grapevine is bird safe and a great foraging/chewing texture. Lou Dog can use a full section as a cage perch structure.</div>
     </div>
   </div>
 
   <div class="card">
-    <div class="cage-block">
-      <div class="cage-heading">Finch cage 1 — 4 finches</div>
-      <div class="dish-grid">
-        <div class="dish-card">
-          <div class="dish-icon">🌾</div>
-          <div class="dish-count">2</div>
-          <div class="dish-label">Main food dishes</div>
-          <div class="dish-detail">At opposite ends — finches are fast movers and multiple stations reduce crowding at the food source.</div>
-        </div>
-        <div class="dish-card">
-          <div class="dish-icon">🥚</div>
-          <div class="dish-count">1</div>
-          <div class="dish-label">Treat/egg food dish</div>
-          <div class="dish-detail">Small clip-on cup for egg food 3x/week. Remove after 2–3 hours.</div>
-        </div>
-        <div class="dish-card">
-          <div class="dish-icon">💧</div>
-          <div class="dish-count">2</div>
-          <div class="dish-label">Water dishes</div>
-          <div class="dish-detail">Finches bathe constantly — two dishes means one is always clean while the other gets fouled. Large enough to bathe in.</div>
-        </div>
-        <div class="dish-card">
-          <div class="dish-icon">🛁</div>
-          <div class="dish-count">1</div>
-          <div class="dish-label">Dedicated bath dish</div>
-          <div class="dish-detail">Optional but recommended — a shallow dish just for bathing keeps the water dishes cleaner. Offer a few times a week.</div>
-        </div>
-      </div>
-      <p class="cage-note">Total: 5–6 dishes. No perches above any water or food dish — finches will foul them within minutes.</p>
+    <div class="card-label">Budgies &mdash; Billy, Morgan, Doc &amp; Wyatt</div>
+    <div class="toy-row"><div class="toy-name">&#x1FA9E; Mirrors</div><div class="toy-note">Now that all four are together, mirrors are optional &mdash; they have real flock mates. If used, monitor for obsessive regurgitation at the reflection (sign of over-bonding). Remove if that starts.</div></div>
+    <div class="toy-row"><div class="toy-name">&#x1F514; Bells</div><div class="toy-note">Stainless steel only. No zinc or lead. Remove bell clappers &mdash; they can be chewed off and swallowed.</div></div>
+    <div class="toy-row"><div class="toy-name">&#x1FAA2; Foraging wraps</div><div class="toy-note">Coffee filter or unbleached paper with seed or a pinch of the budgie dry mix twisted inside, hung with cotton macrame cord. Costs nothing, great enrichment. Make a few at a time.</div></div>
+    <div class="toy-row"><div class="toy-name">&#x1F4C4; Paper shredders</div><div class="toy-note">Toilet paper tube stuffed with paper strips and seed. Shredding is a natural budgie behavior &mdash; give them something to destroy weekly.</div></div>
+    <div class="toy-row"><div class="toy-name">&#x1FA9C; Swings and ladders</div><div class="toy-note">Budgies love swings &mdash; heavy daily use expected. Wooden runged ladders for climbing. Avoid soft rope that frays.</div></div>
+    <div class="toy-row" style="border-bottom:none;"><div class="toy-name">&#x1F331; Foraging grass mats (seagrass)</div><div class="toy-note">Hide seed or freeze-dried pieces in the weave. Climbing and foraging in one. Rotate every Friday with 1&ndash;2 other toys.</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Play gym engagement &mdash; budgies, Lou Dog &amp; Maria</div>
+    <div style="font-size:12px; color:#5f5e5a; margin-bottom:8px;">Finches don't use play gyms &mdash; this section is for the parrot/budgie side of the flock only.</div>
+    <div class="toy-row">
+      <div class="toy-name">&#x1F33E; Raw rolled oats on the platform</div>
+      <div class="toy-note">Plain, unflavored, uncooked rolled oats scattered on the gym surface create a foraging activity for all three species. Safe, cheap, effective. Maria especially &mdash; cockatiels are ground foragers by nature and will spend real time picking through it. Works for Lou Dog and budgies too.</div>
     </div>
-
-    <hr class="divider">
-
-    <div class="cage-block">
-      <div class="cage-heading">Finch cage 2 — 4 finches (same setup)</div>
-      <div class="dish-grid">
-        <div class="dish-card">
-          <div class="dish-icon">🌾</div>
-          <div class="dish-count">2</div>
-          <div class="dish-label">Main food dishes</div>
-          <div class="dish-detail">Opposite ends. Check both morning and evening — food must never fully run out.</div>
-        </div>
-        <div class="dish-card">
-          <div class="dish-icon">🥚</div>
-          <div class="dish-count">1</div>
-          <div class="dish-label">Treat/egg food dish</div>
-          <div class="dish-detail">Small cup for egg food 3x/week. Remove after 2–3 hours.</div>
-        </div>
-        <div class="dish-card">
-          <div class="dish-icon">💧</div>
-          <div class="dish-count">2</div>
-          <div class="dish-label">Water dishes</div>
-          <div class="dish-detail">Two dishes, opposite ends. Large enough to bathe in.</div>
-        </div>
-        <div class="dish-card">
-          <div class="dish-icon">🛁</div>
-          <div class="dish-count">1</div>
-          <div class="dish-label">Dedicated bath dish</div>
-          <div class="dish-detail">Shallow, offered a few times a week. Keeps bathing separate from drinking water.</div>
-        </div>
-      </div>
-      <p class="cage-note">Total: 5–6 dishes. Identical setup to Cage 1.</p>
+    <div class="toy-row">
+      <div class="toy-name">&#x1F426; Budgies &mdash; gym engagement tips</div>
+      <div class="toy-note">Place the gym directly adjacent to the cage opening so they can hop on without a gap &mdash; budgies won't cross open air to reach it. Scatter oats and a pinch of the budgie dry mix on the platform. Hang a bell and a small foraging paper wrap from it. Flock behavior helps &mdash; if one goes, others follow.</div>
+    </div>
+    <div class="toy-row">
+      <div class="toy-name">&#x1F99C; Lou Dog &mdash; gym engagement tips</div>
+      <div class="toy-note">He's social first, forager second &mdash; your presence is the biggest draw. Hang a foraging toy from the gym with a pomegranate seed or pine nut inside. Put a foot toy on the platform. Designate the gym as your training perch so he associates it with good things. Scatter oats on the platform surface.</div>
+    </div>
+    <div class="toy-row" style="border-bottom:none;">
+      <div class="toy-name">&#x1F424; Maria &mdash; gym engagement tips</div>
+      <div class="toy-note">Scatter oats and a small pinch of her bird spice blend (same one that goes on her fresh food) on the platform. Hang a bell at her height. Clip a small millet sprig nearby. Play music near the gym &mdash; she vocalizes and engages more with sound around her. No mirrors on the gym.</div>
     </div>
   </div>
 
   <div class="card">
-    <div class="card-label">Quick reference — total dishes across all cages</div>
-    <div class="portion-row"><span class="portion-label">Budgie cage (Billy, Morgan, Doc)</span><span class="portion-value">5 dishes</span></div>
-    <div class="portion-row"><span class="portion-label">Budgie cage (Wyatt solo)</span><span class="portion-value">3 dishes</span></div>
-    <div class="portion-row"><span class="portion-label">Budgie cage (merged, future)</span><span class="portion-value">5 dishes</span></div>
-    <div class="portion-row"><span class="portion-label">Finch cage 1 (4 birds)</span><span class="portion-value">5–6 dishes</span></div>
-    <div class="portion-row"><span class="portion-label">Finch cage 2 (4 birds)</span><span class="portion-value">5–6 dishes</span></div>
-    <div class="portion-row"><span class="portion-label">Lou Dog — GCC (solo)</span><span class="portion-value">5 dishes (2 water, pellet, fresh food, treat)</span></div>
-    <div class="portion-row"><span class="portion-label">Maria — cockatiel (solo)</span><span class="portion-value">5 dishes (2 water, pellet, fresh food, treat)</span></div>
+    <div class="card-label">Finches &mdash; all 8 across both cages</div>
+    <div style="font-size:12px; color:#5f5e5a; margin-bottom:8px;">Finches are environmental enrichment birds. Perch variety and natural materials matter far more than any commercial toy.</div>
+    <div class="toy-row"><div class="toy-name">&#x1F33F; Natural perches at varied heights and diameters</div><div class="toy-note">The basswood dowel and driftwood you bought are perfect. Varied diameter exercises feet and prevents arthritis. This is the single most valuable enrichment investment for finches.</div></div>
+    <div class="toy-row"><div class="toy-name">&#x1FAB9; Nesting material (managed carefully)</div><div class="toy-note">Short paper strips 3&ndash;4 inches max, dried grass, bunny tails. CAUTION: Vinnie &amp; Fabbie in cage 1 are prolific breeders &mdash; remove nesting materials immediately if serious nest-building starts. Bean and Polly sharing cage 1 with Vinnie (one male, three females) adds hormonal pressure. Bonnie &amp; Clyde in cage 2 will also nest if given materials. All four zebra finches in cage 2 are monogamous pairs &mdash; remove nesting materials unless you want eggs from either pair.</div></div>
+    <div class="toy-row"><div class="toy-name">&#x1F6C1; Bath (shower bath, rotating weekly)</div><div class="toy-note">Bathing IS their enrichment. Tue for cage 1 (Bean, Polly, Vinnie &amp; Fabbie), Wed for cage 2 (Bonnie, Clyde, Donut &amp; Ocean). Finches treat bath day as a major event.</div></div>
+    <div class="toy-row" style="border-bottom:none;"><div class="toy-name">&#x274C; What NOT to give finches</div><div class="toy-note">No mirrors (Ocean, male zebra finch, may become aggressive toward reflection). No jute or long rope strands. No aggressively swinging toys &mdash; finches startle easily and need stable landing zones.</div></div>
   </div>
 
-  <div class="warn">⚠ Placement matters as much as quantity. Food and water dishes should never be positioned below a perch — droppings will contaminate them within hours. Clip-on dishes on cage bars, positioned at mid-height, are the cleanest option.</div>
+  <div class="card">
+    <div class="card-label">Lou Dog &mdash; GCC</div>
+    <div style="font-size:12px; color:#5f5e5a; margin-bottom:8px;">Most toy-driven bird in the flock. Needs the most variety, rotated most frequently. Destroyed toys = success, not waste.</div>
+    <div class="toy-row"><div class="toy-name">&#x1FAA2; Macram&eacute; bowl swing (100% cotton only)</div><div class="toy-note">Confirmed safe &mdash; 100% cotton, undyed. GCCs love cradling structures. Heavy use expected. Inspect weekly for fraying; replace when strands start to unravel. This is a priority purchase if not yet bought.</div></div>
+    <div class="toy-row"><div class="toy-name">&#x1F9E9; Foraging puzzle toys</div><div class="toy-note">Boxes with lids, pull-cord feeders, cups with paper locks. Start easy (partially open), increase difficulty. Nutriberry pieces inside as reward. Best mental enrichment for a GCC besides training.</div></div>
+    <div class="toy-row"><div class="toy-name">&#x1F33F; Seagrass and vine balls (sola balls)</div><div class="toy-note">Perfect texture for conure beaks. Will shred completely &mdash; stock up. The sola flowers you bought are this category. Replace when destroyed.</div></div>
+    <div class="toy-row"><div class="toy-name">&#x1FAB5; Soft to medium wood chews</div><div class="toy-note">Balsa and pine to start. Willow pieces from your haul are right. Conure/cockatiel scale &mdash; not budgie size (too flimsy) and not Amazon size (too large).</div></div>
+    <div class="toy-row"><div class="toy-name">&#x1F535; Foot toys</div><div class="toy-note">GCCs hold toys in one foot and manipulate them. The cabone rings and wood beads strung on macrame cord are perfect. Cork pieces work well too.</div></div>
+    <div class="toy-row"><div class="toy-name">&#x1FAA2; Boing (coiled cotton rope perch)</div><div class="toy-note">Lou Dog's preferred sleeping spot and daytime hangout. Cotton only. Inspect regularly for fraying &mdash; replace when strands unravel.</div></div>
+    <div class="toy-row" style="border-bottom:none;"><div class="toy-name">&#x1F393; Training as enrichment</div><div class="toy-note">10&ndash;15 min of trick training daily is the single best enrichment for a GCC. Step up, wave, spin, target training. Nutriberry as reward. Builds bond while stimulating the brain simultaneously.</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Maria &mdash; cockatiel</div>
+    <div class="toy-row"><div class="toy-name">&#x1F514; Bells</div><div class="toy-note">Cockatiels are bell-obsessed. They'll ring them and sing at them. Stainless steel only, remove clappers.</div></div>
+    <div class="toy-row"><div class="toy-name">&#x1FA9C; Swings</div><div class="toy-note">Heavy use expected &mdash; place in upper area of cage. Moving perch objects are a cockatiel favorite.</div></div>
+    <div class="toy-row"><div class="toy-name">&#x1F33E; Millet and simple foraging</div><div class="toy-note">Millet clipped to bars, small foraging boxes, Nutriberries. Cockatiels enjoy simple foraging more than complex puzzles.</div></div>
+    <div class="toy-row"><div class="toy-name">&#x1FAB5; Light wood chews (willow, balsa)</div><div class="toy-note">Willow bundle pieces are perfect for Maria. She chews less aggressively than Lou Dog but enjoys having something to work on. Good for beak health.</div></div>
+    <div class="toy-row"><div class="toy-name">&#x1F3B5; Music and whistling</div><div class="toy-note">Best enrichment for a cockatiel. Maria will mimic songs and household sounds. Play music during the day &mdash; she'll engage enthusiastically. Female cockatiels vocalize less than males but still love sound enrichment.</div></div>
+    <div class="toy-row" style="border-bottom:none;"><div class="toy-name">&#x274C; No mirrors for Maria &mdash; ever</div><div class="toy-note">Female cockatiels bond to reflections and treat them as mates, directly triggering egg-laying cycles. Hard no.</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-label">Universal toy safety rules &mdash; all birds</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>No zinc or lead &mdash; galvanized metal, cheap chain links, mystery alloys. Zinc toxicity is a common and serious bird emergency.</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>No jute rope &mdash; frays into long strands that wrap around toes and necks.</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>No synthetic fibers &mdash; polyester, nylon, acrylic. Cotton only for rope/fiber elements.</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>No walnut wood &mdash; contains juglone, toxic to birds.</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>No painted, dyed, or varnished wood &mdash; natural and untreated only. Unfinished wood beads only.</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>No glue &mdash; adhesives in toy assembly can be toxic when chewed.</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>No craft store feathers &mdash; treated with preservatives, disease risk from unknown birds.</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>No burlap &mdash; jute-based, treated with mineral oils, sheds aggressively, toe entanglement risk.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Inspect all toys weekly. Replace anything with fraying rope, broken parts, or sharp chewed edges.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Safe materials: untreated natural wood (balsa, pine, willow, birch, apple, basswood, sola/tapioca), seagrass, vine, corn husk, palm, unbleached paper, stainless steel, 100% cotton rope, vegetable-tanned leather.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Rotate 2 toys per budgie cage every Friday. Lou Dog: new or rotated toys weekly or when destroyed.</div>
+  </div>
+</div>
+
+<!-- PLANTS -->
+<div id="plants" class="panel">
+  <p class="section-title">Household Plants &mdash; Bird Safety Guide</p>
+  <p class="note" style="color:#5f5e5a; margin-bottom:10px;">All 20 plants in the Grossman home, rated for the flock. Applies to all birds: Billy, Morgan, Doc, Wyatt, Bonnie, Clyde, Donut, Ocean, Bean, Polly, Vinnie, Fabbie, Lou Dog, and Maria.</p>
+
+  <div class="warn">&#x26A0; Even plants rated "safe" can cause issues if chewed heavily or if a bird accesses soil or fertilizer. Supervise all birds near plants during out-of-cage time. Never use chemical pesticides near any bird. Neem oil is safer but use with birds out of the room and isolate treated plants 24&ndash;48 hours.</div>
+
+  <!-- TOXIC — KEEP AWAY -->
+  <p class="section-title" style="margin-top:1.25rem; color:#993C1D;">&#x1F6AB; Toxic to birds &mdash; keep out of all free-flight areas</p>
+  <div class="card">
+    <div class="card-label">These plants cause real harm if chewed or contacted &mdash; calcium oxalate crystals, oral pain, swelling</div>
+
+    <div class="toy-row">
+      <div class="toy-name">&#x1F33F; Alocasia / Elephant Ear &mdash; white geometric pot</div>
+      <div><span class="tag tag-no">&#x1F6AB; Toxic to ALL birds</span> <span class="tag tag-no">&#x1F6AB; Toxic to Clarence</span></div>
+      <div class="toy-note">Calcium oxalate crystals cause immediate oral pain and swelling. One of the highest-concern plants in the home. Keep completely out of budgie and Lou Dog/Maria free-flight areas. Never allow any bird near this plant unsupervised.</div>
+    </div>
+
+    <div class="toy-row">
+      <div class="toy-name">&#x1F33F; Anthurium &mdash; glass jar of water</div>
+      <div><span class="tag tag-no">&#x1F6AB; Toxic to ALL birds</span> <span class="tag tag-no">&#x1F6AB; Toxic to Clarence</span></div>
+      <div class="toy-note">Calcium oxalate crystals. Growing in water makes it extra accessible — birds may try to drink from the jar. Keep off all surfaces accessible during out-of-cage time. Cold sensitive below 50&deg;F.</div>
+    </div>
+
+    <div class="toy-row">
+      <div class="toy-name">&#x1F33F; Pothos (gray pot, cascading)</div>
+      <div><span class="tag tag-no">&#x1F6AB; Toxic to ALL birds</span> <span class="tag tag-no">&#x1F6AB; Toxic to Clarence</span></div>
+      <div class="toy-note">Calcium oxalate crystals. Cascading growth habit means trailing vines can reach floor level — especially dangerous during budgie or GCC out-of-cage time. Consider moving outside permanently where it would thrive on a fence or wall.</div>
+    </div>
+
+    <div class="toy-row">
+      <div class="toy-name">&#x1F33F; Pothos (copper/gold pot on stand by window)</div>
+      <div><span class="tag tag-no">&#x1F6AB; Toxic to ALL birds</span> <span class="tag tag-no">&#x1F6AB; Toxic to Clarence</span></div>
+      <div class="toy-note">Same species as gray pot pothos — calcium oxalate crystals. Window placement means birds may investigate during flight. Same outdoor option applies — could move outside permanently.</div>
+    </div>
+
+    <div class="toy-row">
+      <div class="toy-name">&#x1F33F; Philodendron &mdash; kitchen counter near books</div>
+      <div><span class="tag tag-no">&#x1F6AB; Toxic to ALL birds</span> <span class="tag tag-no">&#x1F6AB; Toxic to Clarence</span></div>
+      <div class="toy-note">Calcium oxalate crystals &mdash; higher concern plant. Kitchen counter placement is especially risky. Budgies and Lou Dog must NOT have kitchen access during out-of-cage time while this plant is there. Strongly consider moving outside &mdash; does great in zone 9b.</div>
+    </div>
+
+    <div class="toy-row" style="border-bottom:none;">
+      <div class="toy-name">&#x1F333; Fiddle Leaf Fig &mdash; floor plant (tall)</div>
+      <div><span class="tag tag-no">&#x1F6AB; Toxic to ALL birds</span> <span class="tag tag-no">&#x1F6AB; Toxic to Clarence</span></div>
+      <div class="toy-note">Calcium oxalate crystals in leaves and stems &mdash; same mechanism as Pothos and Philodendron, not just irritating sap as originally rated. Floor placement makes it highly accessible during out-of-cage time. Lou Dog as an active chewer is at the highest risk. Keep birds away during free-flight.</div>
+    </div>
+  </div>
+
+  <!-- MILDLY TOXIC -->
+  <p class="section-title" style="margin-top:1.25rem; color:#854F0B;">&#x26A0;&#xFE0F; Mildly toxic to birds &mdash; low risk but monitor</p>
+  <div class="card">
+    <div class="card-label">These plants cause mild GI upset or sap irritation if chewed — low real-world risk, but redirect birds from actively chewing them</div>
+
+    <div class="toy-row">
+      <div class="toy-name">&#x1F33F; Snake Plant &mdash; nightstand</div>
+      <div><span class="tag tag-budgie">&#x26A0; Mildly toxic to birds</span> <span class="tag tag-no">&#x1F6AB; Toxic to Clarence</span></div>
+      <div class="toy-note">Saponins cause mild GI upset. Nightstand placement — keep bedroom door closed if budgies or Lou Dog/Maria have access to that room during out-of-cage time.</div>
+    </div>
+
+    <div class="toy-row">
+      <div class="toy-name">&#x1F33F; Baby Snake Plant &mdash; windowsill</div>
+      <div><span class="tag tag-budgie">&#x26A0; Mildly toxic to birds</span> <span class="tag tag-no">&#x1F6AB; Toxic to Clarence</span></div>
+      <div class="toy-note">Same species as nightstand snake plant &mdash; same saponin concern. Windowsill placement means birds may land on it during flight. Ensure birds cannot access during free-flight time.</div>
+    </div>
+
+    <div class="toy-row">
+      <div class="toy-name">&#x1F33F; Prayer Plant relative &mdash; table (white pot)</div>
+      <div><span class="tag tag-budgie">&#x26A0; Mildly toxic to birds</span> <span class="tag tag-all">&#x2713; Safe for Clarence</span></div>
+      <div class="toy-note">Very low concern &mdash; mildly toxic rating but real-world risk is minimal. Birds would have to actively chew significant amounts to be affected. Normal monitoring is sufficient.</div>
+    </div>
+
+    <div class="toy-row">
+      <div class="toy-name">&#x1F34B; Lemon Bush &mdash; garden/patio</div>
+      <div><span class="tag tag-budgie">&#x26A0; Mildly toxic to birds</span> <span class="tag tag-budgie">&#x26A0; Mildly toxic to Clarence</span></div>
+      <div class="toy-note">Outdoor plant &mdash; only relevant if birds are ever outside supervised. Citrus is mildly toxic; the fruit flesh is fine in small amounts but leaves and rind are more concerning. Not a significant risk in normal circumstances.</div>
+    </div>
+
+    <div class="toy-row">
+      <div class="toy-name">&#x1F33F; Cordyline / Ti Plant &mdash; yard/landscape</div>
+      <div><span class="tag tag-budgie">&#x26A0; Mildly toxic to birds</span> <span class="tag tag-budgie">&#x26A0; Mildly toxic to Clarence</span></div>
+      <div class="toy-note">Outdoor landscape plant &mdash; saponins. Only relevant if birds are ever outside supervised. Not a significant risk in normal circumstances.</div>
+    </div>
+
+    <div class="toy-row">
+      <div class="toy-name">&#x1F333; Ficus / Fig &mdash; dark green pot</div>
+      <div><span class="tag tag-budgie">&#x26A0; Mildly toxic to birds</span> <span class="tag tag-budgie">&#x26A0; Mildly toxic to Clarence</span></div>
+      <div class="toy-note">Irritating milky sap &mdash; low risk unless a bird is actively chewing stems. Normal perching or landing contact is not a concern. Monitor and redirect if a bird starts chewing.</div>
+    </div>
+
+    <div class="toy-row" style="border-bottom:none;">
+      <div class="toy-name">&#x1F33F; Rubber Plant &mdash; white pot by window</div>
+      <div><span class="tag tag-budgie">&#x26A0; Mildly toxic to birds</span> <span class="tag tag-budgie">&#x26A0; Mildly toxic to Clarence</span></div>
+      <div class="toy-note">Milky irritating sap &mdash; low risk unless significant chewing. Large waxy leaves can attract bird curiosity. Redirect if a bird starts actively biting leaves.</div>
+    </div>
+  </div>
+
+  <!-- SAFE -->
+  <p class="section-title" style="margin-top:1.25rem; color:#0F6E56;">&#x2705; Safe for all birds</p>
+  <div class="card">
+    <div class="card-label">These plants are fine — no restrictions needed during out-of-cage time</div>
+
+    <div class="toy-row">
+      <div class="toy-name">&#x1F345; Tomato Plants &mdash; garden/backyard</div>
+      <div><span class="tag tag-all">&#x2713; Safe for all birds</span> <span class="tag tag-all">&#x2713; Safe for Clarence</span></div>
+      <div class="toy-note">Outdoor garden plant. Ripe tomato fruit is safe for birds. Leaves and stems are mildly toxic but birds won't access these normally. No concern for your flock.</div>
+    </div>
+
+    <div class="toy-row">
+      <div class="toy-name">&#x1F33F; Chinese Money Plant</div>
+      <div><span class="tag tag-all">&#x2713; Safe for all birds</span> <span class="tag tag-all">&#x2713; Safe for Clarence</span></div>
+      <div class="toy-note">Completely bird safe. Round coin-shaped leaves. Can go to patio in warm months.</div>
+    </div>
+
+    <div class="toy-row">
+      <div class="toy-name">&#x1F33A; Bromeliad &mdash; coffee table</div>
+      <div><span class="tag tag-all">&#x2713; Safe for all birds</span> <span class="tag tag-all">&#x2713; Safe for Clarence</span></div>
+      <div class="toy-note">One of the best bird-safe choices. Coffee table placement is accessible but no concern. The central water cup could attract birds to drink &mdash; change weekly to prevent stagnation regardless.</div>
+    </div>
+
+    <div class="toy-row">
+      <div class="toy-name">&#x1F33F; Maidenhair Fern &mdash; white pot</div>
+      <div><span class="tag tag-all">&#x2713; Safe for all birds</span> <span class="tag tag-all">&#x2713; Safe for Clarence</span></div>
+      <div class="toy-note">One of the best ferns for a bird household. Completely safe. Delicate fronds may attract budgie curiosity but no harm if chewed.</div>
+    </div>
+
+    <div class="toy-row">
+      <div class="toy-name">&#x1F33F; Spider Plant &mdash; white ribbed pot</div>
+      <div><span class="tag tag-all">&#x2713; Safe for all birds</span> <span class="tag tag-all">&#x2713; Safe for Clarence</span></div>
+      <div class="toy-note">Completely bird-safe, one of the best plants for a bird household. Extremely hardy. Budgies often enjoy nibbling the long trailing leaves &mdash; harmless.</div>
+    </div>
+
+    <div class="toy-row">
+      <div class="toy-name">&#x1F33F; Calathea &mdash; blue pot</div>
+      <div><span class="tag tag-all">&#x2713; Safe for all birds</span> <span class="tag tag-all">&#x2713; Safe for Clarence</span></div>
+      <div class="toy-note">Safe for all birds. Large patterned leaves. No restrictions needed.</div>
+    </div>
+
+    <div class="toy-row" style="border-bottom:none;">
+      <div class="toy-name">&#x1F334; Majesty Palm &mdash; corner</div>
+      <div><span class="tag tag-all">&#x2713; Safe for all birds</span> <span class="tag tag-all">&#x2713; Safe for Clarence</span></div>
+      <div class="toy-note">Safe for all birds. Tall feathery fronds make it attractive as a landing spot for free-roaming birds &mdash; no concern. Lou Dog may enjoy perching in the fronds.</div>
+    </div>
+  </div>
+
+  <!-- QUICK REFERENCE -->
+  <p class="section-title" style="margin-top:1.25rem;">Quick reference &mdash; all 20 plants at a glance</p>
+  <div class="card">
+    <div class="card-label">Bird safety summary</div>
+    <div class="portion-row"><span class="portion-label">&#x1F6AB; Alocasia / Elephant Ear</span><span class="portion-value" style="color:#993C1D;">Toxic &mdash; no access</span></div>
+    <div class="portion-row"><span class="portion-label">&#x1F6AB; Anthurium (glass jar)</span><span class="portion-value" style="color:#993C1D;">Toxic &mdash; no access</span></div>
+    <div class="portion-row"><span class="portion-label">&#x1F6AB; Pothos (gray pot)</span><span class="portion-value" style="color:#993C1D;">Toxic &mdash; no access</span></div>
+    <div class="portion-row"><span class="portion-label">&#x1F6AB; Pothos (copper/gold pot)</span><span class="portion-value" style="color:#993C1D;">Toxic &mdash; no access</span></div>
+    <div class="portion-row"><span class="portion-label">&#x1F6AB; Philodendron (kitchen counter)</span><span class="portion-value" style="color:#993C1D;">Toxic &mdash; no kitchen access</span></div>
+    <div class="portion-row"><span class="portion-label">&#x1F6AB; Fiddle Leaf Fig (floor)</span><span class="portion-value" style="color:#993C1D;">Toxic &mdash; no access</span></div>
+    <div class="portion-row"><span class="portion-label">&#x26A0; Snake Plant (nightstand)</span><span class="portion-value" style="color:#854F0B;">Mildly toxic &mdash; monitor</span></div>
+    <div class="portion-row"><span class="portion-label">&#x26A0; Baby Snake Plant (windowsill)</span><span class="portion-value" style="color:#854F0B;">Mildly toxic &mdash; monitor</span></div>
+    <div class="portion-row"><span class="portion-label">&#x26A0; Prayer Plant (white pot)</span><span class="portion-value" style="color:#854F0B;">Mildly toxic &mdash; low concern</span></div>
+    <div class="portion-row"><span class="portion-label">&#x26A0; Lemon Bush (outdoor)</span><span class="portion-value" style="color:#854F0B;">Mildly toxic &mdash; outdoor only</span></div>
+    <div class="portion-row"><span class="portion-label">&#x26A0; Cordyline / Ti Plant (outdoor)</span><span class="portion-value" style="color:#854F0B;">Mildly toxic &mdash; outdoor only</span></div>
+    <div class="portion-row"><span class="portion-label">&#x26A0; Ficus / Fig (dark green pot)</span><span class="portion-value" style="color:#854F0B;">Mildly toxic &mdash; monitor</span></div>
+    <div class="portion-row"><span class="portion-label">&#x26A0; Rubber Plant (white pot by window)</span><span class="portion-value" style="color:#854F0B;">Mildly toxic &mdash; monitor</span></div>
+    <div class="portion-row"><span class="portion-label">&#x2705; Tomato Plants (garden)</span><span class="portion-value" style="color:#0F6E56;">Safe</span></div>
+    <div class="portion-row"><span class="portion-label">&#x2705; Chinese Money Plant</span><span class="portion-value" style="color:#0F6E56;">Safe</span></div>
+    <div class="portion-row"><span class="portion-label">&#x2705; Bromeliad (coffee table)</span><span class="portion-value" style="color:#0F6E56;">Safe</span></div>
+    <div class="portion-row"><span class="portion-label">&#x2705; Maidenhair Fern (white pot)</span><span class="portion-value" style="color:#0F6E56;">Safe</span></div>
+    <div class="portion-row"><span class="portion-label">&#x2705; Spider Plant (white ribbed pot)</span><span class="portion-value" style="color:#0F6E56;">Safe</span></div>
+    <div class="portion-row"><span class="portion-label">&#x2705; Calathea (blue pot)</span><span class="portion-value" style="color:#0F6E56;">Safe</span></div>
+    <div class="portion-row"><span class="portion-label">&#x2705; Majesty Palm (corner)</span><span class="portion-value" style="color:#0F6E56;">Safe</span></div>
+  </div>
+
+  <div class="warn">&#x26A0; Fiddle Leaf Fig upgraded to TOXIC: The Grossman app rated it mildly toxic but avian sources confirm it contains calcium oxalate crystals, same mechanism as Pothos and Philodendron. The floor placement makes it one of the higher-priority plants to keep birds away from during out-of-cage time.</div>
+
+  <div class="info-box">Finch-specific note: Your finches (Bonnie, Clyde, Donut, Ocean, Bean, Polly, Vinnie, Fabbie) are caged birds and won't have out-of-cage time near houseplants. Their risk is extremely low &mdash; primarily relevant if you handle toxic plants and then handle food or cage items without washing hands first. The warnings in this tab apply most critically to Lou Dog and Maria who free-roam, and to the budgies during out-of-cage time.</div>
 </div>
 
 <!-- SCHEDULE -->
 <div id="schedule" class="panel">
-  <p class="section-title">Weekly schedule — all tasks</p>
-
+  <p class="section-title">Weekly schedule &mdash; all tasks</p>
   <div class="card">
     <div class="card-label">Legend</div>
     <div class="legend-wrap" style="margin-bottom:0;">
-      <div class="legend-row"><div class="legend-dot dot-teal"></div> Food / feeding</div>
-      <div class="legend-row"><div class="legend-dot dot-amber"></div> Egg food treat</div>
-      <div class="legend-row"><div class="legend-dot dot-blue"></div> Bath (rotate cage)</div>
-      <div class="legend-row"><div class="legend-dot dot-purple"></div> Crunch stick or millet</div>
-      <div class="legend-row"><div class="legend-dot dot-coral"></div> Cage liner swap</div>
-      <div class="legend-row"><div class="legend-dot dot-gray"></div> Cleaning / maintenance</div>
+      <div class="legend-row"><div class="legend-dot" style="background:#1D9E75"></div> Food / feeding (daily)</div>
+      <div class="legend-row"><div class="legend-dot" style="background:#BA7517"></div> Egg food treat</div>
+      <div class="legend-row"><div class="legend-dot" style="background:#378ADD"></div> Bath (rotating)</div>
+      <div class="legend-row"><div class="legend-dot" style="background:#534AB7"></div> Treats / enrichment</div>
+      <div class="legend-row"><div class="legend-dot" style="background:#D85A30"></div> Cage liner swap</div>
+      <div class="legend-row"><div class="legend-dot" style="background:#888780"></div> Cleaning / maintenance</div>
     </div>
   </div>
-
-  <!-- DAY CARDS -->
   <div class="card">
     <div class="cage-heading" style="font-size:14px; margin-bottom:10px;">Monday</div>
-    <div class="step"><span class="step-num" style="color:#1D9E75;">●</span><span>Dry mix — all cages (daily)</span></div>
-    <div class="step"><span class="step-num" style="color:#BA7517;">●</span><span>Egg food — pinch in treat dish, all cages. Remove after 2–3 hours.</span></div>
-    <div class="step"><span class="step-num" style="color:#378ADD;">●</span><span>Bath — Billy, Morgan &amp; Doc. Offer shower bath on cage side for ~1 hour, then remove.</span></div>
-    <div class="step"><span class="step-num" style="color:#D85A30;">●</span><span>Cage liner — swap tray paper in Billy/Morgan/Doc cage.</span></div>
-    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Rinse bath thoroughly with hot water before putting away.</span></div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">&#x25CF;</span><span>Dry mix &mdash; all budgie and finch dishes. Pellets + fresh food for Lou Dog and Maria.</span></div>
+    <div class="step"><span class="step-num" style="color:#BA7517;">&#x25CF;</span><span>Egg food &mdash; pinch in treat dish, all cages. Remove after 2&ndash;3 hours.</span></div>
+    <div class="step"><span class="step-num" style="color:#378ADD;">&#x25CF;</span><span>Bath &mdash; Billy, Morgan, Doc &amp; Wyatt. Shower bath on cage ~1 hour, then remove and rinse.</span></div>
+    <div class="step"><span class="step-num" style="color:#D85A30;">&#x25CF;</span><span>Cage liner &mdash; swap tray paper in budgie cage.</span></div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">&#x25CF;</span><span>Lou Dog out-of-cage time: 2&ndash;4 hours minimum. Training session with Nutriberry treats.</span></div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">&#x25CF;</span><span>Maria out-of-cage time: 1&ndash;2 hours minimum.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">&#x25CF;</span><span>Evening: check finch dishes &mdash; top up if more than half empty. Check Lou Dog's water.</span></div>
   </div>
-
   <div class="card">
     <div class="cage-heading" style="font-size:14px; margin-bottom:10px;">Tuesday</div>
-    <div class="step"><span class="step-num" style="color:#1D9E75;">●</span><span>Dry mix — all cages (daily)</span></div>
-    <div class="step"><span class="step-num" style="color:#378ADD;">●</span><span>Bath — Wyatt. Offer shower bath for ~1 hour, then remove.</span></div>
-    <div class="step"><span class="step-num" style="color:#D85A30;">●</span><span>Cage liner — swap tray paper in Wyatt's cage.</span></div>
-    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Rinse bath thoroughly before putting away.</span></div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">&#x25CF;</span><span>Dry mix + pellets + fresh food &mdash; all cages.</span></div>
+    <div class="step"><span class="step-num" style="color:#378ADD;">&#x25CF;</span><span>Bath &mdash; Finch cage 1 (Bean, Polly, Vinnie &amp; Fabbie). Shower bath ~1 hour, remove and rinse.</span></div>
+    <div class="step"><span class="step-num" style="color:#D85A30;">&#x25CF;</span><span>Cage liner &mdash; swap tray paper in finch cage 1 (Bean, Polly, Vinnie &amp; Fabbie).</span></div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">&#x25CF;</span><span>Lou Dog and Maria out-of-cage time.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">&#x25CF;</span><span>Evening: finch dish check.</span></div>
   </div>
-
   <div class="card">
     <div class="cage-heading" style="font-size:14px; margin-bottom:10px;">Wednesday</div>
-    <div class="step"><span class="step-num" style="color:#1D9E75;">●</span><span>Dry mix — all cages (daily)</span></div>
-    <div class="step"><span class="step-num" style="color:#BA7517;">●</span><span>Egg food — pinch in treat dish, all cages. Remove after 2–3 hours.</span></div>
-    <div class="step"><span class="step-num" style="color:#378ADD;">●</span><span>Bath — Finch cage 1. Offer shower bath on cage side for ~1 hour, then remove. (Finches may also use it as a drink — that's fine.)</span></div>
-    <div class="step"><span class="step-num" style="color:#D85A30;">●</span><span>Cage liner — swap tray paper in finch cage 1.</span></div>
-    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Rinse bath thoroughly before putting away.</span></div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">&#x25CF;</span><span>Dry mix + pellets + fresh food &mdash; all cages.</span></div>
+    <div class="step"><span class="step-num" style="color:#BA7517;">&#x25CF;</span><span>Egg food &mdash; pinch in treat dish, all cages. Remove after 2&ndash;3 hours.</span></div>
+    <div class="step"><span class="step-num" style="color:#378ADD;">&#x25CF;</span><span>Bath &mdash; Finch cage 2 (Bonnie, Clyde, Donut &amp; Ocean). Shower bath ~1 hour, remove and rinse.</span></div>
+    <div class="step"><span class="step-num" style="color:#D85A30;">&#x25CF;</span><span>Cage liner &mdash; swap tray paper in finch cage 2 (Bonnie, Clyde, Donut &amp; Ocean).</span></div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">&#x25CF;</span><span>Lou Dog and Maria out-of-cage time.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">&#x25CF;</span><span>Evening: finch dish check.</span></div>
   </div>
-
   <div class="card">
     <div class="cage-heading" style="font-size:14px; margin-bottom:10px;">Thursday</div>
-    <div class="step"><span class="step-num" style="color:#1D9E75;">●</span><span>Dry mix — all cages (daily)</span></div>
-    <div class="step"><span class="step-num" style="color:#534AB7;">●</span><span>Treats — clip a crunch stick or offer a small millet sprig to budgie cages.</span></div>
-    <div class="step"><span class="step-num" style="color:#378ADD;">●</span><span>Bath — Finch cage 2. Offer shower bath for ~1 hour, then remove.</span></div>
-    <div class="step"><span class="step-num" style="color:#378ADD;">●</span><span>Bath — Lou Dog. Offer the shower bath or a shallow dish in the cage for ~1 hour. GCCs love bathing and need it weekly for feather health.</span></div>
-    <div class="step"><span class="step-num" style="color:#D85A30;">●</span><span>Cage liner — swap tray paper in finch cage 2.</span></div>
-    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Perch check — scrape or wipe down any heavily soiled perches across all cages.</span></div>
-    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Rinse bath thoroughly before putting away.</span></div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">&#x25CF;</span><span>Dry mix + pellets + fresh food &mdash; all cages.</span></div>
+    <div class="step"><span class="step-num" style="color:#534AB7;">&#x25CF;</span><span>Treats &mdash; clip crunch stick or small millet sprig to budgie cage. Finch crunch stick to each finch cage.</span></div>
+    <div class="step"><span class="step-num" style="color:#378ADD;">&#x25CF;</span><span>Bath &mdash; Lou Dog. Shower bath or shallow dish ~1 hour. GCCs love bathing &mdash; good for feather condition.</span></div>
+    <div class="step"><span class="step-num" style="color:#D85A30;">&#x25CF;</span><span>Cage liner &mdash; swap tray paper in Lou Dog's cage.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">&#x25CF;</span><span>Perch check &mdash; scrape or wipe down heavily soiled perches across all cages.</span></div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">&#x25CF;</span><span>Lou Dog and Maria out-of-cage time.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">&#x25CF;</span><span>Evening: finch dish check.</span></div>
   </div>
-
   <div class="card">
     <div class="cage-heading" style="font-size:14px; margin-bottom:10px;">Friday</div>
-    <div class="step"><span class="step-num" style="color:#1D9E75;">●</span><span>Dry mix — all cages (daily)</span></div>
-    <div class="step"><span class="step-num" style="color:#BA7517;">●</span><span>Egg food — pinch in treat dish, all cages. Remove after 2–3 hours.</span></div>
-    <div class="step"><span class="step-num" style="color:#378ADD;">●</span><span>Bath — Maria. Offer shower bath or shallow dish for ~1 hour. Cockatiels love bathing and it helps with powder down and feather condition.</span></div>
-    <div class="step"><span class="step-num" style="color:#D85A30;">●</span><span>Cage liner — swap tray paper in Maria's cage. Wipe down surfaces near cage (powder down settles on everything).</span></div>
-    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Toy rotation — swap out 1–2 toys in each budgie cage and Lou Dog's cage.</span></div>
-    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Rinse bath before putting away.</span></div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">&#x25CF;</span><span>Dry mix + pellets + fresh food &mdash; all cages.</span></div>
+    <div class="step"><span class="step-num" style="color:#BA7517;">&#x25CF;</span><span>Egg food &mdash; pinch in treat dish, all cages. Remove after 2&ndash;3 hours.</span></div>
+    <div class="step"><span class="step-num" style="color:#378ADD;">&#x25CF;</span><span>Bath &mdash; Maria. Shower bath or shallow dish ~1 hour. Remove and rinse. Bathing helps with powder down and feather condition.</span></div>
+    <div class="step"><span class="step-num" style="color:#D85A30;">&#x25CF;</span><span>Cage liner &mdash; swap tray paper in Maria's cage. Wipe down nearby surfaces (powder down).</span></div>
+    <div class="step"><span class="step-num" style="color:#534AB7;">&#x25CF;</span><span>Toy rotation &mdash; swap 2 toys in budgie cage and Lou Dog's cage. Fresh enrichment for the weekend.</span></div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">&#x25CF;</span><span>Lou Dog and Maria out-of-cage time.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">&#x25CF;</span><span>Evening: finch dish check.</span></div>
   </div>
-
   <div class="card">
     <div class="cage-heading" style="font-size:14px; margin-bottom:10px;">Saturday</div>
-    <div class="step"><span class="step-num" style="color:#1D9E75;">●</span><span>Dry mix — all cages (daily)</span></div>
-    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Deep clean — wash all food dishes, water dishes, and treat dishes with soap and hot water. Rinse thoroughly.</span></div>
-    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Soap wash the shower bath.</span></div>
-    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Wipe down cage bars where visibly soiled. Wipe down surfaces near Maria's cage — powder down accumulates all week.</span></div>
-    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Cuttlebone check — replace any that are nearly gone or heavily soiled across all cages.</span></div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">&#x25CF;</span><span>Dry mix + pellets + fresh food &mdash; all cages.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">&#x25CF;</span><span>Deep clean &mdash; all food dishes, water dishes, treat dishes. Soap + hot water, or dishwasher (stainless, top rack). Rinse thoroughly.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">&#x25CF;</span><span>Soap wash the shower bath.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">&#x25CF;</span><span>Wipe down cage bars. Extended wipedown near Maria's cage &mdash; powder down accumulates all week.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">&#x25CF;</span><span>Cuttlebone check across all cages &mdash; Maria's especially. Replace if nearly gone.</span></div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">&#x25CF;</span><span>Lou Dog and Maria out-of-cage time.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">&#x25CF;</span><span>Evening: finch dish check.</span></div>
   </div>
-
   <div class="card">
-    <div class="cage-heading" style="font-size:14px; margin-bottom:10px;">Sunday</div>
-    <div class="step"><span class="step-num" style="color:#1D9E75;">●</span><span>Dry mix — all cages (daily)</span></div>
-    <div class="step"><span class="step-num" style="color:#534AB7;">●</span><span>Treats — clip a crunch stick or offer a small millet sprig to budgie cages.</span></div>
-    <div class="step"><span class="step-num" style="color:#534AB7;">●</span><span>Batch jar prep — crush ZuPreem, build budgie jar and finch jar for the week (see mix tabs for exact measurements).</span></div>
-    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Stock check — review all ingredients and reorder anything running low.</span></div>
-    <div class="step"><span class="step-num" style="color:#888780;">●</span><span>Perch deep clean — remove and wash plastic perches; scrub wooden ones with a stiff dry brush.</span></div>
+    <div class="cage-heading" style="font-size:14px; margin-bottom:10px;">Sunday &mdash; batch prep day</div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">&#x25CF;</span><span>Dry mix + pellets + fresh food &mdash; all cages.</span></div>
+    <div class="step"><span class="step-num" style="color:#534AB7;">&#x25CF;</span><span>Build budgie jar: Kaylor 1&frac12; cups &rarr; chop 10 tbsp &rarr; Harrison's Super Fine 8 tbsp &rarr; sprouted seeds 5 tbsp &rarr; 9-flower blend 4 tbsp &rarr; herb supplement 2&frac12; tbsp. Shake well.</span></div>
+    <div class="step"><span class="step-num" style="color:#534AB7;">&#x25CF;</span><span>Build finch jar: Volkman 1&frac34; cups &rarr; Sunburst 14 tbsp &rarr; chop 4 tbsp (crushed) &rarr; sprouted seeds 4 tbsp &rarr; 9-flower blend 3 tbsp &rarr; herb supplement 2 tbsp. Shake well.</span></div>
+    <div class="step"><span class="step-num" style="color:#534AB7;">&#x25CF;</span><span>Build Lou Dog jar: chop 10 tbsp &rarr; sprouted seeds 4 tbsp &rarr; 9-flower blend 4 tbsp &rarr; herb supplement 2 tbsp. Shake gently.</span></div>
+    <div class="step"><span class="step-num" style="color:#534AB7;">&#x25CF;</span><span>Build Maria jar: chop 10 tbsp &rarr; sprouted seeds 4 tbsp &rarr; 9-flower blend 4 tbsp &rarr; bird spice blend 2 tbsp. Shake gently.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">&#x25CF;</span><span>Perch deep clean &mdash; wash plastic perches; scrub wooden ones with a stiff dry brush.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">&#x25CF;</span><span>Stock check &mdash; review all ingredients, track Harrison's Fine open date (45 days), reorder anything running low.</span></div>
+    <div class="step"><span class="step-num" style="color:#1D9E75;">&#x25CF;</span><span>Lou Dog and Maria out-of-cage time.</span></div>
+    <div class="step"><span class="step-num" style="color:#888780;">&#x25CF;</span><span>Evening: finch dish check.</span></div>
   </div>
-
   <div class="card">
-    <div class="card-label">Every day — ~5–10 min morning</div>
-    <div class="step"><span class="step-num">1.</span><span>Blow seed hulls off budgie food dishes. Check finch dishes haven't emptied overnight.</span></div>
-    <div class="step"><span class="step-num">2.</span><span>Stir or shake batch jars, then scoop fresh mix into each budgie and finch food dish.</span></div>
-    <div class="step"><span class="step-num">3.</span><span>Lou Dog: fill pellet dish (1–2 tbsp Harrison's Fine). Fill fresh food dish (veg + small fruit). Refresh both water dishes.</span></div>
-    <div class="step"><span class="step-num">4.</span><span>Maria: fill pellet dish (1–2 tbsp Harrison's Fine). Fill fresh food/veg dish. Refresh both water dishes. Check cuttlebone — replace if nearly gone.</span></div>
+    <div class="card-label">Every day &mdash; morning routine (~10 min)</div>
+    <div class="step"><span class="step-num">1.</span><span>Blow seed hulls off budgie dishes. Check finch dishes &mdash; top up if needed.</span></div>
+    <div class="step"><span class="step-num">2.</span><span>Stir/shake batch jars. Scoop fresh dry mix into all budgie and finch dishes.</span></div>
+    <div class="step"><span class="step-num">3.</span><span>Lou Dog: fill pellet dish, fill fresh food dish (veg + sprouted seeds on sprout days + dried flowers + herb supplement scattered on top 3&ndash;4x/week). Refresh both water dishes.</span></div>
+    <div class="step"><span class="step-num">4.</span><span>Maria: fill pellet dish, fill fresh food dish (dark greens priority + sprouted seeds on sprout days + bird spice blend on spice days &mdash; both 3&ndash;4x/week). Check cuttlebone.</span></div>
     <div class="step"><span class="step-num">5.</span><span>Refresh all other water dishes.</span></div>
-    <div class="step"><span class="step-num">5.</span><span>Do the day's scheduled task (bath, liner, egg food, etc.) per the day card above.</span></div>
-    <div class="step"><span class="step-num">6.</span><span>Lou Dog: remove fresh food dish after 2–3 hours. Change water dishes mid-day if heavily fouled with dunked food.</span></div>
-    <div class="step"><span class="step-num">7.</span><span>Out-of-cage time for Lou Dog: minimum 2–4 hours supervised. For Maria: 1–2 hours minimum. Ceiling fans off, nonstick cookware off, Clarence out of the room.</span></div>
-    <div class="step"><span class="step-num">8.</span><span>Evening: check finch food dishes and top up if more than half empty.</span></div>
+    <div class="step"><span class="step-num">6.</span><span>Do the day's scheduled task per the day cards above.</span></div>
+    <div class="step"><span class="step-num">7.</span><span>Remove Lou Dog and Maria fresh food dishes after 2&ndash;3 hours.</span></div>
+    <div class="step"><span class="step-num">8.</span><span>Lou Dog and Maria out-of-cage time &mdash; daily, non-negotiable.</span></div>
+    <div class="step"><span class="step-num">9.</span><span>Evening: check finch dishes, check Lou Dog's water if fouled from dunking.</span></div>
   </div>
 
-  <div class="info-box">Cage liner timing: doing the liner swap on the same day as the bath for each cage is intentional — it's the same cage interaction, so you're in and out once instead of twice.</div>
-
-  <p class="section-title" style="margin-top:1.25rem;">Monthly tasks</p>
-
+  <p class="section-title" style="margin-top:1.25rem;">Monthly tasks &mdash; pick a consistent day (e.g. 1st Sunday)</p>
   <div class="card">
-    <div class="card-label">Do these once a month — pick a consistent day (e.g. 1st Sunday)</div>
-    <div class="step"><span class="step-num">1.</span><span><strong>Nail visual check — all birds.</strong> Look for nails that are curling, catching on things, or preventing normal perching. You're looking, not necessarily trimming. Healthy zebra finches rarely need trimming. Budgies typically every 3–6 months.</span></div>
-    <div class="step"><span class="step-num">2.</span><span><strong>Beak, eyes, and nares check — all birds.</strong> Look for: symmetry, smooth texture, clear nostrils, no crust. Flag anything unusual.</span></div>
-    <div class="step"><span class="step-num">3.</span><span><strong>Scaly face/mite inspection — budgies especially.</strong> Look at the cere and beak corners for any white, chalky, or honeycomb-like crusting. Early signs are subtle — compare to photos of healthy budgie ceres if unsure. Finches: check for crusting around eyes and legs.</span></div>
-    <div class="step"><span class="step-num">4.</span><span><strong>Mite and pest check — cage and food storage.</strong> Inspect cage corners, perch joints, and the underside of food storage lids for tiny dark spots, small webs, or any signs of insects. Check the seed jars and batch containers too.</span></div>
-    <div class="step"><span class="step-num">5.</span><span><strong>Food storage audit.</strong> Check batch jar lids are sealing properly. Smell each ingredient bag/jar — seed that smells musty or off should be tossed. Harrison's is 45 days once opened; track the date.</span></div>
-    <div class="step"><span class="step-num">6.</span><span><strong>Toy inspect and replace.</strong> Discard any toys with broken parts, fraying rope, or sharp edges. Replace anything worn.</span></div>
+    <div class="step"><span class="step-num">1.</span><span><strong>Nail visual check &mdash; all birds.</strong> Look for nails catching on fabric, curling, or making perching uncomfortable. Looking only &mdash; not necessarily trimming.</span></div>
+    <div class="step"><span class="step-num">2.</span><span><strong>Beak, eyes, nares &mdash; all birds.</strong> Symmetry, smooth texture, clear nostrils, no crust or discharge.</span></div>
+    <div class="step"><span class="step-num">3.</span><span><strong>Scaly face/mite check &mdash; budgies especially.</strong> White, chalky, or honeycomb-like crusting on cere or beak corners. Compare to photos of healthy budgie ceres if unsure.</span></div>
+    <div class="step"><span class="step-num">4.</span><span><strong>Mite and pest check &mdash; cages and food storage.</strong> Cage corners, perch joints, underside of lids. Tiny dark spots or webs. Check batch jars and ingredient bags.</span></div>
+    <div class="step"><span class="step-num">5.</span><span><strong>Food storage audit.</strong> Smell each ingredient &mdash; musty = toss it. Track Harrison's Fine open date (45 days max).</span></div>
+    <div class="step"><span class="step-num">6.</span><span><strong>Toy inspect and replace.</strong> Fraying rope, broken parts, sharp edges &mdash; discard and replace.</span></div>
+    <div class="step"><span class="step-num">7.</span><span><strong>Maria's cuttlebone &mdash; visual check.</strong> Replace proactively. A female cockatiel can deplete calcium reserves quickly, especially if she lays.</span></div>
+    <div class="step"><span class="step-num">8.</span><span><strong>Nesting behavior check &mdash; all finch cages.</strong> Cage 1: watch Vinnie (male) for courtship behavior toward Bean and Polly (non-bonded females), and any female for egg-laying signs. Cage 2: Bonnie &amp; Clyde and Donut &amp; Ocean are two established pairs &mdash; remove nesting materials if either pair starts building seriously.</span></div>
   </div>
 
-  <p class="section-title" style="margin-top:1.25rem;">Every 3–6 months</p>
-
+  <p class="section-title" style="margin-top:1.25rem;">Every 3&ndash;6 months</p>
   <div class="card">
-    <div class="card-label">As needed — schedule when you notice it's time</div>
-    <div class="step"><span class="step-num">1.</span><span><strong>Nail trim — budgies.</strong> If nails are catching on fabric, curling, or making perching uncomfortable. Best done by an avian vet or experienced groomer — the quick can bleed badly if cut wrong, especially in dark nails. If doing it yourself, have styptic powder on hand.</span></div>
-    <div class="step"><span class="step-num">2.</span><span><strong>Wing trim — budgies (optional).</strong> A personal choice. Prevents escape and injury during out-of-cage time. Needs to be repeated every few months as flight feathers regrow. Avian vet is the right person for this.</span></div>
-    <div class="step"><span class="step-num">3.</span><span><strong>Full cage deep clean.</strong> Disassemble and scrub the entire cage — bars, tray, grate, perches, toys — with a bird-safe cleaner or diluted white vinegar. Rinse thoroughly and air dry before reassembling.</span></div>
+    <div class="step"><span class="step-num">1.</span><span><strong>Nail trim if needed &mdash; all birds.</strong> Avian vet or experienced groomer. If DIY, have styptic powder ready &mdash; quick bleeds badly in dark nails.</span></div>
+    <div class="step"><span class="step-num">2.</span><span><strong>Wing trim &mdash; budgies (optional).</strong> Personal choice. Regrows with molting every few months. Avian vet recommended.</span></div>
+    <div class="step"><span class="step-num">3.</span><span><strong>Full cage deep clean.</strong> Disassemble &mdash; bars, tray, grate, perches, toys. Bird-safe cleaner or diluted white vinegar. Rinse fully, air dry before reassembling.</span></div>
+    <div class="step"><span class="step-num">4.</span><span><strong>Lou Dog beak check.</strong> GCC beaks can overgrow or develop alignment issues. Avian vet only &mdash; never DIY a conure beak.</span></div>
   </div>
 
   <p class="section-title" style="margin-top:1.25rem;">Annual tasks</p>
-
   <div class="card">
-    <div class="card-label">Once a year per bird — book ahead, avian vet only</div>
-    <div class="step"><span class="step-num">1.</span><span><strong>Avian vet wellness exam — all birds.</strong> Birds hide illness instinctively as a prey survival mechanism. By the time symptoms are visible, they may already be seriously sick. Annual exams catch problems early. The vet will weigh the bird (even small weight changes signal illness), examine beak, nails, eyes, feathers, and listen to breathing. Blood work and fecal analysis may be recommended.</span></div>
-    <div class="step"><span class="step-num">2.</span><span><strong>Nail and beak trim at the vet</strong> — fold this into the annual exam. Cheaper and safer than a separate visit.</span></div>
+    <div class="step"><span class="step-num">1.</span><span><strong>Avian vet wellness exam &mdash; every bird.</strong> Birds hide illness until critically sick. Annual exams catch problems early. Vet will weigh, examine beak/nails/eyes/feathers, listen to breathing. Blood work and fecal analysis often recommended.</span></div>
+    <div class="step"><span class="step-num">2.</span><span><strong>Maria &mdash; vet reviews reproductive health.</strong> Annual weigh-in especially important for egg-laying females. Calcium levels and reproductive anomalies caught here.</span></div>
+    <div class="step"><span class="step-num">3.</span><span><strong>Nail and beak trim at the vet &mdash;</strong> fold into annual exam. Cheaper and safer than a separate visit.</span></div>
   </div>
 
-  <div class="warn">⚠ Wyatt is a new bird — he should see an avian vet within the first 1–2 weeks of coming home, before or during integration with Billy, Morgan, and Doc. New birds can carry diseases that show no symptoms for weeks.</div>
-
-  <p class="section-title" style="margin-top:1.25rem;">Illness — what to watch for daily</p>
-
+  <p class="section-title" style="margin-top:1.25rem;">Illness &mdash; watch for these daily</p>
   <div class="card">
-    <div class="card-label">Go to the vet promptly if you see any of these</div>
-    <div class="rule-row"><span class="no">!</span>Fluffed feathers when not sleeping — one of the earliest and most reliable illness signs in all bird species.</div>
-    <div class="rule-row"><span class="no">!</span>Sitting on the cage floor — birds go to the floor when too weak to perch. Treat as urgent.</div>
-    <div class="rule-row"><span class="no">!</span>Tail bobbing with each breath — sign of respiratory distress.</div>
-    <div class="rule-row"><span class="no">!</span>Any clicking, wheezing, or labored breathing — especially in finches, where air sac mites are a known risk.</div>
-    <div class="rule-row"><span class="no">!</span>Discharge from nostrils or eyes, or crusting around the face/beak.</div>
-    <div class="rule-row"><span class="no">!</span>Droppings that are watery, discolored, or dramatically changed in volume for more than 1–2 days.</div>
-    <div class="rule-row"><span class="no">!</span>Not eating or drinking — especially critical for finches, who can decline fast.</div>
-    <div class="rule-row"><span class="no">!</span>Any unexplained weight loss (birds feel light when you hold them).</div>
-    <div class="rule-row"><span class="ok">Note</span>Budgies and finches should not be taken to a general dog/cat vet. Find an avian-specific vet or one who is a member of the Association of Avian Veterinarians (AAV).</div>
+    <div class="rule-row"><span class="no">!</span>Fluffed feathers when not sleeping &mdash; earliest and most reliable illness sign across all species.</div>
+    <div class="rule-row"><span class="no">!</span>Sitting on the cage floor &mdash; bird is too weak to perch. Treat as urgent.</div>
+    <div class="rule-row"><span class="no">!</span>Tail bobbing with each breath &mdash; respiratory distress.</div>
+    <div class="rule-row"><span class="no">!</span>Any clicking, wheezing, or labored breathing &mdash; especially finches where air sac mites are a known risk.</div>
+    <div class="rule-row"><span class="no">!</span>Discharge or crusting around nostrils, eyes, or beak.</div>
+    <div class="rule-row"><span class="no">!</span>Droppings watery, discolored, or dramatically changed for more than 1&ndash;2 days.</div>
+    <div class="rule-row"><span class="no">!</span>Not eating or drinking &mdash; critical for finches who can decline within hours.</div>
+    <div class="rule-row"><span class="no">!</span>Unexplained weight loss &mdash; birds feel noticeably light when held.</div>
+    <div class="rule-row"><span class="no">!</span>Maria straining, tail-bobbing, sitting on floor &mdash; possible egg binding. Same-day vet emergency.</div>
+    <div class="rule-row"><span class="ok">Note</span>Avian vet or AAV member only. General dog/cat vets are not equipped for birds.</div>
   </div>
-
-  <div class="info-box">About feather dust: budgies and zebra finches produce normal dander — not heavy powder. You don't need special protocols. Cockatiels, cockatoos, and African greys are the powder-down species that require extra ventilation and cleaning. Your birds are fine with the regular weekly cage cleaning routine.</div>
 </div>
 
 <!-- RULES -->
 <div id="rules" class="panel">
-  <p class="section-title">Non-negotiables</p>
+  <p class="section-title">Non-negotiables &mdash; universal rules</p>
   <div class="card">
-    <div class="card-label">Freeze-dried — buy right</div>
-    <div class="rule-row"><span class="ok">✓</span>Ingredient list = one item only.</div>
-    <div class="rule-row"><span class="ok">✓</span>Safe picks: blueberry, mango, papaya, strawberry, apple, pineapple, carrot, sweet potato, peas, corn.</div>
-    <div class="rule-row"><span class="ok">✓</span>Crush pieces small before adding to the finch jar — tiny beaks.</div>
-    <div class="rule-row"><span class="no">✗</span>No sulfites, added sugar, salt, or "natural flavors." Bright-colored soft dried fruit = sulfites. Skip it.</div>
-    <div class="rule-row"><span class="no">✗</span>Never: avocado, onion, garlic, rhubarb, fruit pits or seeds, raisins.</div>
+    <div class="card-label">Household toxins &mdash; all birds at all times</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>Nonstick cookware (Teflon/PTFE) &mdash; fumes colorless, odorless, kill birds within minutes. Switch to stainless, cast iron, or ceramic. Applies to entire home, always.</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>Aerosol sprays, scented candles, air fresheners, plug-in diffusers, incense &mdash; toxic to all bird respiratory systems. Maria and Lou Dog most sensitive but applies to all cages.</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>Ceiling fans &mdash; off whenever any bird is out of cage. Fatal injury risk.</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>Clarence unsupervised with free-roaming birds &mdash; ever.</div>
   </div>
   <div class="card">
-    <div class="card-label">Grit — never, for any of your birds</div>
-    <div class="rule-row"><span class="no">✗</span>Budgies hull seeds before swallowing — grit is useless and can cause fatal crop impaction.</div>
-    <div class="rule-row"><span class="no">✗</span>Finches also crack and hull seeds — same risk. Volkman already has oyster shell built in.</div>
-    <div class="rule-row"><span class="ok">✓</span>Cuttlebone in every cage covers all calcium needs. Already doing this correctly.</div>
+    <div class="card-label">No fabric huts or soft sleeping tents &mdash; ever</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>Lou Dog: hormonal behavior trigger + fiber ingestion risk (fatal crop impaction). Rope boing or high perch only.</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>Maria: directly triggers egg-laying cycles. Hard no. High perch only for sleeping.</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>Budgies: fiber ingestion risk. Wooden box with entrance hole is the safe enclosed-sleep alternative if needed.</div>
   </div>
   <div class="card">
-    <div class="card-label">Egg food — separate dish, rotation only</div>
-    <div class="rule-row"><span class="ok">✓</span>Treat dish only, 3x/week. Remove after 2–3 hours.</div>
-    <div class="rule-row"><span class="no">✗</span>Never in the main batch jar — moisture shortens shelf life.</div>
-    <div class="rule-row"><span class="no">✗</span>Not daily — can trigger hormonal and breeding behavior, especially in finches.</div>
-    <div class="rule-row">Volkman already contains egg — finches get daily protein from the base mix. Egg food is a boost, not a staple.</div>
-  </div>
-  <div class="card">
-    <div class="card-label">Millet — treat, not food</div>
-    <div class="rule-row">Prairie Blossom already contains spray millet. That counts.</div>
-    <div class="rule-row"><span class="no">✗</span>Standalone millet spray max 1x/week per budgie cage.</div>
-    <div class="rule-row">Finches: Volkman has millet built in. No separate spray needed.</div>
+    <div class="card-label">Food rules</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>Grit &mdash; never for any bird. Budgies, finches, cockatiels, and conures all hull seeds before swallowing. Grit causes crop impaction. Cuttlebone covers calcium.</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>Egg food in batch jar &mdash; moisture shortens shelf life. Separate side dish only, Mon/Wed/Fri, remove after 2&ndash;3 hours.</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>Egg food daily &mdash; triggers hormonal and breeding behavior in all species.</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>Millet as a staple &mdash; standalone millet spray 1x/week max per budgie cage.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Freeze-dried ingredients: one-item ingredient list only. No sulfites, added sugar, salt, or natural flavors. No raisins anywhere.</div>
   </div>
   <div class="card">
     <div class="card-label">Dish hygiene</div>
-    <div class="rule-row"><span class="ok">✓</span>Blow seed hulls daily — a dish that looks full may be 90% empty shells.</div>
-    <div class="rule-row"><span class="ok">✓</span>Soap + hot water wash weekly minimum (Saturday).</div>
-    <div class="rule-row"><span class="ok">✓</span>Finch cages: morning AND evening check. Never fully empty.</div>
-    <div class="rule-row"><span class="no">✗</span>No perches above food or water dishes in any cage — droppings contaminate fast.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Blow seed hulls daily &mdash; a full-looking dish may be 90% empty shells.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Deep clean weekly (Saturday) &mdash; soap + hot water or dishwasher (stainless, top rack).</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Finch dishes: morning AND evening check. Never fully empty.</div>
+    <div class="rule-row"><span class="ok">&#x2713;</span>Lou Dog's water: refresh twice daily minimum. She dunks food constantly.</div>
+    <div class="rule-row"><span class="no">&#x2717;</span>No perches above food or water dishes in any cage.</div>
   </div>
 </div>
 
